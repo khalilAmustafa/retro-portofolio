@@ -37,6 +37,51 @@ describe('Portfolio V2 Structured Data Integrity', () => {
     }
   });
 
+  it('verifies every ready media asset and local evidence file physically exists under public/', () => {
+    const publicRoot = path.resolve(process.cwd(), 'public');
+    let readyProjectMediaCount = 0;
+
+    for (const project of projects) {
+      for (const item of project.media || []) {
+        if (item.ready) {
+          readyProjectMediaCount += 1;
+          const fullSrc = path.join(publicRoot, item.src);
+          expect(fs.existsSync(fullSrc), `Missing ready project media: ${item.src}`).toBe(true);
+          expect(fs.statSync(fullSrc).size).toBeGreaterThan(500);
+
+          if (item.poster) {
+            const fullPoster = path.join(publicRoot, item.poster);
+            expect(fs.existsSync(fullPoster), `Missing video poster: ${item.poster}`).toBe(true);
+          }
+        }
+      }
+    }
+
+    expect(readyProjectMediaCount).toBeGreaterThanOrEqual(20);
+
+    for (const inst of educationData.institutions) {
+      if (inst.media?.ready) {
+        const fullEdu = path.join(publicRoot, inst.media.src);
+        expect(fs.existsSync(fullEdu), `Missing education media: ${inst.media.src}`).toBe(true);
+      }
+    }
+
+    if (credentialsData.featured.badgeMedia?.ready) {
+      const fullBadge = path.join(publicRoot, credentialsData.featured.badgeMedia.src);
+      expect(
+        fs.existsSync(fullBadge),
+        `Missing credential badge: ${credentialsData.featured.badgeMedia.src}`
+      ).toBe(true);
+    }
+
+    for (const ev of evidenceRegistry) {
+      if (ev.href && !/^https?:\/\//i.test(ev.href)) {
+        const fullEv = path.join(publicRoot, ev.href);
+        expect(fs.existsSync(fullEv), `Missing local evidence file: ${ev.href}`).toBe(true);
+      }
+    }
+  });
+
   it('resolves all evidenceId references across profile, experience, education, projects, and credentials', () => {
     const evidenceIds = evidenceRegistry.map((e) => e.id);
     expect(new Set(evidenceIds).size).toBe(evidenceIds.length);

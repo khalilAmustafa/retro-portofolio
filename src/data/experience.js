@@ -3,23 +3,23 @@ export const experienceMilestones = [
     id: 'contract-mena',
     dateIso: '2026-05',
     periodLabel: 'May 2026 – Present',
-    title: 'Contract Software & Web Development',
-    organization: 'Independent Practice · MENA Region',
+    title: 'Software & IT/AI Engineering Contributions',
+    organization: 'MENA Space Organization & Regional Practice',
     location: 'Amman, Jordan / Remote',
     badge: 'ACTIVE PRACTICE',
     badgeTone: 'live',
     oneLineResult:
-      'Delivering bilingual Arabic/English web platforms, registration workflows, and operational tools for events and educators.',
+      'Delivering bilingual Arabic/English web platforms, registration workflows, and operational tools for regional space/tech events and educators.',
     context:
       'Organizations and educational initiatives needed reliable web software scoped, built, and supported through real launch days rather than static landing pages.',
     responsibility:
       'Translated stakeholder requirements into relational schemas, backend APIs, authentication flows, bilingual interfaces, and live event-day operational support.',
     technicalDecisions:
-      'Standardized on typed web stacks (TypeScript, PostgreSQL, Drizzle ORM) and clear server-side validation so administrative rosters and check-in states remained consistent.',
+      'Standardized on typed web stacks (TypeScript, React/Next.js, PostgreSQL, Drizzle ORM) and clear server-side validation so administrative rosters and check-in states remained consistent.',
     result:
-      'Delivered multiple operational web systems across regional tech events and educational platforms.',
+      'Delivered operational web systems across NASA Space Apps Jordan, MENA Space Organization, Space Day, and Arabic EdTech.',
     relatedProjectIds: ['space-day', 'nasa-space-apps', 'asad-math'],
-    evidenceIds: ['space-day-delivery', 'nasa-space-apps-event']
+    evidenceIds: ['nasa-space-apps-event', 'mena-org-platform', 'space-day-delivery']
   },
   {
     id: 'erasmus-upv-systems',
@@ -35,7 +35,7 @@ export const experienceMilestones = [
     context:
       'Selected through the EU Erasmus+ program to study Informatics Engineering in Spain while advancing longer-horizon backend, cloud, and applied AI projects.',
     responsibility:
-      'Balanced European engineering coursework with independent work on HappensBefore (causal ordering verification), BandUp (IELTS learning platform), and AWS Cloud Practitioner preparation.',
+      'Balanced European engineering coursework (including Quantum Computing labs) with independent work on HappensBefore, BandUp, and AWS Cloud Practitioner preparation.',
     technicalDecisions:
       'Focused portfolio R&D on structured engineering problems—happens-before trace graphs and prerequisite learning graphs—rather than thin prompt wrappers.',
     result:
@@ -53,13 +53,13 @@ export const experienceMilestones = [
     badge: 'DELIVERED SYSTEM',
     badgeTone: 'live',
     oneLineResult:
-      'Replaced paper station cards with a TypeScript + PostgreSQL digital passport and automated PDF certificate generator.',
+      'Replaced paper station cards with a Next.js + PostgreSQL digital passport, rotating signed QR approvals, and automated PDF certificates.',
     context:
-      'Multi-station educational events needed fast participant registration, group tracking, station instructor approvals, and verified completion certificates.',
+      'Multi-station educational events needed fast bilingual student registration, station trainer approvals, and verified completion certificates.',
     responsibility:
-      'Designed and built the participant registration flow, station approval controls, organizer dashboard, and automated PDF completion certificate pipeline.',
+      'Designed and built the bilingual student passport flow, rotating 30-second QR trainer console, and server-gated PDF completion certificate pipeline.',
     technicalDecisions:
-      'Modeled participant-station approvals with idempotent relational constraints in PostgreSQL via Drizzle ORM to prevent duplicate station credits during busy check-ins.',
+      'Modeled participant-station approvals with cryptographically signed QR tokens and idempotent relational constraints in PostgreSQL via Drizzle ORM.',
     result:
       'Supported end-to-end event progression from check-in through verified digital certificate issuance.',
     relatedProjectIds: ['space-day'],
@@ -68,18 +68,18 @@ export const experienceMilestones = [
   {
     id: 'nasa-space-apps-delivery',
     dateIso: '2025',
-    periodLabel: '2025',
-    title: 'NASA Space Apps Regional Registration Platform',
-    organization: 'NASA Space Apps Regional Event',
-    location: 'Jordan',
+    periodLabel: '2025 – 2026',
+    title: 'NASA Space Apps Jordan Registration & Event Platform',
+    organization: 'NASA Space Apps Regional Event (MENA ORG)',
+    location: 'Amman & Aqaba, Jordan',
     badge: 'LIVE EVENT',
     badgeTone: 'live',
     oneLineResult:
-      'Built and supported the registration and event-updates web platform for an event serving 85+ teams and 380+ participants.',
+      'Built and supported the public event website and registration workflow serving 85+ teams and 380+ participants.',
     context:
-      'Organizers required a dedicated web hub to onboard teams, validate participant registrations, and communicate schedules for a large regional hackathon.',
+      'Organizers required a dedicated web hub to onboard teams, validate participant registrations, and communicate schedules across Jordan.',
     responsibility:
-      'Implemented the public event website, team/participant registration workflow, form validation, deployment configuration, and live event-day updates.',
+      'Implemented the public event website (`spaceapp-front.vercel.app`), registration workflow, validation rules, deployment configuration, and archive views.',
     technicalDecisions:
       'Kept registration forms lightweight on mobile viewports with strict server/client field validation to reduce incomplete team submissions near deadline peaks.',
     result:

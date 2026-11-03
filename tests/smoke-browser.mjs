@@ -12,6 +12,8 @@ const MIME_TYPES = {
   '.gif': 'image/gif',
   '.webp': 'image/webp',
   '.svg': 'image/svg+xml',
+  '.mp4': 'video/mp4',
+  '.pdf': 'application/pdf',
   '.txt': 'text/plain; charset=utf-8'
 };
 
@@ -55,8 +57,35 @@ function startStaticServer(distDir, port) {
       return;
     }
 
+    const stat = fs.statSync(filePath);
     const ext = path.extname(filePath).toLowerCase();
-    res.writeHead(200, { 'Content-Type': MIME_TYPES[ext] || 'application/octet-stream' });
+    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+    const range = req.headers.range;
+
+    if (range) {
+      const match = /bytes=(\d*)-(\d*)/.exec(range);
+      const start = match && match[1] ? parseInt(match[1], 10) : 0;
+      const end = match && match[2] ? parseInt(match[2], 10) : stat.size - 1;
+      if (start >= stat.size || end >= stat.size) {
+        res.writeHead(416, { 'Content-Range': `bytes */${stat.size}` });
+        res.end();
+        return;
+      }
+      res.writeHead(206, {
+        'Content-Range': `bytes ${start}-${end}/${stat.size}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': end - start + 1,
+        'Content-Type': contentType
+      });
+      fs.createReadStream(filePath, { start, end }).pipe(res);
+      return;
+    }
+
+    res.writeHead(200, {
+      'Content-Type': contentType,
+      'Content-Length': stat.size,
+      'Accept-Ranges': 'bytes'
+    });
     fs.createReadStream(filePath).pipe(res);
   });
 
@@ -201,9 +230,29 @@ async function main() {
     cdp = new CdpSession(pageTarget.webSocketDebuggerUrl);
     await cdp.connect();
     await cdp.setViewport(1280, 820, false);
-    await delay(700);
+    await delay(750);
 
-    // 1. Cold deep-link verification (#projects/rooms)
+    // Force eager loading of lazy images inside scrollable #screen-content so broken-image checks verify every capture
+    const ensureImagesLoaded = async () => {
+      await cdp.eval(`(async () => {
+        const imgs = Array.from(document.querySelectorAll('img'));
+        for (const img of imgs) {
+          img.loading = 'eager';
+        }
+        await Promise.all(imgs.map((img) => {
+          if (img.complete) return Promise.resolve();
+          return new Promise((resolve) => {
+            img.addEventListener('load', resolve, { once: true });
+            img.addEventListener('error', resolve, { once: true });
+            setTimeout(resolve, 1500);
+          });
+        }));
+      })()`);
+    };
+
+    await ensureImagesLoaded();
+
+    // 1. Cold deep-link verification (#projects/rooms) + video & screenshot checks
     const coldDeepLink = await cdp.eval(`({
       hash: location.hash,
       channelTag: document.getElementById('channel-tag')?.textContent,
@@ -211,7 +260,13 @@ async function main() {
       ch5Current: document.querySelector('.channel-button[data-channel="4"]')?.getAttribute('aria-current'),
       heading: document.querySelector('.case-study-title')?.textContent,
       dialTransform: document.getElementById('channel-dial')?.style.transform,
-      feMapPreserve: document.getElementById('fe-crt-barrel-map')?.getAttribute('preserveAspectRatio')
+      feMapPreserve: document.getElementById('fe-crt-barrel-map')?.getAttribute('preserveAspectRatio'),
+      hasVideo: Boolean(document.querySelector('.media-video-player')),
+      videoAutoplay: Boolean(document.querySelector('.media-video-player')?.autoplay),
+      readyImgCount: document.querySelectorAll('.media-thumb-img').length,
+      brokenRoomsImgs: Array.from(document.querySelectorAll('.media-thumb-img'))
+        .filter((img) => !img.complete || img.naturalWidth === 0)
+        .map((i) => i.src)
     })`);
 
     assert(coldDeepLink.hash === '#projects/rooms', `Expected #projects/rooms, got ${coldDeepLink.hash}`);
@@ -221,9 +276,27 @@ async function main() {
     assert(coldDeepLink.heading === 'ROOMS by VISION', `Expected ROOMS title, got ${coldDeepLink.heading}`);
     assert(coldDeepLink.dialTransform === 'rotate(45deg)', `Expected dial rotate(45deg), got ${coldDeepLink.dialTransform}`);
     assert(coldDeepLink.feMapPreserve === 'none', 'Expected feImage preserveAspectRatio="none"');
-    console.log('✓ Cold deep link (#projects/rooms) & CRT filter verified');
+    assert(coldDeepLink.hasVideo && !coldDeepLink.videoAutoplay, 'Expected ROOMS gameplay video without autoplay');
+    assert(coldDeepLink.readyImgCount >= 4, `Expected >=4 ROOMS captures, got ${coldDeepLink.readyImgCount}`);
+    assert(coldDeepLink.brokenRoomsImgs.length === 0, `Broken ROOMS images: ${coldDeepLink.brokenRoomsImgs.join(', ')}`);
+    console.log('✓ Cold deep link (#projects/rooms), gameplay video & 4 real captures verified');
 
     await cdp.screenshot(path.join(screenshotsDir, 'ch05-case-rooms.png'));
+
+    // Additional case study captures for visual QA
+    for (const extraCase of [
+      { route: '#projects/nasa-space-apps', file: 'ch05-case-nasa.png' },
+      { route: '#projects/bandup', file: 'ch05-case-bandup.png' }
+    ]) {
+      await cdp.eval(`window.__retroPortfolio.navigateTo('${extraCase.route}')`);
+      await delay(300);
+      await ensureImagesLoaded();
+      const brokenCaseImgs = await cdp.eval(
+        `Array.from(document.querySelectorAll('img')).filter(img => img.getAttribute('src') && (!img.complete || img.naturalWidth === 0)).map(i => i.src)`
+      );
+      assert(brokenCaseImgs.length === 0, `Broken images on ${extraCase.route}: ${brokenCaseImgs.join(', ')}`);
+      await cdp.screenshot(path.join(screenshotsDir, extraCase.file));
+    }
 
     // 2. Render & capture all 7 channels on desktop (1280x820)
     const channelShots = [
@@ -239,17 +312,22 @@ async function main() {
     for (const ch of channelShots) {
       await cdp.eval(`window.select(${ch.idx})`);
       await delay(350);
+      await ensureImagesLoaded();
       const state = await cdp.eval(`({
         hash: location.hash,
         hasH1: Boolean(document.querySelector('#screen-content h1')),
+        projectThumbCount: document.querySelectorAll('.project-card-thumb').length,
         brokenImages: Array.from(document.querySelectorAll('img')).filter(img => img.getAttribute('src') && (!img.complete || img.naturalWidth === 0)).map(i => i.src)
       })`);
       assert(state.hash === ch.hash, `Expected hash ${ch.hash}, got ${state.hash}`);
       assert(state.hasH1, `Missing H1 on ${ch.hash}`);
       assert(state.brokenImages.length === 0, `Broken images on ${ch.hash}: ${state.brokenImages.join(', ')}`);
+      if (ch.hash === '#projects') {
+        assert(state.projectThumbCount >= 8, `Expected >=8 project card thumbnails, got ${state.projectThumbCount}`);
+      }
       await cdp.screenshot(path.join(screenshotsDir, ch.file));
     }
-    console.log('✓ All 7 channels rendered with intact images & desktop screenshots saved');
+    console.log('✓ All 7 channels rendered with intact authentic images & desktop screenshots saved');
 
     // 3. Revisit Home 22 times and verify Vision fires exactly once per click (no listener leak)
     await cdp.eval(`(async () => {
@@ -271,10 +349,11 @@ async function main() {
     // 4. Gallery scroll preservation & Browser Back/Forward
     await cdp.eval(`window.select(4)`);
     await delay(250);
+    await ensureImagesLoaded();
     await cdp.eval(`(() => {
       const sc = document.getElementById('screen-content');
       sc.scrollTop = 220;
-      document.querySelector('[data-route="#projects/space-day"]').click();
+      document.querySelector('.btn-card-link[data-route="#projects/space-day"]').click();
     })()`);
     await delay(250);
     const onDetail = await cdp.eval(`({
@@ -359,9 +438,11 @@ async function main() {
         await cdp.screenshot(path.join(screenshotsDir, 'mobile-ch01-home.png'));
         await cdp.eval(`window.select(4)`);
         await delay(250);
+        await ensureImagesLoaded();
         await cdp.screenshot(path.join(screenshotsDir, 'mobile-ch05-projects.png'));
         await cdp.eval(`window.__retroPortfolio.navigateTo('#projects/rooms')`);
         await delay(250);
+        await ensureImagesLoaded();
         await cdp.screenshot(path.join(screenshotsDir, 'mobile-ch05-case-rooms.png'));
       }
     }

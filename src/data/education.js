@@ -27,9 +27,9 @@ export const educationData = {
       ],
       media: {
         src: 'assets/education/asu.webp',
-        alt: 'Applied Science Private University campus in Amman, Jordan',
+        alt: 'Applied Science Private University official emblem',
         caption: 'Applied Science Private University · Faculty of Information Technology, Amman',
-        ready: false,
+        ready: true,
         fallbackStamp: 'ASU · AMMAN, JORDAN // FACULTY OF IT'
       },
       evidenceId: null
@@ -46,18 +46,20 @@ export const educationData = {
       summary:
         'Selected for a one-semester European Union Erasmus+ academic exchange at UPV’s School of Informatics (ETSINF), studying in an international engineering environment.',
       coursework: [
+        'Quantum Computing Labs (QCO)',
         'Informatics Engineering Coursework (ETSINF)',
         'Collaborative Software Engineering',
         'Technical Communication in International Teams'
       ],
       activities: [
+        'Published cleaned Quantum Computing (QCO) Jupyter laboratory notebooks from UPV coursework',
         'Completed exchange semester in Valencia while advancing cloud certification and systems R&D'
       ],
       media: {
         src: 'assets/education/upv.webp',
-        alt: 'ETSINF School of Informatics at Universitat Politècnica de València, Spain',
+        alt: 'Universitat Politècnica de València official emblem',
         caption: 'ETSINF · Universitat Politècnica de València, Spain (Spring 2026)',
-        ready: false,
+        ready: true,
         fallbackStamp: 'UPV · VALENCIA, SPAIN // ETSINF EXCHANGE'
       },
       evidenceId: 'erasmus-upv-2026'

@@ -57,8 +57,39 @@ export function renderProjectMediaSection(project) {
     return `
       <div class="media-gallery-grid">
         ${readyItems
-          .map(
-            (item, idx) => `
+          .map((item, idx) => {
+            if (item.type === 'video') {
+              return `
+          <figure class="media-figure media-figure-video">
+            <div class="media-video-frame">
+              <video
+                class="media-video-player"
+                controls
+                playsinline
+                preload="metadata"
+                ${item.poster ? `poster="${escapeHtml(resolveAsset(item.poster))}"` : ''}
+                aria-label="${escapeHtml(item.alt || project.title + ' demo video')}"
+              >
+                <source src="${escapeHtml(resolveAsset(item.src))}" type="video/mp4">
+              </video>
+            </div>
+            ${
+              item.caption || item.creditHref
+                ? `<figcaption class="media-caption">
+                    ${item.caption ? escapeHtml(item.caption) : ''}
+                    ${
+                      item.creditHref
+                        ? ` · <a href="${escapeHtml(item.creditHref)}" target="_blank" rel="noopener noreferrer" class="proof-pill-link">${escapeHtml(item.creditLabel || 'Source ↗')}</a>`
+                        : ''
+                    }
+                  </figcaption>`
+                : ''
+            }
+          </figure>
+              `;
+            }
+
+            return `
           <figure class="media-figure">
             <button
               type="button"
@@ -72,14 +103,14 @@ export function renderProjectMediaSection(project) {
                 src="${escapeHtml(resolveAsset(item.src))}"
                 alt="${escapeHtml(item.alt)}"
                 loading="lazy"
-                class="media-thumb-img"
+                class="media-thumb-img${item.isPortrait ? ' is-portrait' : ''}"
               >
               <span class="media-zoom-hint">⤢ INSPECT CAPTURE</span>
             </button>
             ${item.caption ? `<figcaption class="media-caption">${escapeHtml(item.caption)}</figcaption>` : ''}
           </figure>
-        `
-          )
+        `;
+          })
           .join('')}
       </div>
     `;
@@ -87,15 +118,13 @@ export function renderProjectMediaSection(project) {
 
   const preparedSlot = mediaItems[0];
   return `
-    <div class="media-slot-honest" role="note" aria-label="Authentic artifact slot status">
+    <div class="media-slot-honest" role="note" aria-label="In-development artifact notice">
       <div class="media-slot-header">
-        <span class="card-badge">AUTHENTIC ARTIFACT POLICY</span>
-        <span class="media-slot-status">SCREENSHOT SLOT PREPARED</span>
+        <span class="card-badge status-research">IN ACTIVE DEVELOPMENT</span>
+        <span class="media-slot-status">CLI &amp; TRACE ENGINE UNDERWAY</span>
       </div>
       <p class="media-slot-copy">
-        No AI-generated mock UI screenshots are displayed. Drop an authorized capture into
-        <code>public/${escapeHtml(preparedSlot ? preparedSlot.src : `assets/projects/${project.id}/`)}</code>
-        and set <code>ready: true</code> in <code>src/data/projects.js</code> to enable zoomable evidence here.
+        Core requirements and causal graph design are currently in progress. Real CLI execution traces will be published once Milestone 1 lands — no synthetic UI mockups are shown.
       </p>
       ${preparedSlot?.caption ? `<div class="media-slot-target">${escapeHtml(preparedSlot.caption)}</div>` : ''}
     </div>

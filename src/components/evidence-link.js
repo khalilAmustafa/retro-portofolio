@@ -1,4 +1,4 @@
-import { escapeHtml } from '../core/dom.js';
+import { escapeHtml, resolveAsset } from '../core/dom.js';
 import { evidenceById } from '../data/evidence.js';
 
 export function renderEvidenceBadge(evidenceId) {
@@ -16,7 +16,7 @@ export function renderEvidenceBadge(evidenceId) {
   if (item.href) {
     return `
       <a
-        href="${escapeHtml(item.href)}"
+        href="${escapeHtml(resolveAsset(item.href))}"
         target="_blank"
         rel="noopener noreferrer"
         class="evidence-chip is-linked"

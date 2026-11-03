@@ -3,7 +3,7 @@ import { badgeClassForTone, renderTagCloud } from './retro-card.js';
 import { renderArchitectureSchematic } from './image-gallery.js';
 
 export function renderProjectCard(project) {
-  const readyThumb = (project.media || []).find((m) => m.ready);
+  const readyThumb = (project.media || []).find((m) => m.ready && m.type !== 'video');
 
   return `
     <article class="retro-card project-gallery-card" data-project-card="${escapeHtml(project.id)}">

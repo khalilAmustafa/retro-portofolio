@@ -33,7 +33,7 @@ export const projects = [
     personalRole:
       'Designed and implemented interactive challenge state transitions, structured AI prompt/feedback integration, and round progression logic.',
     teamOrEventContext:
-      'Built collaboratively with the ROOMS by VISION hackathon team; awarded 3rd Place in the Replit AI Hackathon (2026). Visual assets and product pitch were shared across the team.',
+      'Built collaboratively with the ROOMS by VISION hackathon team; awarded 3rd Place in the Replit AI Hackathon (2026). Gameplay video and pitch captures are shared team artifacts.',
     architecture: {
       title: 'Session & Challenge Flow',
       nodes: [
@@ -66,34 +66,68 @@ export const projects = [
     media: [
       {
         src: 'assets/projects/rooms/gameplay-lobby-01.webp',
-        alt: 'ROOMS by VISION multiplayer study lobby and challenge setup',
-        caption: 'Drop-in slot: Real ROOMS lobby & multiplayer challenge round capture',
-        ready: false
+        alt: 'ROOMS by VISION Battle Arena live multiplayer match',
+        caption: 'Battle Arena live match — fast correct answers unlock combat loadouts',
+        ready: true
+      },
+      {
+        type: 'video',
+        src: 'assets/projects/rooms/rooms-demo.mp4',
+        poster: 'assets/projects/rooms/gameplay-lobby-01.webp',
+        alt: 'ROOMS by VISION team gameplay demonstration video',
+        caption: 'ROOMS team gameplay walkthrough',
+        creditHref: 'https://rka14406.github.io/RKAs_portfolio/',
+        creditLabel: 'Media source: Raed Khalil’s portfolio ↗',
+        ready: true
+      },
+      {
+        src: 'assets/projects/rooms/room-create-02.webp',
+        alt: 'ROOMS room creation and game mode selector showing Classic Quiz, Battle Arena, Race, and Defense',
+        caption: 'Actual capture · Room setup and 4 multiplayer study modes',
+        ready: true
+      },
+      {
+        src: 'assets/projects/rooms/arena-question-03.webp',
+        alt: 'ROOMS by VISION Battle Arena timed quiz prompt',
+        caption: 'Project presentation · Timed quiz card inside Battle Arena',
+        ready: true
+      },
+      {
+        src: 'assets/projects/rooms/invite-flow-04.webp',
+        alt: 'ROOMS join code and invite link card',
+        caption: 'Actual capture · Room code and instant peer invite link',
+        ready: true
       }
     ],
-    links: []
+    links: [
+      {
+        label: 'TEAM SHOWCASE ↗',
+        href: 'https://rka14406.github.io/RKAs_portfolio/',
+        type: 'demo'
+      }
+    ]
   },
   {
     id: 'nasa-space-apps',
     title: 'NASA Space Apps Event Platform',
-    tagline: 'Regional hackathon website and participant registration system.',
+    tagline: 'Regional hackathon website, MENA Space hub, and participant registration system.',
     categories: ['Shipped', 'Systems'],
     status: 'delivered',
-    statusLabel: 'DELIVERED · LIVE EVENT',
+    statusLabel: 'DELIVERED · LIVE SITE',
     statusTone: 'live',
     featured: true,
     summary:
-      'Delivered the public event platform and registration workflow supporting a regional NASA Space Apps cohort of 85+ teams and 380+ participants.',
+      'Delivered the public event platform and registration workflow supporting NASA Space Apps Jordan (85+ teams, 380+ participants) alongside the MENA Space Organization web portal.',
     problem:
-      'Regional organizers needed a dependable web hub to publish event tracks, validate team registrations on mobile and desktop, and coordinate announcements.',
+      'Regional organizers needed a dependable web hub to publish event tracks, validate team registrations on mobile and desktop, and coordinate bilingual announcements.',
     personalRole:
-      'Personally built and deployed the event website, registration forms, field validation, data persistence, and live event-day schedule updates.',
+      'Personally built and deployed the NASA Space Apps Jordan event website and contributed to the MENA Space Organization web platform (`menaWebsite`).',
     teamOrEventContext:
-      '85+ teams and 380+ participants represent the regional NASA Space Apps event scale served by the platform alongside local organizing staff.',
+      '85+ teams and 380+ participants represent the regional NASA Space Apps Jordan event scale served by the platform alongside local organizing staff.',
     architecture: {
       title: 'Registration & Event Hub Flow',
       nodes: [
-        { stage: 'Public Event Portal', detail: 'Tracks, schedule & bilingual info' },
+        { stage: 'Public Event Portal', detail: 'Tracks, schedule & archive editions' },
         { stage: 'Validated Team Form', detail: 'Client + server field checks' },
         { stage: 'Registration Store', detail: 'Structured team & member records' },
         { stage: 'Organizer Roster', detail: 'Clean export & check-in readiness' }
@@ -113,130 +147,113 @@ export const projects = [
     },
     outcomes: [
       {
-        text: 'Supported live registration workflow for a regional event with 85+ teams and 380+ participants.',
+        text: 'Supported live registration workflow for NASA Space Apps Jordan (85+ teams, 380+ participants).',
         scope: 'Event scale',
         evidenceId: 'nasa-space-apps-event'
+      },
+      {
+        text: 'Shipped bilingual MENA Space Organization web experience on Vercel with public source repository.',
+        scope: 'Live platform',
+        evidenceId: 'mena-org-platform'
       }
     ],
-    tech: ['Web Platform', 'Form Validation', 'Backend API', 'Production Deployment'],
+    tech: ['React / TypeScript', 'Form Validation', 'Bilingual Web', 'Vercel Deployment'],
     media: [
       {
         src: 'assets/projects/nasa-space-apps/landing-registration-01.webp',
-        alt: 'NASA Space Apps regional event website and registration interface',
-        caption: 'Drop-in slot: Approved event portal & registration workflow screenshot',
-        ready: false
-      }
-    ],
-    links: []
-  },
-  {
-    id: 'happensbefore',
-    title: 'HappensBefore',
-    tagline: 'Causal event-ordering & concurrency invariant verification prototype.',
-    categories: ['Systems', 'Experiments'],
-    status: 'in-development',
-    statusLabel: 'IN DEVELOPMENT · SYSTEMS',
-    statusTone: 'research',
-    featured: true,
-    summary:
-      'Systems engineering tool in active development for modeling execution traces, happens-before partial orders, and concurrency invariant violations.',
-    problem:
-      'Concurrent and distributed workflows fail under rare thread or message interleavings that standard pass/fail unit logs fail to explain.',
-    personalRole:
-      'Solo author designing the event-trace schema, causal happens-before graph construction, and counterexample reporting model (CLI runner currently in active development).',
-    teamOrEventContext:
-      'Independent systems project; marked transparently as In Development until the standalone CLI and benchmark suite are tagged for release.',
-    architecture: {
-      title: 'Trace Verification Pipeline (In Development)',
-      nodes: [
-        { stage: 'Execution Trace Log', detail: 'Thread/process events & sync ops' },
-        { stage: 'HB Partial-Order DAG', detail: 'Program order + sync edges' },
-        { stage: 'Invariant / Race Check', detail: 'Concurrent conflicting access scan' },
-        { stage: 'Counterexample Slice', detail: 'Minimal causal witness path' }
-      ],
-      summary:
-        'Verifies structured execution traces against causal ordering rules before attempting full schedule exploration.'
-    },
-    engineeringDecision: {
-      challenge:
-        'Full stateless model checking explodes combinatorially even on modest multi-threaded programs.',
-      options:
-        'Build a bytecode interleaving scheduler first vs. start with deterministic trace capture and DAG causal analysis.',
-      decision:
-        'Scoped Milestone 1 to explicit execution trace ingestion and happens-before graph verification so invariant diagnostics are rock-solid first.',
-      outcome:
-        'Core graph model and invariant specification design underway; real terminal trace captures will be added once the CLI runner lands.'
-    },
-    outcomes: [
+        alt: 'NASA Space Apps Challenge Jordan live website hero section',
+        caption: 'Live deployment (spaceapp-front.vercel.app) · Amman & Aqaba portal',
+        ready: true
+      },
       {
-        text: 'Active systems prototype — causal trace DAG & invariant checker currently in development.',
-        scope: 'In development',
-        evidenceId: null
-      }
-    ],
-    tech: ['Java', 'Concurrency', 'Happens-Before Graphs', 'Systems Verification'],
-    media: [
+        src: 'assets/projects/nasa-space-apps/event-tracks-02.webp',
+        alt: 'NASA Space Apps Jordan mission overview and local leadership section',
+        caption: 'Live deployment · Mission briefing and regional event overview',
+        ready: true
+      },
       {
-        src: 'assets/projects/happensbefore/trace-check-01.webp',
-        alt: 'HappensBefore CLI trace verification output',
-        caption: 'Drop-in slot: Real CLI invariant-violation trace capture (coming during development)',
-        ready: false
+        src: 'assets/projects/nasa-space-apps/mena-platform-03.webp',
+        alt: 'MENA Space Organization live website hero section',
+        caption: 'Live deployment (mena-website.vercel.app) · MENA Space Organization hub',
+        ready: true
       }
     ],
-    links: []
+    links: [
+      {
+        label: 'LIVE EVENT SITE ↗',
+        href: 'https://spaceapp-front.vercel.app/',
+        type: 'demo'
+      },
+      {
+        label: 'MENA ORG LIVE ↗',
+        href: 'https://mena-website.vercel.app/',
+        type: 'demo'
+      },
+      {
+        label: 'MENA GITHUB ↗',
+        href: 'https://github.com/khalilAmustafa/menaWebsite',
+        type: 'github'
+      }
+    ]
   },
   {
     id: 'space-day',
     title: 'Space Day Digital Passport',
-    tagline: 'Multi-station event progression, instructor approvals, and PDF certificates.',
+    tagline: 'Bilingual student passport, rotating QR station approvals, and PDF certificates.',
     categories: ['Shipped', 'Systems'],
     status: 'delivered',
     statusLabel: 'DELIVERED · WORKFLOW APP',
     statusTone: 'live',
     featured: true,
     summary:
-      'Operational web application tracking participant registration, group assignment, station approvals, and automated PDF completion certificates.',
+      'Operational Next.js + Neon PostgreSQL web application tracking bilingual student sessions, 30-second rotating QR station approvals, and automated PDF completion certificates.',
     problem:
       'Tracking hundreds of attendees across physical activity stations with paper checklists creates bottlenecks for instructors and manual errors when issuing certificates.',
     personalRole:
-      'Personally architected and built the end-to-end TypeScript application, PostgreSQL schema with Drizzle ORM, instructor station-approval interface, admin dashboard, and PDF certificate generator.',
+      'Personally architected and built the end-to-end TypeScript & Next.js application, PostgreSQL schema with Drizzle ORM, signed rotating QR trainer console, and bilingual PDF certificate generator.',
     teamOrEventContext:
-      'Delivered for live Space Day event operations and used by organizers, station instructors, and participants.',
+      'Delivered for live Space Day event operations and used by organizers, station trainers, and student participants.',
     architecture: {
       title: 'Digital Passport Lifecycle',
       nodes: [
-        { stage: 'Participant Check-In', detail: 'Registration & group assignment' },
-        { stage: 'Station Approval', detail: 'Instructor verifies station completion' },
-        { stage: 'PostgreSQL + Drizzle', detail: 'Idempotent progress persistence' },
-        { stage: 'PDF Certificate Engine', detail: 'Auto-issued upon required stamps' }
+        { stage: 'Student Session', detail: 'English & Arabic RTL passport launch' },
+        { stage: 'Rotating Signed QR', detail: '30s trainer-controlled station codes' },
+        { stage: 'PostgreSQL + Drizzle', detail: 'Idempotent station completion rows' },
+        { stage: 'PDF Certificate Engine', detail: 'Server-gated bilingual certificate' }
       ],
       summary:
-        'Models every station sign-off as an explicit relational record driving real-time completion eligibility.'
+        'Models every station sign-off as a cryptographically signed, duplicate-safe relational record.'
     },
     engineeringDecision: {
       challenge:
-        'Instructors approving groups on mobile browsers over venue Wi-Fi can accidentally double-submit or refresh mid-request.',
+        'Students scanning station QR codes on venue Wi-Fi could share static QR photos or accidentally submit duplicate scans.',
       options:
-        'Increment an integer counter on the participant row vs. store composite-unique `(participant_id, station_id)` approval rows.',
+        'Static printed station URLs with client-side counters vs. trainer-controlled 30-second rotating signed QR tokens with composite-unique DB rows.',
       decision:
-        'Enforced composite uniqueness in PostgreSQL via Drizzle ORM and derived completion status from verified station records.',
+        'Validated QR signature, generation window, and trainer enablement on the server while enforcing composite uniqueness in PostgreSQL via Drizzle ORM.',
       outcome:
-        'Prevented duplicate station stamps and ensured completion certificates were generated only from consistent progress records.'
+        'Prevented duplicate or shared station stamps and issued bilingual PDF certificates strictly from verified completions.'
     },
     outcomes: [
       {
-        text: 'Delivered live registration, station approval, and automated PDF certificate system.',
+        text: 'Delivered live bilingual digital passport, rotating QR trainer console, and automated PDF certificate system.',
         scope: 'Personal delivery',
         evidenceId: 'space-day-delivery'
       }
     ],
-    tech: ['TypeScript', 'PostgreSQL', 'Drizzle ORM', 'PDF Generation', 'Admin Workflows'],
+    tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Drizzle ORM', 'Signed QR & PDF'],
     media: [
       {
         src: 'assets/projects/space-day/station-passport-01.webp',
-        alt: 'Space Day digital passport station progress and approval dashboard',
-        caption: 'Drop-in slot: Privacy-redacted digital passport & station approval screen',
-        ready: false
+        alt: 'Space Day Digital Passport English welcome and mission launch screen',
+        caption: 'Application capture · Student Digital Passport launch (English)',
+        ready: true
+      },
+      {
+        src: 'assets/projects/space-day/station-passport-ar-02.webp',
+        alt: 'Space Day Digital Passport Arabic RTL welcome and mission launch screen',
+        caption: 'Application capture · Full RTL Arabic student passport interface',
+        ready: true
       }
     ],
     links: []
@@ -251,7 +268,7 @@ export const projects = [
     statusTone: 'research',
     featured: true,
     summary:
-      'IELTS Academic preparation platform at bandup.khalils.codes combining structured lessons and skill exercises with ongoing R&D into graph-guided adaptive tutoring.',
+      'IELTS Academic preparation platform at bandup.khalils.codes combining structured lessons and interactive practice previews with ongoing R&D into graph-guided adaptive tutoring.',
     problem:
       'Standard chatbot tutors answer isolated IELTS questions without modeling prerequisite skill gaps or returning the student to the original objective after remediation.',
     personalRole:
@@ -290,9 +307,21 @@ export const projects = [
     media: [
       {
         src: 'assets/projects/bandup/lesson-workspace-01.webp',
-        alt: 'BandUp IELTS Academic guided lesson workspace',
-        caption: 'Drop-in slot: Real BandUp lesson screen & proposed learning-graph diagram',
-        ready: false
+        alt: 'BandUp live landing page and interactive IELTS lesson preview',
+        caption: 'Live deployment (bandup.khalils.codes) · Guided IELTS Academic lesson workspace',
+        ready: true
+      },
+      {
+        src: 'assets/projects/bandup/lesson-feedback-02.webp',
+        alt: 'BandUp interactive practice answer validation and source-grounded feedback',
+        caption: 'Live deployment · Practice response validation & grounded rule explanation',
+        ready: true
+      },
+      {
+        src: 'assets/projects/bandup/roadmap-preview-03.webp',
+        alt: 'BandUp structured step-by-step IELTS learning path overview',
+        caption: 'Live deployment · Step-by-step IELTS foundation progression',
+        ready: true
       }
     ],
     links: [
@@ -306,18 +335,18 @@ export const projects = [
   {
     id: 'makan',
     title: 'Makan',
-    tagline: 'Handheld smartphone video to 3D Gaussian Splatting interior pipeline.',
+    tagline: 'Handheld smartphone video to 3D Gaussian Splatting & spatial SLAM trade-off R&D.',
     categories: ['Experiments'],
     status: 'experimental',
     statusLabel: 'EXPERIMENTAL · 3D VISION',
     statusTone: 'neutral',
     featured: true,
     summary:
-      'Experimental computer-vision workflow converting ordinary smartphone walkthrough footage of interior rooms into navigable 3D Gaussian Splatting scenes.',
+      'Experimental computer-vision workflow converting ordinary smartphone footage into navigable 3D Gaussian Splatting interiors, paired with an interactive ORB-SLAM3 vs. LingBot-Map architecture study.',
     problem:
       'Spatial walkthroughs of indoor rooms typically require specialized 360° cameras or LiDAR scanners rather than accessible phone video.',
     personalRole:
-      'Configured frame sampling, blur filtering, COLMAP Structure-from-Motion camera pose estimation, and 3D Gaussian Splatting scene optimization.',
+      'Configured frame sampling, blur filtering, COLMAP Structure-from-Motion pose estimation, 3D Gaussian Splatting optimization, and authored the companion SLAM vs. LingBot-Map operating-stress analysis.',
     teamOrEventContext:
       'Independent computer-vision experiment; registration metrics below reflect camera-pose estimation on one tested indoor video sequence.',
     architecture: {
@@ -335,9 +364,9 @@ export const projects = [
       challenge:
         'Low-texture indoor walls and handheld motion blur frequently break camera track continuity during Structure from Motion.',
       options:
-        'Uniform high-FPS frame dump vs. curated keyframe sampling with tuned feature-matching overlap.',
+        'Uniform high-FPS frame dump vs. curated keyframe sampling with tuned feature-matching overlap and foundation-model comparison.',
       decision:
-        'Filtered motion-blurred frames and tuned sequential/overlap matching in COLMAP before launching Gaussian Splatting optimization.',
+        'Filtered motion-blurred frames and tuned sequential/overlap matching in COLMAP while benchmarking classical VI-SLAM against LingBot-Map priors.',
       outcome:
         'Registered 318/318 frames at 0.88 px mean reprojection error on the benchmarked indoor sequence (pose registration metric, not a claim of artifact-free surfaces).'
     },
@@ -352,8 +381,87 @@ export const projects = [
     media: [
       {
         src: 'assets/projects/makan/colmap-splat-comparison-01.webp',
-        alt: 'Makan input frame compared with COLMAP camera poses and 3D Gaussian Splatting render',
-        caption: 'Drop-in slot: Input frame vs. COLMAP sparse poses & 3DGS reconstruction',
+        alt: 'Makan indoor 3D Gaussian Splatting reconstruction walkthrough frame',
+        caption: 'Local reconstruction output · Indoor walkthrough rendered frame',
+        ready: true
+      },
+      {
+        src: 'assets/projects/makan/slam-lingbot-study-02.webp',
+        alt: 'Interactive engineering trade-off study comparing ORB-SLAM3 and LingBot-Map under operating stress',
+        caption: 'Published companion study · ORB-SLAM3 vs. LingBot-Map under operating stress',
+        ready: true
+      },
+      {
+        src: 'assets/projects/makan/courthouse-sequence-03.webp',
+        alt: 'Separate multi-view test sequence source frame of courthouse exterior',
+        caption: 'Separate SfM test sequence · Source footage frame (not rendered output)',
+        ready: true
+      }
+    ],
+    links: [
+      {
+        label: 'SLAM VS LINGBOT STUDY ↗',
+        href: 'https://khalilamustafa.github.io/Classical-SLAM-vs.-LingBot-Map-under-operating-stress/',
+        type: 'demo'
+      },
+      {
+        label: 'STUDY SOURCE ↗',
+        href: 'https://github.com/khalilAmustafa/Classical-SLAM-vs.-LingBot-Map-under-operating-stress',
+        type: 'github'
+      }
+    ]
+  },
+  {
+    id: 'happensbefore',
+    title: 'HappensBefore',
+    tagline: 'Causal event-ordering & concurrency invariant verification prototype.',
+    categories: ['Systems', 'Experiments'],
+    status: 'in-development',
+    statusLabel: 'IN DEVELOPMENT · SYSTEMS',
+    statusTone: 'research',
+    featured: true,
+    summary:
+      'Systems engineering tool in active development for modeling execution traces, happens-before partial orders, and concurrency invariant violations in Java.',
+    problem:
+      'Concurrent and distributed workflows fail under rare thread or message interleavings that standard pass/fail unit logs fail to explain.',
+    personalRole:
+      'Solo author defining the formal SRS, container & Java execution-core architecture, event-trace schema, and happens-before graph verification model.',
+    teamOrEventContext:
+      'Independent systems project (`concur/happens-before`); marked transparently as In Development while the Java execution core and CLI runner are built.',
+    architecture: {
+      title: 'Trace Verification Pipeline (In Development)',
+      nodes: [
+        { stage: 'Execution Trace Log', detail: 'Thread/process events & sync ops' },
+        { stage: 'HB Partial-Order DAG', detail: 'Program order + sync edges' },
+        { stage: 'Invariant / Race Check', detail: 'Concurrent conflicting access scan' },
+        { stage: 'Counterexample Slice', detail: 'Minimal causal witness path' }
+      ],
+      summary:
+        'Verifies structured execution traces against causal ordering rules before attempting full schedule exploration.'
+    },
+    engineeringDecision: {
+      challenge:
+        'Full stateless model checking explodes combinatorially even on modest multi-threaded programs.',
+      options:
+        'Build a bytecode interleaving scheduler first vs. start with deterministic trace capture and DAG causal analysis.',
+      decision:
+        'Scoped Milestone 1 to explicit execution trace ingestion and happens-before graph verification so invariant diagnostics are rock-solid first.',
+      outcome:
+        'Requirements specification and Java Gradle architecture scaffolded; terminal trace captures will be added once the CLI runner lands.'
+    },
+    outcomes: [
+      {
+        text: 'Active Java/Gradle systems project — requirements & causal trace architecture specified.',
+        scope: 'In development',
+        evidenceId: null
+      }
+    ],
+    tech: ['Java', 'Gradle', 'Happens-Before Graphs', 'Concurrency Verification'],
+    media: [
+      {
+        src: 'assets/projects/happensbefore/trace-check-01.webp',
+        alt: 'HappensBefore CLI trace verification output',
+        caption: 'Milestone 1 target: CLI happens-before invariant trace output',
         ready: false
       }
     ],
@@ -369,19 +477,19 @@ export const projects = [
     statusTone: 'neutral',
     featured: false,
     summary:
-      'Private Expo + SQLite mobile prototype exploring how a conversational assistant can trigger controlled, local-first personal organization actions.',
+      'Private Expo + SQLite mobile prototype exploring how a conversational assistant can trigger controlled, undoable, local-first personal organization actions.',
     problem:
       'Chat-based productivity assistants often store personal notes exclusively in cloud threads or mutate user tasks without deterministic action boundaries.',
     personalRole:
-      'Built the Expo mobile client, local SQLite persistence layer, and shared action router mapping Gemini tool calls to explicit CRUD operations.',
-    teamOrEventContext: 'Solo private prototype.',
+      'Built the Expo mobile client, local SQLite persistence layer, editable proposal cards, and shared action router mapping Gemini tool calls to explicit CRUD operations.',
+    teamOrEventContext: 'Solo private prototype; captures below contain synthetic demo entries only.',
     architecture: {
       title: 'Local-First Tool Action Layer',
       nodes: [
         { stage: 'Expo Mobile UI', detail: 'Direct views + assistant prompt' },
         { stage: 'Gemini Tool Router', detail: 'Maps intent to typed actions' },
-        { stage: 'Shared Action Layer', detail: 'Validates parameters & rules' },
-        { stage: 'Local SQLite DB', detail: 'On-device tasks & notes' }
+        { stage: 'Shared Action Layer', detail: 'Validates parameters & undo state' },
+        { stage: 'Local SQLite DB', detail: 'On-device tasks, courses & logs' }
       ],
       summary:
         'Routes both manual UI taps and assistant tool calls through one validated local SQLite action layer.'
@@ -392,7 +500,7 @@ export const projects = [
       options:
         'Direct LLM state mutation vs. restricted tool catalog sharing the exact service functions used by the UI.',
       decision:
-        'Routed assistant intents exclusively through a typed shared action layer backed by local SQLite transactions.',
+        'Routed assistant intents exclusively through a typed shared action layer with explicit proposal/undo cards backed by local SQLite transactions.',
       outcome:
         'Demonstrated predictable tool execution while keeping personal data local-first on device.'
     },
@@ -404,7 +512,35 @@ export const projects = [
       }
     ],
     tech: ['Expo', 'React Native', 'SQLite', 'Gemini API', 'Tool Routing'],
-    media: [],
+    media: [
+      {
+        src: 'assets/projects/futureing/landing-overview-01.webp',
+        alt: 'Futureing product overview showing Android app screens and local-first assistant cards',
+        caption: 'Product showcase · Local-first Android prototype overview',
+        ready: true
+      },
+      {
+        src: 'assets/projects/futureing/vision-runtime-02.webp',
+        alt: 'Futureing Vision local runtime screen showing undoable action cards',
+        caption: 'App capture · Local runtime action execution with instant Undo Action',
+        isPortrait: true,
+        ready: true
+      },
+      {
+        src: 'assets/projects/futureing/syllabus-proposal-04.webp',
+        alt: 'Futureing editable syllabus and course deliverables proposal screen',
+        caption: 'App capture · Editable course & syllabus deliverable proposal before commit',
+        isPortrait: true,
+        ready: true
+      },
+      {
+        src: 'assets/projects/futureing/today-capture-03.webp',
+        alt: 'Futureing Today view and quick Inbox capture screen',
+        caption: 'App capture · Today focus & quick Inbox capture',
+        isPortrait: true,
+        ready: true
+      }
+    ],
     links: []
   },
   {
@@ -413,23 +549,23 @@ export const projects = [
     tagline: 'Arabic-language Grade 12 mathematics learning platform for Oman.',
     categories: ['Shipped', 'Systems'],
     status: 'delivered',
-    statusLabel: 'DELIVERED · EDTECH',
+    statusLabel: 'BUILT · FULL-STACK EDTECH',
     statusTone: 'live',
     featured: false,
     summary:
-      'Arabic educational web platform built for Grade 12 mathematics students in Oman featuring enrollment, payment approval workflows, protected lessons, quizzes, and PDFs.',
+      'Full-stack Arabic educational web platform built for Grade 12 mathematics students in Oman featuring enrollment, payment approval workflows, protected lessons, quizzes, and PDFs.',
     problem:
-      'Independent regional educators needed an Arabic-first platform supporting local enrollment verification alongside structured video lessons and assessments.',
+      'Independent regional educators needed an Arabic-first platform supporting local bank-transfer enrollment verification alongside structured video lessons and assessments.',
     personalRole:
-      'Built the full-stack RTL Arabic web interface, student enrollment and admin payment-approval workflow, protected lesson access, and quiz modules.',
-    teamOrEventContext: 'Client/contract EdTech delivery.',
+      'Built the Next.js RTL Arabic web interface, Express.js + Prisma + PostgreSQL backend, student enrollment & admin payment-approval workflow, and protected lesson modules.',
+    teamOrEventContext: 'Full-stack EdTech build (`asad-web` + `asad-api`).',
     architecture: {
       title: 'Enrollment & Protected Content Flow',
       nodes: [
-        { stage: 'Arabic RTL Portal', detail: 'Course catalog & student sign-up' },
-        { stage: 'Admin Approval', detail: 'Verifies local payment & access' },
+        { stage: 'Next.js RTL Portal', detail: 'Arabic course catalog & sign-up' },
+        { stage: 'Express + Prisma API', detail: 'JWT/CSRF auth & payment queue' },
         { stage: 'Protected Lessons', detail: 'Gated video, PDFs & quizzes' },
-        { stage: 'Instructor Panel', detail: 'Content & student management' }
+        { stage: 'Instructor Panel', detail: 'Payment approvals & analytics' }
       ],
       summary:
         'Tailored enrollment and access control to regional payment habits rather than forcing international card-only checkout.'
@@ -440,19 +576,32 @@ export const projects = [
       options:
         'External card-only gateway vs. built-in receipt/enrollment approval queue in the instructor dashboard.',
       decision:
-        'Implemented an administrative enrollment-approval state machine gating lesson videos and downloadable PDFs.',
+        'Implemented an administrative enrollment-approval state machine in Express + Prisma gating lesson videos and downloadable PDFs.',
       outcome:
         'Enabled smooth Arabic-first onboarding for Grade 12 students and straightforward roster control for the instructor.'
     },
     outcomes: [
       {
-        text: 'Delivered full-stack Arabic mathematics learning platform with gated lessons and admin approvals.',
+        text: 'Built full-stack Next.js, Express, Prisma, and PostgreSQL Arabic learning platform with gated lessons.',
         scope: 'Personal delivery',
         evidenceId: null
       }
     ],
-    tech: ['Full-Stack Web', 'Arabic RTL UI', 'Access Control', 'Video & Quiz Modules'],
-    media: [],
+    tech: ['Next.js', 'Express.js', 'Prisma', 'PostgreSQL', 'Arabic RTL UI'],
+    media: [
+      {
+        src: 'assets/projects/asad-math/arabic-home-01.webp',
+        alt: 'Asad Math Arabic RTL landing page for Grade 12 mathematics in Oman',
+        caption: 'Application capture · Arabic RTL homepage for Grade 12 mathematics',
+        ready: true
+      },
+      {
+        src: 'assets/projects/asad-math/student-login-02.webp',
+        alt: 'Asad Math student portal sign-in interface',
+        caption: 'Application capture · Student authentication & protected course entry',
+        ready: true
+      }
+    ],
     links: []
   },
   {
@@ -500,7 +649,20 @@ export const projects = [
       }
     ],
     tech: ['Godot Engine', 'GDScript', '2D State Machines', 'HTML5 Export'],
-    media: [],
+    media: [
+      {
+        src: 'assets/projects/abyss-of-the-loss/forest-gameplay-01.webp',
+        alt: 'Abyss of the Loss 2D pixel-art dark forest gameplay in browser',
+        caption: 'Live HTML5 build · Atmospheric dark-forest exploration',
+        ready: true
+      },
+      {
+        src: 'assets/projects/abyss-of-the-loss/title-screen-02.webp',
+        alt: 'Abyss of the Loss title screen with character and companion cat',
+        caption: 'Live HTML5 build · Main menu and pixel-art character silhouettes',
+        ready: true
+      }
+    ],
     links: [
       {
         label: 'PLAY WEB BUILD ↗',
@@ -510,6 +672,114 @@ export const projects = [
       {
         label: 'VIEW SOURCE ↗',
         href: 'https://github.com/khalilAmustafa/Abyss-of-the-Loss',
+        type: 'github'
+      }
+    ]
+  },
+  {
+    id: 'vision-career',
+    title: 'Vision Career (Masar)',
+    tagline: 'Flutter & AI-guided academic specialization and career roadmap mobile app.',
+    categories: ['Applied AI', 'Experiments'],
+    status: 'prototype',
+    statusLabel: 'OPEN-SOURCE MOBILE APP',
+    statusTone: 'neutral',
+    featured: false,
+    summary:
+      'Flutter mobile application and Node.js backend helping university students choose specializations, follow prerequisite-gated study paths, and prepare for target software roles.',
+    problem:
+      'University students often pick electives or career tracks without clear visibility into subject prerequisites or structured readiness checkpoints.',
+    personalRole:
+      'Built controlled progression logic in Flutter/Dart, quiz-gated subject unlocks, ranked learning-resource retrieval, and the companion Node.js dataset API.',
+    teamOrEventContext: 'Collaborative mobile engineering project with public GitHub source repository.',
+    architecture: {
+      title: 'Prerequisite Career Progression',
+      nodes: [
+        { stage: 'Track Assessment', detail: 'Evaluates student goals & background' },
+        { stage: 'Prerequisite Roadmap', detail: 'Ordered subject & skill milestones' },
+        { stage: 'AI Quiz Checkpoints', detail: 'Validates mastery before unlock' },
+        { stage: 'Resource Vault', detail: 'Curated study links & role readiness' }
+      ],
+      summary:
+        'Pairs AI guidance with deterministic local progression rules so students advance through verified checkpoints.'
+    },
+    engineeringDecision: {
+      challenge:
+        'Purely conversational career advice gives generic encouragement without actionable curriculum structure.',
+      options:
+        'Unstructured chat advisor vs. structured master dataset of specializations, prerequisites, and quiz-gated stages.',
+      decision:
+        'Modeled explicit specialization graphs in JSON backed by Flutter progression state and AI quiz generation.',
+      outcome:
+        'Published full Flutter mobile client and Node.js backend dataset repository on GitHub.'
+    },
+    outcomes: [
+      {
+        text: 'Open-source Flutter & Node.js career-guidance codebase published on GitHub.',
+        scope: 'Open source',
+        evidenceId: null
+      }
+    ],
+    tech: ['Flutter', 'Dart', 'Node.js', 'AI Quiz Flows', 'Mobile Architecture'],
+    media: [],
+    links: [
+      {
+        label: 'VIEW SOURCE ↗',
+        href: 'https://github.com/khalilAmustafa/Vision-Career',
+        type: 'github'
+      }
+    ]
+  },
+  {
+    id: 'vision-pulse',
+    title: 'VisionPulse AI',
+    tagline: 'Macroeconomic event-to-asset decision-support prototype with Gemini reasoning.',
+    categories: ['Applied AI', 'Experiments'],
+    status: 'prototype',
+    statusLabel: 'OPEN-SOURCE PROTOTYPE',
+    statusTone: 'neutral',
+    featured: false,
+    summary:
+      'Educational market-intelligence prototype mapping macroeconomic calendar events and financial news into structured, explainable asset-reaction cards with post-event accuracy reviews.',
+    problem:
+      'Beginner analysts struggle to connect scheduled macro announcements (CPI, FOMC, OPEC) to historical asset sensitivities and post-event accountability.',
+    personalRole:
+      'Co-developed the Node.js + Express event-to-asset prediction pipeline, rule-based impact mapping, Gemini reasoning prompts, and seeded offline fallback mode.',
+    teamOrEventContext: 'Co-authored hackathon/prototype repository (`RKA14406/Vision_Pulse`).',
+    architecture: {
+      title: 'Event-to-Asset Reasoning Flow',
+      nodes: [
+        { stage: 'Macro Event Feed', detail: 'CPI, FOMC, earnings & watchlists' },
+        { stage: 'Rule Impact Mapper', detail: 'Asset sensitivity & fallback priors' },
+        { stage: 'Gemini Reasoning', detail: 'Structured directional thesis card' },
+        { stage: 'Post-Event Review', detail: 'Predicted vs. actual accuracy log' }
+      ],
+      summary:
+        'Includes deterministic seeded fallback data so the full workflow runs reliably even without external API keys.'
+    },
+    engineeringDecision: {
+      challenge:
+        'Live market and LLM APIs can rate-limit during demos or fail when keys are absent.',
+      options:
+        'Hard dependency on live API keys vs. graceful fallback layer with seeded macro scenarios.',
+      decision:
+        'Built a rule-based fallback and seeded market dataset underneath the Express + Gemini prediction service.',
+      outcome:
+        'Guaranteed reproducible local demos and transparent post-event review cards.'
+    },
+    outcomes: [
+      {
+        text: 'Published open-source Node.js + Express + Gemini prototype on GitHub.',
+        scope: 'Team prototype',
+        evidenceId: null
+      }
+    ],
+    tech: ['Node.js', 'Express.js', 'Google Gemini', 'Market APIs', 'Fallback Systems'],
+    media: [],
+    links: [
+      {
+        label: 'VIEW SOURCE ↗',
+        href: 'https://github.com/RKA14406/Vision_Pulse',
         type: 'github'
       }
     ]

@@ -26,6 +26,16 @@ export function createTvController({ sound, onSelectChannel }) {
   let tuneTimer = null;
   let volumeTimer = null;
 
+  function pauseScreenVideos() {
+    document.querySelectorAll('#screen-content video').forEach((vid) => {
+      try {
+        vid.pause();
+      } catch {
+        // Ignore non-playing media
+      }
+    });
+  }
+
   function buildHardwareControls() {
     channelButtonsContainer.innerHTML = '';
     dialMarksContainer.innerHTML = '';
@@ -186,6 +196,7 @@ export function createTvController({ sound, onSelectChannel }) {
 
     powerBtn.addEventListener('click', () => {
       powered = !powered;
+      if (!powered) pauseScreenVideos();
       tuning?.classList.remove('active');
       clearTimeout(tuneTimer);
       sound.clickSound(true);
@@ -194,6 +205,7 @@ export function createTvController({ sound, onSelectChannel }) {
 
     blankToggleBtn.addEventListener('click', () => {
       const isBlank = tv.classList.toggle('is-blank');
+      if (isBlank) pauseScreenVideos();
       blankToggleBtn.setAttribute('aria-pressed', String(isBlank));
       blankToggleBtn.textContent = isBlank ? 'SHOW CHANNEL' : 'BLANK SCREEN';
     });

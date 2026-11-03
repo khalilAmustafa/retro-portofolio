@@ -2,9 +2,9 @@ export const credentialsData = {
   featured: {
     id: 'aws-ccp',
     title: 'AWS Certified Cloud Practitioner',
-    issuer: 'Amazon Web Services (AWS)',
+    issuer: 'Amazon Web Services (AWS) · Validation ID: 4268afe835cd4e5c990d98399b7847a1',
     dateIso: '2026-05',
-    dateLabel: 'ISSUED MAY 2026',
+    dateLabel: 'ISSUED MAY 2026 · VALID TO 2029',
     status: 'earned',
     badgeLabel: 'EARNED CERTIFICATION',
     summary:
@@ -12,8 +12,8 @@ export const credentialsData = {
     evidenceId: 'aws-ccp-2026',
     badgeMedia: {
       src: 'assets/credentials/aws-ccp-badge.webp',
-      alt: 'AWS Certified Cloud Practitioner official badge',
-      ready: false
+      alt: 'AWS Certified Cloud Practitioner official credential — Khalil Mustafa',
+      ready: true
     }
   },
   honorsAndCompetitions: [
@@ -67,8 +67,7 @@ export const credentialsData = {
       dateLabel: '2025',
       categoryLabel: '24-HOUR GLOBAL CONTEST',
       tone: 'neutral',
-      summary:
-        'Participated in IEEE’s global 24-hour competitive programming challenge.',
+      summary: 'Participated in IEEE’s global 24-hour competitive programming challenge.',
       route: null,
       routeLabel: null,
       evidenceId: null

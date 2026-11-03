@@ -650,8 +650,10 @@
 .passport-photo-img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  aspect-ratio: 16 / 7;
+  object-fit: contain;
+  padding: 10px 16px;
+  background: radial-gradient(circle at center, #132818 0%, #0a140c 100%);
 }
 
 .passport-photo-caption {
@@ -921,6 +923,24 @@
 
 .secondary-project-card {
   margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.secondary-project-card.has-thumb {
+  padding: 0;
+  overflow: hidden;
+}
+
+.secondary-card-body {
+  padding: 13px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.secondary-card-body .card-desc {
+  flex: 1;
 }
 
 /* Case Study View */
@@ -987,7 +1007,7 @@
 
 .featured-credential-grid {
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr);
+  grid-template-columns: 148px minmax(0, 1fr);
   gap: 16px;
   align-items: center;
 }
@@ -1020,9 +1040,13 @@
 }
 
 .credential-badge-img {
-  width: 84px;
-  height: 84px;
+  display: block;
+  width: 144px;
+  height: auto;
   object-fit: contain;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--dark-ink);
+  box-shadow: var(--shadow-comic-sm);
 }
 
 .featured-credential-title {

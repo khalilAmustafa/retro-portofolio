@@ -641,6 +641,32 @@
   height: auto;
   aspect-ratio: 16 / 10;
   object-fit: cover;
+  object-position: top center;
+}
+
+.media-thumb-img.is-portrait {
+  object-fit: contain;
+  object-position: center;
+  background: #141a15;
+  padding: 4px 0;
+}
+
+.media-figure-video {
+  grid-column: 1 / -1;
+}
+
+.media-video-frame {
+  border: var(--border-ink);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: #0e1410;
+}
+
+.media-video-player {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  background: #0e1410;
 }
 
 .media-zoom-hint {
