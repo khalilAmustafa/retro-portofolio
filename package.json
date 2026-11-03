@@ -1,0 +1,19 @@
+{
+  "name": "khalil-retro-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Retro CRT interactive portfolio of Khalil Asad Mustafa — Computer Science, Backend Systems, Cloud Infrastructure, and Applied AI.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:smoke": "node tests/smoke-browser.mjs"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0",
+    "vitest": "^3.0.7"
+  }
+}
