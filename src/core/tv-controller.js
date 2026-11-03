@@ -13,11 +13,20 @@ export function createTvController({ sound, onSelectChannel }) {
   const volumeValue = document.getElementById('volume-value');
   const volumeOsd = document.getElementById('volume-osd');
   const volumeBarsContainer = document.getElementById('volume-bars');
+  const footerSoundToggle = document.getElementById('footer-sound-toggle');
+  const footerSoundLabel = document.getElementById('footer-sound-label');
   const powerBtn = document.getElementById('power');
   const blankToggleBtn = document.getElementById('blank-toggle');
   const phosphor = document.getElementById('phosphor');
   const tuning = document.getElementById('tuning');
   const channelTag = document.getElementById('channel-tag');
+  const channelOsd = document.getElementById('channel-osd');
+  const channelOsdCode = document.getElementById('channel-osd-code');
+  const channelOsdName = document.getElementById('channel-osd-name');
+  const screenContent = document.getElementById('screen-content');
+  const progressBar = document.getElementById('screen-progress-bar');
+  const scrollCueBtn = document.getElementById('scroll-cue-btn');
+  const footerStaticHint = document.getElementById('footer-static-hint');
   const statusRegion = document.getElementById('status');
 
   let powered = true;
@@ -25,6 +34,8 @@ export function createTvController({ sound, onSelectChannel }) {
   let activeSubTitle = null;
   let tuneTimer = null;
   let volumeTimer = null;
+  let osdTimer = null;
+  let lastNonZeroVolume = 45;
 
   function pauseScreenVideos() {
     document.querySelectorAll('#screen-content video').forEach((vid) => {
@@ -34,6 +45,39 @@ export function createTvController({ sound, onSelectChannel }) {
         // Ignore non-playing media
       }
     });
+  }
+
+  function updateScrollTelemetry() {
+    if (!screenContent) return;
+    const maxScroll = Math.max(0, screenContent.scrollHeight - screenContent.clientHeight);
+    const pct = maxScroll > 4 ? Math.min(100, Math.round((screenContent.scrollTop / maxScroll) * 100)) : 100;
+    if (progressBar) {
+      progressBar.style.width = maxScroll > 4 ? `${Math.max(6, pct)}%` : '100%';
+      progressBar.classList.toggle('is-scrollable', maxScroll > 4);
+    }
+    if (scrollCueBtn) {
+      const hasMoreBelow = powered && !tv.classList.contains('is-blank') && maxScroll - screenContent.scrollTop > 52;
+      scrollCueBtn.hidden = !hasMoreBelow;
+      if (footerStaticHint) footerStaticHint.hidden = hasMoreBelow;
+    }
+  }
+
+  function showChannelOsd(channelIndex = activeChannelIndex, subTitle = activeSubTitle) {
+    if (!powered || !channelOsd) return;
+    const ch = CHANNELS[channelIndex] || CHANNELS[0];
+    if (channelOsdCode) channelOsdCode.textContent = `CH ${padChannel(channelIndex + 1)}`;
+    if (channelOsdName) {
+      channelOsdName.textContent = subTitle
+        ? `${ch.label.toUpperCase()} · ${subTitle.toUpperCase()}`
+        : ch.label.toUpperCase();
+    }
+    channelOsd.classList.remove('visible');
+    void channelOsd.offsetWidth;
+    channelOsd.classList.add('visible');
+    clearTimeout(osdTimer);
+    osdTimer = setTimeout(() => {
+      channelOsd.classList.remove('visible');
+    }, 1450);
   }
 
   function buildHardwareControls() {
@@ -104,28 +148,39 @@ export function createTvController({ sound, onSelectChannel }) {
     } else {
       document.title = `${ch.label} — Khalil Asad Mustafa`;
     }
+
+    requestAnimationFrame(() => updateScrollTelemetry());
   }
 
   function triggerTuningEffect() {
     if (!powered) return;
     sound.clickSound(false);
+    showChannelOsd(activeChannelIndex, activeSubTitle);
     if (!prefersReducedMotion() && tuning) {
       tuning.classList.remove('active');
       void tuning.offsetWidth;
       tuning.classList.add('active');
       clearTimeout(tuneTimer);
-      tuneTimer = setTimeout(() => tuning.classList.remove('active'), 250);
+      tuneTimer = setTimeout(() => tuning.classList.remove('active'), 260);
     }
   }
 
   function setVolume(rawValue, { showOsd = true } = {}) {
     const vol = sound.setVolume(rawValue);
+    if (vol > 0) lastNonZeroVolume = vol;
+
     volumeInput.value = String(vol);
     volumeLabel.textContent = vol ? `${vol}%` : 'OFF';
     knob.style.transform = `rotate(${-135 + vol * 2.7}deg)`;
     knob.setAttribute('aria-valuenow', String(vol));
     knob.setAttribute('aria-valuetext', vol ? `${vol} percent` : 'Muted');
     volumeValue.textContent = padChannel(vol);
+
+    if (footerSoundToggle && footerSoundLabel) {
+      footerSoundToggle.setAttribute('aria-pressed', String(vol > 0));
+      footerSoundToggle.classList.toggle('is-sfx-on', vol > 0);
+      footerSoundLabel.textContent = vol > 0 ? `${vol}%` : 'OFF';
+    }
 
     volumeBarsContainer.querySelectorAll('i').forEach((bar, idx) => {
       bar.classList.toggle('on', idx < Math.round((vol / 100) * 15));
@@ -198,6 +253,7 @@ export function createTvController({ sound, onSelectChannel }) {
       powered = !powered;
       if (!powered) pauseScreenVideos();
       tuning?.classList.remove('active');
+      channelOsd?.classList.remove('visible');
       clearTimeout(tuneTimer);
       sound.clickSound(true);
       syncShellState();
@@ -208,11 +264,60 @@ export function createTvController({ sound, onSelectChannel }) {
       if (isBlank) pauseScreenVideos();
       blankToggleBtn.setAttribute('aria-pressed', String(isBlank));
       blankToggleBtn.textContent = isBlank ? 'SHOW CHANNEL' : 'BLANK SCREEN';
+      sound.uiTap();
+      updateScrollTelemetry();
+    });
+
+    footerSoundToggle?.addEventListener('click', () => {
+      const current = sound.getVolume();
+      const next = current > 0 ? 0 : lastNonZeroVolume || 45;
+      setVolume(next, { showOsd: true });
+      if (next > 0) sound.successChime();
     });
 
     volumeInput.addEventListener('input', (event) => {
       setVolume(event.target.value, { showOsd: true });
       sound.clickSound(false);
+    });
+
+    if (screenContent) {
+      screenContent.addEventListener('scroll', updateScrollTelemetry, { passive: true });
+      window.addEventListener('resize', updateScrollTelemetry, { passive: true });
+
+      if (typeof MutationObserver !== 'undefined') {
+        const observer = new MutationObserver(() => {
+          requestAnimationFrame(updateScrollTelemetry);
+        });
+        observer.observe(screenContent, { childList: true, subtree: true, attributes: true });
+      }
+    }
+
+    scrollCueBtn?.addEventListener('click', () => {
+      sound.uiTap();
+      screenContent?.scrollBy({
+        top: Math.max(240, Math.round(screenContent.clientHeight * 0.68)),
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth'
+      });
+    });
+
+    // Global subtle tactile UI audio for interactive controls inside #screen-content
+    screenContent?.addEventListener('click', (event) => {
+      const interactive = event.target.closest('button, a[data-route], summary, [data-vision-prompt], [data-dock-action]');
+      if (interactive && !interactive.closest('#character-vision')) {
+        sound.uiTap();
+      }
+    });
+
+    // Global keyboard shortcuts 1-7 when not typing in an input/textarea
+    document.addEventListener('keydown', (event) => {
+      const tag = event.target?.tagName?.toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || event.metaKey || event.ctrlKey || event.altKey) {
+        return;
+      }
+      if (event.key >= '1' && event.key <= '7') {
+        event.preventDefault();
+        onSelectChannel(Number(event.key) - 1);
+      }
     });
 
     bindKeyboardSlider(dial, () => activeChannelIndex, (val) => onSelectChannel(val), 0, CHANNELS.length - 1, 1);
@@ -260,6 +365,8 @@ export function createTvController({ sound, onSelectChannel }) {
     init,
     syncShellState,
     triggerTuningEffect,
+    showChannelOsd,
+    updateScrollTelemetry,
     isPowered: () => powered,
     getActiveChannelIndex: () => activeChannelIndex
   };

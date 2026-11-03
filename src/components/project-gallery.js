@@ -6,13 +6,18 @@ import { renderProjectCard } from './project-card.js';
 export function renderProjectGallery({
   allProjects = [],
   activeFilter = 'All',
+  liveOnly = false,
+  cardFrames = new Map(),
   unknownProjectId = null
 }) {
   const featuredProjects = allProjects.filter((proj) => proj.featured);
   const secondaryProjects = allProjects.filter((proj) => !proj.featured);
 
-  const matchesFilter = (proj) =>
-    activeFilter === 'All' || (proj.categories || []).includes(activeFilter);
+  const matchesFilter = (proj) => {
+    const catMatch = activeFilter === 'All' || (proj.categories || []).includes(activeFilter);
+    const liveMatch = !liveOnly || (proj.links || []).length > 0;
+    return catMatch && liveMatch;
+  };
 
   const visibleFeatured = featuredProjects.filter(matchesFilter);
   const visibleSecondary = secondaryProjects.filter(matchesFilter);
@@ -34,7 +39,7 @@ export function renderProjectGallery({
           filter.id === 'All'
             ? featuredProjects.length
             : featuredProjects.filter((p) => (p.categories || []).includes(filter.id)).length;
-        const isActive = activeFilter === filter.id;
+        const isActive = activeFilter === filter.id && !liveOnly;
         return `
           <button
             type="button"
@@ -46,10 +51,20 @@ export function renderProjectGallery({
           </button>
         `;
       }).join('')}
+      <button
+        type="button"
+        class="filter-chip filter-chip-accent ${liveOnly ? 'is-active' : ''}"
+        data-project-live-only="true"
+        aria-pressed="${liveOnly ? 'true' : 'false'}"
+      >
+        ● WITH PUBLIC LINKS
+      </button>
     </div>
 
     <section class="project-gallery-grid" aria-label="Featured engineering case studies">
-      ${visibleFeatured.map((proj) => renderProjectCard(proj)).join('')}
+      ${visibleFeatured
+        .map((proj) => renderProjectCard(proj, cardFrames.get(proj.id) || 0))
+        .join('')}
     </section>
 
     ${
@@ -58,19 +73,49 @@ export function renderProjectGallery({
       <section class="secondary-projects-section" aria-label="Additional builds and experiments">
         <div class="secondary-section-header">
           <h2 class="secondary-section-title">MORE BUILDS &amp; EXPERIMENTS</h2>
-          <span class="card-badge">ADDITIONAL ARCHIVE</span>
+          <span class="card-badge">ADDITIONAL ARCHIVE (${visibleSecondary.length})</span>
         </div>
         <div class="secondary-projects-list">
           ${visibleSecondary
-            .map((proj) => {
-              const readyThumb = (proj.media || []).find((m) => m.ready && m.type !== 'video');
+            .map((proj, idx) => {
+              const readyImages = (proj.media || []).filter((m) => m.ready && m.type !== 'video');
+              const frameIdx = readyImages.length
+                ? ((cardFrames.get(proj.id) || 0) % readyImages.length + readyImages.length) %
+                  readyImages.length
+                : 0;
+              const readyThumb = readyImages[frameIdx] || null;
+
               return `
-            <article class="retro-card secondary-project-card${readyThumb ? ' has-thumb' : ''}">
+            <article class="retro-card secondary-project-card stagger-item stagger-${(idx % 5) + 1}${readyThumb ? ' has-thumb' : ''}" data-project-card="${escapeHtml(proj.id)}">
               ${
                 readyThumb
-                  ? `<a href="#projects/${escapeHtml(proj.id)}" class="project-card-visual-link" data-route="#projects/${escapeHtml(proj.id)}" aria-label="Open ${escapeHtml(proj.title)} case study">
-                      <img src="${escapeHtml(resolveAsset(readyThumb.src))}" alt="${escapeHtml(readyThumb.alt)}" loading="lazy" class="project-card-thumb">
-                    </a>`
+                  ? `
+                <div class="project-card-media-shell">
+                  <a href="#projects/${escapeHtml(proj.id)}" class="project-card-visual-link" data-route="#projects/${escapeHtml(proj.id)}" aria-label="Open ${escapeHtml(proj.title)} case study">
+                    <img src="${escapeHtml(resolveAsset(readyThumb.src))}" alt="${escapeHtml(readyThumb.alt)}" loading="lazy" class="project-card-thumb">
+                    <span class="project-card-hover-pill" aria-hidden="true">INSPECT →</span>
+                  </a>
+                  ${
+                    readyImages.length > 1
+                      ? `
+                    <div class="card-frame-scrubber" role="group" aria-label="Preview ${escapeHtml(proj.title)} screenshots">
+                      <button type="button" class="card-scrub-arrow" data-card-scrub-proj="${escapeHtml(proj.id)}" data-card-scrub-dir="-1" aria-label="Previous screenshot">◀</button>
+                      <div class="card-scrub-dots">
+                        ${readyImages
+                          .map(
+                            (_, dIdx) => `
+                          <button type="button" class="card-scrub-dot ${dIdx === frameIdx ? 'is-active' : ''}" data-card-frame-proj="${escapeHtml(proj.id)}" data-card-frame-idx="${dIdx}" aria-label="Frame ${dIdx + 1}"></button>
+                        `
+                          )
+                          .join('')}
+                      </div>
+                      <button type="button" class="card-scrub-arrow" data-card-scrub-proj="${escapeHtml(proj.id)}" data-card-scrub-dir="1" aria-label="Next screenshot">▶</button>
+                    </div>
+                  `
+                      : ''
+                  }
+                </div>
+              `
                   : ''
               }
               <div class="${readyThumb ? 'secondary-card-body' : ''}">

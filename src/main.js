@@ -9,10 +9,10 @@ import { createNavigationController } from './core/navigation.js';
 
 import { renderHomeChannel } from './channels/home.js';
 import { renderExperienceChannel, bindExperienceEvents } from './channels/experience.js';
-import { renderEducationChannel } from './channels/education.js';
+import { renderEducationChannel, bindEducationEvents } from './channels/education.js';
 import { renderSkillsChannel, bindSkillsEvents } from './channels/skills.js';
 import { renderProjectsChannel, bindProjectsEvents } from './channels/projects.js';
-import { renderCertificationsChannel } from './channels/certifications.js';
+import { renderCertificationsChannel, bindCertificationsEvents } from './channels/certifications.js';
 import { renderContactChannel, bindContactEvents } from './channels/contact.js';
 
 const CHANNEL_RENDERERS = {
@@ -49,7 +49,8 @@ function bootstrapPortfolio() {
 
   const vision = createVisionController({
     screenContent,
-    isPowered: () => tv.isPowered()
+    isPowered: () => tv.isPowered(),
+    sound
   });
 
   nav = createNavigationController({
@@ -77,9 +78,14 @@ function bootstrapPortfolio() {
   crt.init();
   vision.init();
   bindExperienceEvents(screenContent);
+  bindEducationEvents(screenContent, { sound });
   bindSkillsEvents(screenContent);
-  bindProjectsEvents(screenContent);
-  bindContactEvents(screenContent);
+  bindProjectsEvents(screenContent, {
+    sound,
+    navigateTo: (hash) => nav.navigateToHash(hash)
+  });
+  bindCertificationsEvents(screenContent, { sound });
+  bindContactEvents(screenContent, { sound });
   nav.init();
 
   // Preserve V1 console helper compatibility + expose read-only QA hooks

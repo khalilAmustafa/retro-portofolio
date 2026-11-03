@@ -56,13 +56,26 @@
               <span class="header-loc">AMMAN, JORDAN</span>
               <span id="channel-tag">CH 01</span>
             </header>
+            <div class="screen-progress-track" aria-hidden="true">
+              <div class="screen-progress-bar" id="screen-progress-bar"></div>
+            </div>
             <div class="screen-content" id="screen-content" tabindex="0" aria-label="Channel content"></div>
             <footer class="screen-footer">
-              <span><i class="signal-dot"></i> SIGNAL FOUND</span>
-              <span class="hint">TURN THE DIAL. FIND YOUR CHANNEL.</span>
-              <button type="button" id="crt-preset-toggle" class="crt-preset-btn" title="Toggle CRT rendering preset: Authentic / Performance / Off">CRT: <span id="crt-preset-label">AUTHENTIC</span></button>
-              <button type="button" id="blank-toggle" aria-pressed="false">BLANK SCREEN</button>
+              <span class="footer-signal-status"><i class="signal-dot"></i> SIGNAL FOUND</span>
+              <button type="button" class="footer-scroll-cue" id="scroll-cue-btn" hidden aria-label="Scroll down for more channel content">▼ SCROLL FOR MORE</button>
+              <span class="hint" id="footer-static-hint">TURN DIAL · TAP CARDS · KEYS 1–7</span>
+              <div class="screen-footer-actions">
+                <button type="button" id="footer-sound-toggle" class="crt-preset-btn footer-sfx-btn" aria-pressed="false" title="Toggle interactive retro UI sound effects">SFX: <span id="footer-sound-label">OFF</span></button>
+                <button type="button" id="crt-preset-toggle" class="crt-preset-btn" title="Toggle CRT rendering preset: Authentic / Performance / Off">CRT: <span id="crt-preset-label">AUTHENTIC</span></button>
+                <button type="button" id="blank-toggle" aria-pressed="false">BLANK SCREEN</button>
+              </div>
             </footer>
+          </div>
+          <div class="channel-osd" id="channel-osd" aria-hidden="true">
+            <span class="channel-osd-led"></span>
+            <span class="channel-osd-code" id="channel-osd-code">CH 01</span>
+            <span class="channel-osd-sep">//</span>
+            <span class="channel-osd-name" id="channel-osd-name">HOME</span>
           </div>
           <div class="volume-osd" id="volume-osd" aria-hidden="true">
             <span>SOUND</span>

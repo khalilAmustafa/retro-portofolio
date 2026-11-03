@@ -1,14 +1,14 @@
 .tuning.active {
-  animation: tune 0.23s steps(3) both;
+  animation: tune 0.25s steps(3) both;
 }
 
 @keyframes tune {
   0% {
-    opacity: 0.22;
+    opacity: 0.28;
     transform: translateY(-5%);
   }
   45% {
-    opacity: 0.4;
+    opacity: 0.45;
     transform: translateY(3%);
   }
   100% {
@@ -32,8 +32,8 @@
 
 @keyframes visionReact {
   0% { transform: scale(1) translateY(0); }
-  40% { transform: scale(1.08, 0.94) translateY(-9px); }
-  75% { transform: scale(0.96, 1.04) translateY(-2px); }
+  38% { transform: scale(1.1, 0.92) translateY(-10px); }
+  72% { transform: scale(0.95, 1.05) translateY(-2px); }
   100% { transform: scale(1) translateY(0); }
 }
 
@@ -43,14 +43,65 @@
 }
 
 @keyframes channelFadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.992);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes subviewFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  0% {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
+
+@keyframes cardSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scrollCueBob {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(3px);
+  }
+}
+
+@keyframes planeGlide {
+  0%, 100% {
+    transform: translateX(4px);
+  }
+  50% {
+    transform: translateX(38px);
+  }
+}
+
+.stagger-item {
+  animation: cardSlideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.stagger-1 { animation-delay: 0.03s; }
+.stagger-2 { animation-delay: 0.07s; }
+.stagger-3 { animation-delay: 0.11s; }
+.stagger-4 { animation-delay: 0.15s; }
+.stagger-5 { animation-delay: 0.19s; }
 
 @media (prefers-reduced-motion: reduce) {
   *,

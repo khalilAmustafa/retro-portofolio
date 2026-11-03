@@ -1,6 +1,16 @@
 import { escapeHtml, resolveAsset } from '../core/dom.js';
 import { profile } from '../data/profile.js';
+import { VISION_HOME_PROMPTS } from '../core/vision.js';
 import { renderEvidenceStrip } from '../components/achievement-stat.js';
+
+const QUICK_CHANNELS = [
+  { code: '02', label: 'Experience', route: '#experience' },
+  { code: '03', label: 'Education', route: '#education' },
+  { code: '04', label: 'Skills', route: '#skills' },
+  { code: '05', label: 'Projects', route: '#projects' },
+  { code: '06', label: 'Credentials', route: '#certifications' },
+  { code: '07', label: 'Contact', route: '#contact' }
+];
 
 export function renderHomeChannel() {
   const { name, descriptor, positioning, ctas, highlights, companion } = profile;
@@ -11,6 +21,10 @@ export function renderHomeChannel() {
       <div class="home-grid">
         <div class="home-left">
           <div class="home-heading-group">
+            <div class="hero-signal-pill">
+              <span class="meta-dot" aria-hidden="true"></span>
+              <span>LIVE BROADCAST · 7 INTERACTIVE CHANNELS · 10 BUILDS</span>
+            </div>
             <h1 class="hero-name" aria-label="${escapeHtml(name.full)}">
               <span class="name-row name-khalil">${escapeHtml(name.first)}</span>
               <span class="name-row name-asad">${escapeHtml(name.middle)}</span>
@@ -34,6 +48,19 @@ export function renderHomeChannel() {
               <span class="btn-arrow" aria-hidden="true">→</span>
             </a>
           </div>
+
+          <nav class="home-quick-channels" aria-label="Quick channel jump">
+            <span class="home-quick-label">TUNE DIRECT:</span>
+            <div class="home-quick-pills">
+              ${QUICK_CHANNELS.map(
+                (ch) => `
+                <a href="${escapeHtml(ch.route)}" class="quick-tune-pill" data-route="${escapeHtml(ch.route)}">
+                  <em>${escapeHtml(ch.code)}</em> ${escapeHtml(ch.label)}
+                </a>
+              `
+              ).join('')}
+            </div>
+          </nav>
         </div>
 
         <div class="home-right">
@@ -45,7 +72,7 @@ export function renderHomeChannel() {
               tabindex="0"
               aria-expanded="false"
               aria-label="${escapeHtml(companion.ariaLabel)}"
-              title="Click for a channel note from Vision"
+              title="Click Vision or choose a topic below"
             >
               <div class="speech-bubble" id="speech-bubble" role="status" aria-live="polite" aria-hidden="true">
                 <div class="bubble-text" id="bubble-text"><span>HEY!</span><span>I'M VISION.</span></div>
@@ -75,11 +102,29 @@ export function renderHomeChannel() {
                 <div class="ground-pedestal"></div>
               </div>
             </div>
+
             <div class="companion-meta">
               <span class="meta-dot" aria-hidden="true"></span>
               <span class="meta-title">${escapeHtml(companion.metaTitle)}</span>
-              <span class="meta-hint">${escapeHtml(companion.metaHint)}</span>
+              <span class="meta-hint">TAP TOPIC ↓</span>
             </div>
+
+            <div class="vision-prompt-deck" role="group" aria-label="Ask Vision about Khalil's work">
+              ${VISION_HOME_PROMPTS.map(
+                (p) => `
+                <button
+                  type="button"
+                  class="vision-prompt-pill"
+                  data-vision-prompt="${escapeHtml(p.id)}"
+                  aria-pressed="false"
+                >
+                  ${escapeHtml(p.label)}
+                </button>
+              `
+              ).join('')}
+            </div>
+
+            <div class="vision-action-slot" id="vision-action-slot" aria-live="polite"></div>
           </div>
         </div>
       </div>

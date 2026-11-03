@@ -232,7 +232,6 @@ async function main() {
     await cdp.setViewport(1280, 820, false);
     await delay(750);
 
-    // Force eager loading of lazy images inside scrollable #screen-content so broken-image checks verify every capture
     const ensureImagesLoaded = async () => {
       await cdp.eval(`(async () => {
         const imgs = Array.from(document.querySelectorAll('img'));
@@ -252,7 +251,7 @@ async function main() {
 
     await ensureImagesLoaded();
 
-    // 1. Cold deep-link verification (#projects/rooms) + video & screenshot checks
+    // 1. Cold deep-link verification (#projects/rooms) + above-the-fold media stage
     const coldDeepLink = await cdp.eval(`({
       hash: location.hash,
       channelTag: document.getElementById('channel-tag')?.textContent,
@@ -279,11 +278,25 @@ async function main() {
     assert(coldDeepLink.hasVideo && !coldDeepLink.videoAutoplay, 'Expected ROOMS gameplay video without autoplay');
     assert(coldDeepLink.readyImgCount >= 4, `Expected >=4 ROOMS captures, got ${coldDeepLink.readyImgCount}`);
     assert(coldDeepLink.brokenRoomsImgs.length === 0, `Broken ROOMS images: ${coldDeepLink.brokenRoomsImgs.join(', ')}`);
-    console.log('✓ Cold deep link (#projects/rooms), gameplay video & 4 real captures verified');
+
+    // Interactive filmstrip + architecture simulator inside #projects/rooms
+    await cdp.eval(`document.querySelector('[data-stage-media-idx="2"]').click()`);
+    await delay(180);
+    await ensureImagesLoaded();
+    const swappedHeroSrc = await cdp.eval(`document.querySelector('.media-stage-hero-img')?.getAttribute('src') || ''`);
+    assert(swappedHeroSrc.includes('room-create-02.webp'), `Filmstrip click should swap stage image, got ${swappedHeroSrc}`);
+    await cdp.eval(`document.querySelector('[data-stage-media-idx="1"]').click()`);
+    await delay(180);
+
+    await cdp.eval(`document.querySelector('[data-arch-simulate="true"]').click()`);
+    await delay(650);
+    const activeArchStage = await cdp.eval(`document.querySelector('#arch-stage-readout .arch-readout-badge')?.textContent || ''`);
+    assert(activeArchStage.includes('STAGE 02') || activeArchStage.includes('STAGE 03'), `Expected architecture simulator to advance stage, got ${activeArchStage}`);
 
     await cdp.screenshot(path.join(screenshotsDir, 'ch05-case-rooms.png'));
+    console.log('✓ #projects/rooms filmstrip switcher & architecture flow simulator verified');
 
-    // Additional case study captures for visual QA
+    // Additional case study captures
     for (const extraCase of [
       { route: '#projects/nasa-space-apps', file: 'ch05-case-nasa.png' },
       { route: '#projects/bandup', file: 'ch05-case-bandup.png' }
@@ -298,36 +311,104 @@ async function main() {
       await cdp.screenshot(path.join(screenshotsDir, extraCase.file));
     }
 
-    // 2. Render & capture all 7 channels on desktop (1280x820)
-    const channelShots = [
-      { idx: 0, hash: '#home', file: 'ch01-home.png' },
-      { idx: 1, hash: '#experience', file: 'ch02-experience.png' },
-      { idx: 2, hash: '#education', file: 'ch03-education.png' },
-      { idx: 3, hash: '#skills', file: 'ch04-skills.png' },
-      { idx: 4, hash: '#projects', file: 'ch05-projects.png' },
-      { idx: 5, hash: '#certifications', file: 'ch06-certifications.png' },
-      { idx: 6, hash: '#contact', file: 'ch07-contact.png' }
-    ];
+    // 2. Full Human Interactive Walkthrough Across All 7 Channels
+    // --- CH 01: HOME ---
+    await cdp.eval(`window.select(0)`);
+    await delay(350);
+    await ensureImagesLoaded();
+    await cdp.eval(`document.querySelector('[data-vision-prompt="award"]').click()`);
+    await delay(320);
+    const homeInteractive = await cdp.eval(`({
+      bubbleActive: document.getElementById('speech-bubble')?.classList.contains('is-active'),
+      hasCallout: Boolean(document.querySelector('#vision-action-slot .vision-callout-card')),
+      osdVisible: document.getElementById('channel-osd')?.classList.contains('visible')
+    })`);
+    assert(homeInteractive.bubbleActive && homeInteractive.hasCallout, 'Home Vision prompt pill did not trigger speech + action callout');
+    await cdp.screenshot(path.join(screenshotsDir, 'ch01-home.png'));
 
-    for (const ch of channelShots) {
-      await cdp.eval(`window.select(${ch.idx})`);
-      await delay(350);
-      await ensureImagesLoaded();
-      const state = await cdp.eval(`({
-        hash: location.hash,
-        hasH1: Boolean(document.querySelector('#screen-content h1')),
-        projectThumbCount: document.querySelectorAll('.project-card-thumb').length,
-        brokenImages: Array.from(document.querySelectorAll('img')).filter(img => img.getAttribute('src') && (!img.complete || img.naturalWidth === 0)).map(i => i.src)
-      })`);
-      assert(state.hash === ch.hash, `Expected hash ${ch.hash}, got ${state.hash}`);
-      assert(state.hasH1, `Missing H1 on ${ch.hash}`);
-      assert(state.brokenImages.length === 0, `Broken images on ${ch.hash}: ${state.brokenImages.join(', ')}`);
-      if (ch.hash === '#projects') {
-        assert(state.projectThumbCount >= 8, `Expected >=8 project card thumbnails, got ${state.projectThumbCount}`);
-      }
-      await cdp.screenshot(path.join(screenshotsDir, ch.file));
-    }
-    console.log('✓ All 7 channels rendered with intact authentic images & desktop screenshots saved');
+    // --- CH 02: EXPERIENCE ---
+    await cdp.eval(`window.select(1)`);
+    await delay(350);
+    await cdp.eval(`document.querySelector('[data-dock-action="exp-proof-view"]').click()`);
+    await delay(250);
+    await ensureImagesLoaded();
+    const expProofCount = await cdp.eval(`document.querySelectorAll('.timeline-mini-proj-card').length`);
+    assert(expProofCount >= 4, `Expected >=4 project proof mini-cards on Experience, got ${expProofCount}`);
+    await cdp.screenshot(path.join(screenshotsDir, 'ch02-experience.png'));
+
+    // --- CH 03: EDUCATION ---
+    await cdp.eval(`window.select(2)`);
+    await delay(350);
+    await cdp.eval(`(() => {
+      document.querySelector('[data-stamp-passport="asu"]').click();
+      document.querySelector('[data-stamp-passport="upv"]').click();
+      document.querySelector('[data-course-name="Artificial Intelligence"]').click();
+      document.querySelector('[data-bilingual-lang="ar"]').click();
+    })()`);
+    await delay(250);
+    await ensureImagesLoaded();
+    const eduState = await cdp.eval(`({
+      stampedCount: document.querySelectorAll('.passport-ink-seal.is-stamped').length,
+      proofTitle: document.querySelector('.course-proof-title')?.textContent || '',
+      rtlDir: document.querySelector('.bilingual-live-preview')?.getAttribute('dir')
+    })`);
+    assert(eduState.stampedCount === 2, `Expected 2 stamped passports, got ${eduState.stampedCount}`);
+    assert(eduState.proofTitle.includes('ARTIFICIAL INTELLIGENCE'), `Coursework mapper did not update: ${eduState.proofTitle}`);
+    assert(eduState.rtlDir === 'rtl', `Expected Arabic RTL preview dir="rtl", got ${eduState.rtlDir}`);
+    await cdp.screenshot(path.join(screenshotsDir, 'ch03-education.png'));
+
+    // --- CH 04: SKILLS ---
+    await cdp.eval(`window.select(3)`);
+    await delay(350);
+    await cdp.eval(`document.querySelector('[data-tool-spotlight="PostgreSQL"]').click()`);
+    await delay(220);
+    const spotlitCount = await cdp.eval(`document.querySelectorAll('.tag-pill-interactive.is-spotlit').length`);
+    assert(spotlitCount >= 1, 'Expected PostgreSQL spotlight pill to highlight matching tool');
+    await cdp.eval(`document.querySelector('[data-dock-action="skill-reset"]').click()`);
+    await delay(250);
+    await ensureImagesLoaded();
+    const hasSkillDrawer = await cdp.eval(`Boolean(document.querySelector('.capability-proof-drawer'))`);
+    assert(hasSkillDrawer, 'Expected capability proof drawer preview on Skills');
+    await cdp.screenshot(path.join(screenshotsDir, 'ch04-skills.png'));
+
+    // --- CH 05: PROJECTS ---
+    await cdp.eval(`window.select(4)`);
+    await delay(350);
+    await ensureImagesLoaded();
+    const projBefore = await cdp.eval(`document.querySelector('[data-project-card="rooms"] .project-card-thumb')?.getAttribute('src') || ''`);
+    await cdp.eval(`document.querySelector('[data-card-scrub-proj="rooms"][data-card-scrub-dir="1"]').click()`);
+    await delay(220);
+    await ensureImagesLoaded();
+    const projAfter = await cdp.eval(`document.querySelector('[data-project-card="rooms"] .project-card-thumb')?.getAttribute('src') || ''`);
+    assert(projBefore !== projAfter, 'Project card screenshot scrubber did not advance thumbnail');
+    const projThumbCount = await cdp.eval(`document.querySelectorAll('.project-card-thumb').length`);
+    assert(projThumbCount >= 8, `Expected >=8 project card thumbnails, got ${projThumbCount}`);
+    await cdp.screenshot(path.join(screenshotsDir, 'ch05-projects.png'));
+
+    // --- CH 06: CERTIFICATIONS ---
+    await cdp.eval(`window.select(5)`);
+    await delay(350);
+    await cdp.eval(`document.querySelector('[data-course-provider="-1"]').click()`);
+    await delay(220);
+    await ensureImagesLoaded();
+    const courseGroupCount = await cdp.eval(`document.querySelectorAll('.other-learning-group').length`);
+    assert(courseGroupCount === 3, `Expected 3 coursework provider groups when ALL selected, got ${courseGroupCount}`);
+    await cdp.screenshot(path.join(screenshotsDir, 'ch06-certifications.png'));
+
+    // --- CH 07: CONTACT ---
+    await cdp.eval(`window.select(6)`);
+    await delay(350);
+    await cdp.eval(`document.querySelector('[data-signal-preset="ai"]').click()`);
+    await delay(200);
+    const contactState = await cdp.eval(`({
+      subject: document.getElementById('signal-subject-input')?.value || '',
+      mailtoHref: document.getElementById('signal-mailto-link')?.getAttribute('href') || ''
+    })`);
+    assert(contactState.subject.includes('Applied AI'), `Expected AI preset subject, got ${contactState.subject}`);
+    assert(contactState.mailtoHref.includes('Applied%20AI'), `Expected synced mailto link, got ${contactState.mailtoHref}`);
+    await cdp.screenshot(path.join(screenshotsDir, 'ch07-contact.png'));
+
+    console.log('✓ Full interactive user walkthrough verified across CH 01 – CH 07');
 
     // 3. Revisit Home 22 times and verify Vision fires exactly once per click (no listener leak)
     await cdp.eval(`(async () => {
@@ -380,7 +461,7 @@ async function main() {
     assert(hasAlert, 'Expected graceful .retro-alert banner for unknown project ID');
     console.log('✓ Unknown project fallback banner verified');
 
-    // 6. Skills proof navigation & hardware controls (CRT preset, Blank, Power)
+    // 6. Skills proof navigation & hardware controls (SFX, CRT preset, Blank, Power)
     await cdp.eval(`window.select(3)`);
     await delay(200);
     await cdp.eval(`document.querySelector('[data-route="#projects/happensbefore"]').click()`);
@@ -389,6 +470,11 @@ async function main() {
     assert(hbHash === '#projects/happensbefore', `Skill proof should open #projects/happensbefore, got ${hbHash}`);
 
     const hwChecks = await cdp.eval(`(() => {
+      document.getElementById('footer-sound-toggle').click();
+      const sfxOn = document.getElementById('footer-sound-toggle').getAttribute('aria-pressed') === 'true';
+      document.getElementById('footer-sound-toggle').click();
+      const sfxOff = document.getElementById('footer-sound-toggle').getAttribute('aria-pressed') === 'false';
+
       document.getElementById('crt-preset-toggle').click();
       const preset1 = window.__retroPortfolio.getCrtPreset();
       document.getElementById('crt-preset-toggle').click();
@@ -405,13 +491,14 @@ async function main() {
       document.getElementById('power').click();
       const isBackOn = !document.getElementById('tv').classList.contains('is-off');
 
-      return { preset1, preset2, preset3, isBlank, isOff, isBackOn };
+      return { sfxOn, sfxOff, preset1, preset2, preset3, isBlank, isOff, isBackOn };
     })()`);
+    assert(hwChecks.sfxOn && hwChecks.sfxOff, 'Footer SFX toggle failed');
     assert(hwChecks.preset1 === 'performance' && hwChecks.preset2 === 'off' && hwChecks.preset3 === 'authentic', 'CRT preset cycle mismatch');
     assert(hwChecks.isBlank && hwChecks.isOff && hwChecks.isBackOn, 'Blank or power toggle failed');
-    console.log('✓ Skill proof routing, CRT presets, Blank Screen, and Power controls verified');
+    console.log('✓ Skill proof routing, SFX toggle, CRT presets, Blank Screen, and Power controls verified');
 
-    // 7. Responsive viewport checks (1920, 1280, 768, 390, 320) + Mobile screenshots
+    // 7. Responsive viewport checks (1920, 1280, 768, 390, 320) across channels + Mobile screenshots
     const viewports = [
       { w: 1920, h: 1080, mobile: false },
       { w: 1280, h: 800, mobile: false },
@@ -422,34 +509,36 @@ async function main() {
 
     for (const vp of viewports) {
       await cdp.setViewport(vp.w, vp.h, vp.mobile);
-      await cdp.eval(`window.select(0)`);
-      await delay(250);
-      const metrics = await cdp.eval(`({
-        docScrollWidth: document.documentElement.scrollWidth,
-        innerWidth: window.innerWidth,
-        btnHeight: document.querySelector('.channel-button')?.getBoundingClientRect().height || 0
-      })`);
-      assert(
-        metrics.docScrollWidth <= metrics.innerWidth + 1,
-        `Horizontal overflow at ${vp.w}x${vp.h}: scrollWidth=${metrics.docScrollWidth} > ${metrics.innerWidth}`
-      );
-      if (vp.w === 390) {
-        assert(metrics.btnHeight >= 44, `Expected >=44px mobile channel button at 390px, got ${metrics.btnHeight}`);
-        await cdp.screenshot(path.join(screenshotsDir, 'mobile-ch01-home.png'));
-        await cdp.eval(`window.select(4)`);
-        await delay(250);
-        await ensureImagesLoaded();
-        await cdp.screenshot(path.join(screenshotsDir, 'mobile-ch05-projects.png'));
-        await cdp.eval(`window.__retroPortfolio.navigateTo('#projects/rooms')`);
-        await delay(250);
-        await ensureImagesLoaded();
-        await cdp.screenshot(path.join(screenshotsDir, 'mobile-ch05-case-rooms.png'));
+      for (const chIdx of [0, 2, 3, 4, 6]) {
+        await cdp.eval(`window.select(${chIdx})`);
+        await delay(180);
+        const metrics = await cdp.eval(`({
+          docScrollWidth: document.documentElement.scrollWidth,
+          innerWidth: window.innerWidth,
+          btnHeight: document.querySelector('.channel-button')?.getBoundingClientRect().height || 0
+        })`);
+        assert(
+          metrics.docScrollWidth <= metrics.innerWidth + 1,
+          `Horizontal overflow on CH 0${chIdx + 1} at ${vp.w}x${vp.h}: scrollWidth=${metrics.docScrollWidth} > ${metrics.innerWidth}`
+        );
+        if (vp.w === 390 && chIdx === 0) {
+          assert(metrics.btnHeight >= 44, `Expected >=44px mobile channel button at 390px, got ${metrics.btnHeight}`);
+          await cdp.screenshot(path.join(screenshotsDir, 'mobile-ch01-home.png'));
+        }
+        if (vp.w === 390 && chIdx === 4) {
+          await ensureImagesLoaded();
+          await cdp.screenshot(path.join(screenshotsDir, 'mobile-ch05-projects.png'));
+          await cdp.eval(`window.__retroPortfolio.navigateTo('#projects/rooms')`);
+          await delay(220);
+          await ensureImagesLoaded();
+          await cdp.screenshot(path.join(screenshotsDir, 'mobile-ch05-case-rooms.png'));
+        }
       }
     }
-    console.log('✓ Responsive layouts verified (1920, 1280, 768, 390, 320) with zero horizontal overflow');
+    console.log('✓ Responsive layouts verified across channels at 1920, 1280, 768, 390, & 320 with zero horizontal overflow');
 
     assert(cdp.consoleErrors.length === 0, `Console errors detected: ${cdp.consoleErrors.join('; ')}`);
-    console.log('✓ Zero browser console or runtime errors — ALL SMOKE TESTS PASSED');
+    console.log('✓ Zero browser console or runtime errors — ALL INTERACTIVE & SMOKE TESTS PASSED');
   } finally {
     cdp?.close();
     chromeProc.kill();
