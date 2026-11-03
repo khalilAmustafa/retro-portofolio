@@ -50,7 +50,7 @@ export function renderTimeline(milestones = [], expandedIds = new Set(), activeT
           const showProof = activeTab === 'proof' || activeTab === 'all';
 
           return `
-          <section
+          <div
             class="timeline-item stagger-item stagger-${(idx % 5) + 1} ${isExpanded ? 'is-expanded' : ''}"
             role="listitem"
             id="milestone-card-${escapeHtml(entry.id)}"
@@ -182,7 +182,7 @@ export function renderTimeline(milestones = [], expandedIds = new Set(), activeT
                 </div>
               </div>
             </div>
-          </section>
+          </div>
         `;
         })
         .join('')}

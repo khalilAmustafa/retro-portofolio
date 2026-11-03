@@ -6,6 +6,7 @@ import { createCrtController } from './core/crt.js';
 import { createVisionController } from './core/vision.js';
 import { createTvController } from './core/tv-controller.js';
 import { createNavigationController } from './core/navigation.js';
+import { createCommandTunerController } from './components/command-tuner.js';
 
 import { renderHomeChannel } from './channels/home.js';
 import { renderExperienceChannel, bindExperienceEvents } from './channels/experience.js';
@@ -73,10 +74,17 @@ function bootstrapPortfolio() {
     }
   });
 
+  const commandTuner = createCommandTunerController({
+    navigateTo: (hash) => nav.navigateToHash(hash),
+    sound,
+    isPowered: () => tv.isPowered()
+  });
+
   // Bind delegated interaction listeners once at boot (zero per-render listener leaks)
   tv.init();
   crt.init();
   vision.init();
+  commandTuner.init();
   bindExperienceEvents(screenContent);
   bindEducationEvents(screenContent, { sound });
   bindSkillsEvents(screenContent);

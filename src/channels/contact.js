@@ -3,6 +3,7 @@ import { contactsData } from '../data/contacts.js';
 import { renderChannelHeader } from '../components/channel-header.js';
 import { renderTagCloud } from '../components/retro-card.js';
 import { renderVisionDock, pulseVisionDock } from '../components/vision-dock.js';
+import { renderIcon } from '../components/icons.js';
 
 let copyResetTimer = null;
 let signalCopyTimer = null;
@@ -11,25 +12,29 @@ let activePresetId = 'internship';
 const SIGNAL_PRESETS = [
   {
     id: 'internship',
-    label: '💼 SWE / Cloud Internship',
+    icon: 'briefcase',
+    label: 'SWE / Cloud Internship',
     subject: 'Software Engineering / Cloud Internship Inquiry — Khalil Mustafa',
     body: "Hi Khalil,\n\nI explored your interactive CRT portfolio (especially Space Day, NASA Space Apps, and AWS CCP) and would love to connect regarding an upcoming Software / Backend / Cloud engineering opportunity.\n\nBest regards,"
   },
   {
     id: 'contract',
-    label: '⚡ Web / Event Platform Build',
+    icon: 'bolt',
+    label: 'Web / Event Platform Build',
     subject: 'Project Inquiry — Web / Event Operations Platform',
     body: "Hi Khalil,\n\nWe need a reliable web workflow / event platform similar to your NASA Space Apps and Space Day systems. Let's schedule a quick call to discuss scope and timeline.\n\nBest regards,"
   },
   {
     id: 'ai',
-    label: '🤖 Applied AI Collaboration',
+    icon: 'cpu',
+    label: 'Applied AI Collaboration',
     subject: 'Applied AI & Learning Workflow Collaboration',
     body: "Hi Khalil,\n\nSaw ROOMS by VISION and BandUp on your portfolio. Would love to chat about collaborating on an applied-AI product or prototype.\n\nBest regards,"
   },
   {
     id: 'hello',
-    label: '👋 General Hello',
+    icon: 'message',
+    label: 'General Hello',
     subject: 'Hello from your Retro CRT Portfolio!',
     body: "Hi Khalil,\n\nJust tuned through your 7-channel CRT portfolio and wanted to reach out and connect!\n\nBest,"
   }
@@ -70,11 +75,11 @@ export function renderContactChannel() {
       })}
 
       ${renderVisionDock({
-        message: 'Pick an opportunity topic below to pre-fill a message, or copy Khalil’s email in one click!',
+        message: 'Pre-fill an inquiry template or copy email in 1 click',
         actions: [
-          { id: 'contact-preset-intern', label: '💼 Internship Draft' },
-          { id: 'contact-preset-build', label: '⚡ Contract Build Draft' },
-          { id: 'contact-quick-copy', label: '⧉ Copy Email Fast' }
+          { id: 'contact-preset-intern', icon: 'briefcase', label: 'Internship Draft' },
+          { id: 'contact-preset-build', icon: 'bolt', label: 'Contract Build' },
+          { id: 'contact-quick-copy', icon: 'copy', label: 'Copy Email Fast' }
         ]
       })}
 
@@ -105,7 +110,7 @@ export function renderContactChannel() {
               data-signal-preset="${escapeHtml(preset.id)}"
               aria-pressed="${preset.id === currentPreset.id ? 'true' : 'false'}"
             >
-              ${escapeHtml(preset.label)}
+              ${renderIcon(preset.icon)}<span>${escapeHtml(preset.label)}</span>
             </button>
           `
           ).join('')}
@@ -134,7 +139,7 @@ export function renderContactChannel() {
             id="signal-mailto-link"
             class="btn-card-link primary"
           >
-            ✉ LAUNCH IN MAIL APP ↗
+            ${renderIcon('mail')}<span>LAUNCH IN MAIL APP ↗</span>
           </a>
           <button
             type="button"
@@ -142,7 +147,7 @@ export function renderContactChannel() {
             id="signal-copy-draft-btn"
             data-copy-signal="true"
           >
-            📋 COPY MESSAGE + EMAIL
+            ${renderIcon('copy')}<span>COPY MESSAGE + EMAIL</span>
           </button>
         </div>
       </section>
@@ -153,7 +158,7 @@ export function renderContactChannel() {
           <span class="contact-tile-val" id="contact-email-value">${escapeHtml(email.address)}</span>
           <div class="contact-email-actions">
             <a href="${escapeHtml(email.mailto)}" class="btn-card-link primary btn-compact">
-              ✉ Open Mail ↗
+              ${renderIcon('mail')}<span>Open Mail ↗</span>
             </a>
             <button
               type="button"
@@ -161,7 +166,7 @@ export function renderContactChannel() {
               data-copy-email="${escapeHtml(email.address)}"
               aria-live="polite"
             >
-              ⧉ Copy Email
+              ${renderIcon('copy')}<span>Copy Email</span>
             </button>
           </div>
         </div>
@@ -289,12 +294,12 @@ export function bindContactEvents(screenContent, { sound } = {}) {
       try {
         await copyTextToClipboard(payload);
         sound?.successChime?.();
-        copyDraftBtn.textContent = '✓ TRANSMISSION COPIED!';
+        copyDraftBtn.innerHTML = `${renderIcon('check')}<span>TRANSMISSION COPIED!</span>`;
         copyDraftBtn.classList.add('is-copied');
         clearTimeout(signalCopyTimer);
         signalCopyTimer = setTimeout(() => {
           if (copyDraftBtn.isConnected) {
-            copyDraftBtn.textContent = '📋 COPY MESSAGE + EMAIL';
+            copyDraftBtn.innerHTML = `${renderIcon('copy')}<span>COPY MESSAGE + EMAIL</span>`;
             copyDraftBtn.classList.remove('is-copied');
           }
         }, 2500);
@@ -313,7 +318,7 @@ export function bindContactEvents(screenContent, { sound } = {}) {
     try {
       await copyTextToClipboard(address);
       sound?.successChime?.();
-      copyBtn.textContent = '✓ COPIED EMAIL';
+      copyBtn.innerHTML = `${renderIcon('check')}<span>COPIED EMAIL</span>`;
       copyBtn.classList.add('is-copied');
       const statusRegion = document.getElementById('status');
       if (statusRegion) {
@@ -326,7 +331,7 @@ export function bindContactEvents(screenContent, { sound } = {}) {
     clearTimeout(copyResetTimer);
     copyResetTimer = setTimeout(() => {
       if (copyBtn.isConnected) {
-        copyBtn.textContent = '⧉ Copy Email';
+        copyBtn.innerHTML = `${renderIcon('copy')}<span>Copy Email</span>`;
         copyBtn.classList.remove('is-copied');
       }
     }, 2400);

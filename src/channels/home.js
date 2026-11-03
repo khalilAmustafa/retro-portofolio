@@ -2,6 +2,7 @@ import { escapeHtml, resolveAsset } from '../core/dom.js';
 import { profile } from '../data/profile.js';
 import { VISION_HOME_PROMPTS } from '../core/vision.js';
 import { renderEvidenceStrip } from '../components/achievement-stat.js';
+import { renderIcon } from '../components/icons.js';
 
 const QUICK_CHANNELS = [
   { code: '02', label: 'Experience', route: '#experience' },
@@ -38,12 +39,12 @@ export function renderHomeChannel() {
 
           <div class="hero-actions">
             <a href="${escapeHtml(ctas.primary.route)}" class="btn-retro primary" id="btn-explore" data-route="${escapeHtml(ctas.primary.route)}">
-              <span class="btn-icon play-icon" aria-hidden="true">▶</span>
+              <span class="btn-icon play-icon" aria-hidden="true">${renderIcon('play')}</span>
               <span class="btn-label">${escapeHtml(ctas.primary.label)}</span>
               <span class="btn-arrow" aria-hidden="true">→</span>
             </a>
             <a href="${escapeHtml(ctas.secondary.route)}" class="btn-retro secondary" id="btn-contact" data-route="${escapeHtml(ctas.secondary.route)}">
-              <span class="btn-icon env-icon" aria-hidden="true">✉</span>
+              <span class="btn-icon env-icon" aria-hidden="true">${renderIcon('mail')}</span>
               <span class="btn-label">${escapeHtml(ctas.secondary.label)}</span>
               <span class="btn-arrow" aria-hidden="true">→</span>
             </a>
@@ -118,7 +119,7 @@ export function renderHomeChannel() {
                   data-vision-prompt="${escapeHtml(p.id)}"
                   aria-pressed="false"
                 >
-                  ${escapeHtml(p.label)}
+                  ${renderIcon(p.icon)}<span>${escapeHtml(p.label)}</span>
                 </button>
               `
               ).join('')}

@@ -251,7 +251,11 @@ export function createTvController({ sound, onSelectChannel }) {
 
     powerBtn.addEventListener('click', () => {
       powered = !powered;
-      if (!powered) pauseScreenVideos();
+      if (!powered) {
+        pauseScreenVideos();
+        const cmdModal = document.getElementById('cmd-tuner-modal');
+        if (cmdModal) cmdModal.hidden = true;
+      }
       tuning?.classList.remove('active');
       channelOsd?.classList.remove('visible');
       clearTimeout(tuneTimer);
@@ -261,7 +265,11 @@ export function createTvController({ sound, onSelectChannel }) {
 
     blankToggleBtn.addEventListener('click', () => {
       const isBlank = tv.classList.toggle('is-blank');
-      if (isBlank) pauseScreenVideos();
+      if (isBlank) {
+        pauseScreenVideos();
+        const cmdModal = document.getElementById('cmd-tuner-modal');
+        if (cmdModal) cmdModal.hidden = true;
+      }
       blankToggleBtn.setAttribute('aria-pressed', String(isBlank));
       blankToggleBtn.textContent = isBlank ? 'SHOW CHANNEL' : 'BLANK SCREEN';
       sound.uiTap();
@@ -308,8 +316,10 @@ export function createTvController({ sound, onSelectChannel }) {
       }
     });
 
-    // Global keyboard shortcuts 1-7 when not typing in an input/textarea
+    // Global keyboard shortcuts 1-7 when not typing in an input/textarea or modal
     document.addEventListener('keydown', (event) => {
+      const cmdModal = document.getElementById('cmd-tuner-modal');
+      if (cmdModal && !cmdModal.hidden) return;
       const tag = event.target?.tagName?.toLowerCase();
       if (tag === 'input' || tag === 'textarea' || event.metaKey || event.ctrlKey || event.altKey) {
         return;

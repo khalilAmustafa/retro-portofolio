@@ -491,17 +491,25 @@
   }
 
   .vision-dock {
+    flex-wrap: wrap;
     padding: 6px 9px;
-    gap: 8px;
-    margin-bottom: 10px;
+    gap: 6px 8px;
+    margin-bottom: 8px;
+  }
+
+  .vision-dock-actions {
+    flex-wrap: wrap;
+    flex-shrink: 1;
   }
 
   .vision-dock-viewport {
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
   }
 
   .vision-dock-msg {
+    flex-basis: 100%;
+    text-align: left;
     font-size: 10.5px;
     line-height: 1.25;
   }
@@ -541,16 +549,20 @@
     display: none;
   }
 
-  .vision-dock-msg {
+  .vision-dock-msg,
+  .vision-dock-tag {
     display: none;
   }
 
   .vision-dock {
-    padding: 5px 7px;
-    margin-bottom: 8px;
+    flex-wrap: nowrap;
+    padding: 4px 7px;
+    margin-bottom: 7px;
   }
 
   .vision-dock-actions {
+    flex: 1;
+    min-width: 0;
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
@@ -566,19 +578,25 @@
     white-space: nowrap;
   }
 
-  .filter-bar {
+  .filter-bar,
+  .skill-filter-bar,
+  .project-filter-bar {
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
     padding-bottom: 2px;
   }
 
-  .filter-bar::-webkit-scrollbar {
+  .filter-bar::-webkit-scrollbar,
+  .skill-filter-bar::-webkit-scrollbar,
+  .project-filter-bar::-webkit-scrollbar {
     display: none;
   }
 
-  .filter-bar .filter-chip {
+  .filter-bar .filter-chip,
+  .skill-filter-bar .filter-chip,
+  .project-filter-bar .filter-chip {
     flex-shrink: 0;
     white-space: nowrap;
   }
@@ -600,7 +618,59 @@
     width: 100%;
   }
 
+  .vision-prompt-pill {
+    font-size: 7.4px;
+    padding: 3px 3px;
+    gap: 2px;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .vision-prompt-pill .ui-icon {
+    display: none;
+  }
+
   .media-filmstrip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* --- Command Tuner & Search Trigger Mobile Polish --- */
+@media (max-width: 760px) {
+  .screen-header-right {
+    gap: 6px;
+  }
+
+  .header-search-btn {
+    padding: 2px 5px;
+    font-size: 8px;
+    gap: 3px;
+  }
+
+  .header-search-kbd {
+    display: none;
+  }
+
+  .cmd-tuner-modal {
+    padding: 8px;
+  }
+
+  .cmd-tuner-dialog {
+    max-height: 82vh;
+  }
+
+  .cmd-tuner-input {
+    font-size: 12px;
+  }
+
+  .cmd-tuner-footer span:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 395px) {
+  .header-search-btn span {
+    display: none;
   }
 }

@@ -17,8 +17,8 @@ const EXP_FILTERS = [
 ];
 
 const EXP_TIPS = [
-  'Tap any milestone card or numbered pill to inspect engineering decisions & screenshots.',
-  'Switch between 01 Role, 02 Architecture, and 03 Verified Proof inside any open milestone!',
+  'Tap any milestone or numbered pill to inspect architecture & screenshots.',
+  'Switch between 01 Role, 02 Architecture, and 03 Verified Proof inside any milestone.',
   'Every shipped milestone links straight to live deployments and case studies.'
 ];
 let expTipIdx = 0;
@@ -73,11 +73,11 @@ export function renderExperienceChannel() {
       })}
 
       ${renderVisionDock({
-        message: EXP_TIPS[0],
+        message: '5 verified milestones · tap avatar for tips',
         actions: [
-          { id: 'exp-shipped', label: '⚡ Shipped Only' },
-          { id: 'exp-proof-view', label: '🖼 Show Proof Thumbnails' },
-          { id: 'exp-expand-all', label: '⊞ Open All Dossiers' }
+          { id: 'exp-shipped', icon: 'bolt', label: 'Shipped Only' },
+          { id: 'exp-proof-view', icon: 'layers', label: 'Proof Thumbnails' },
+          { id: 'exp-expand-all', icon: 'spark', label: 'Open All Dossiers' }
         ]
       })}
 

@@ -5,7 +5,8 @@ import { prefersReducedMotion } from './preferences.js';
 export const VISION_HOME_PROMPTS = [
   {
     id: 'tour',
-    label: '★ Quick Tour',
+    icon: 'spark',
+    label: 'Quick Tour',
     bubble: "START AT CH 05!\nREAL VIDEOS & LIVE SITES.",
     detail: 'CH 05 has live playable demos, ROOMS gameplay video, and architecture simulators.',
     actionLabel: 'Open CH 05 Projects →',
@@ -13,7 +14,8 @@ export const VISION_HOME_PROMPTS = [
   },
   {
     id: 'award',
-    label: '🏆 Hackathon Win',
+    icon: 'trophy',
+    label: 'Hackathon Win',
     bubble: "3RD PLACE REPLIT AI!\nWATCH ROOMS IN ACTION →",
     detail: 'ROOMS by VISION placed 3rd in the Replit AI Hackathon with multiplayer study arenas.',
     actionLabel: 'Watch ROOMS Demo →',
@@ -21,7 +23,8 @@ export const VISION_HOME_PROMPTS = [
   },
   {
     id: 'systems',
-    label: '⚡ Live Systems',
+    icon: 'bolt',
+    label: 'Live Systems',
     bubble: "380+ PARTICIPANTS!\nNASA SPACE APPS + BANDUP.",
     detail: 'Delivered NASA Space Apps Jordan, Space Day Digital Passport, and BandUp IELTS.',
     actionLabel: 'Inspect NASA Case Study →',
@@ -29,7 +32,8 @@ export const VISION_HOME_PROMPTS = [
   },
   {
     id: 'hire',
-    label: '📬 Open to Roles',
+    icon: 'mail',
+    label: 'Open to Roles',
     bubble: "BACKEND · CLOUD · AI!\nAMMAN (UTC+3) & REMOTE.",
     detail: 'Available for software engineering internships, junior backend/cloud roles, and contract builds.',
     actionLabel: 'Compose Signal (CH 07) →',

@@ -67,7 +67,7 @@ export const projects = [
       {
         src: 'assets/projects/rooms/gameplay-lobby-01.webp',
         alt: 'ROOMS by VISION Battle Arena live multiplayer match',
-        caption: 'Battle Arena live match — fast correct answers unlock combat loadouts',
+        caption: 'Battle Arena live match — fast correct answers earn combat loadouts',
         ready: true
       },
       {
@@ -697,7 +697,7 @@ export const projects = [
       nodes: [
         { stage: 'Track Assessment', detail: 'Evaluates student goals & background' },
         { stage: 'Prerequisite Roadmap', detail: 'Ordered subject & skill milestones' },
-        { stage: 'AI Quiz Checkpoints', detail: 'Validates mastery before unlock' },
+        { stage: 'AI Quiz Checkpoints', detail: 'Validates mastery before advancing' },
         { stage: 'Resource Vault', detail: 'Curated study links & role readiness' }
       ],
       summary:

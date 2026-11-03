@@ -38,12 +38,12 @@ export function renderSkillsChannel() {
       })}
 
       ${renderVisionDock({
-        message: SKILL_TIPS[0],
+        message: 'Zero self-rated % · every skill links to live proof',
         actions: [
-          { id: 'skill-live', label: '⚡ Live & Certified Only' },
-          { id: 'skill-backend', label: '🗄 Spotlight PostgreSQL' },
-          { id: 'skill-ai', label: '🤖 Spotlight Applied AI' },
-          { id: 'skill-reset', label: '↺ Reset Matrix' }
+          { id: 'skill-live', icon: 'bolt', label: 'Live & Certified' },
+          { id: 'skill-backend', icon: 'database', label: 'PostgreSQL Proof' },
+          { id: 'skill-ai', icon: 'cpu', label: 'Applied AI' },
+          { id: 'skill-reset', icon: 'reset', label: 'Reset Matrix' }
         ]
       })}
 

@@ -298,7 +298,7 @@
   height: 13px;
   background: radial-gradient(ellipse at center, rgba(20, 26, 21, 0.45) 0%, rgba(100, 120, 74, 0.18) 55%, transparent 75%);
   border-radius: 50%;
-  transition: all 0.22s ease;
+  transition: transform 0.22s ease, opacity 0.22s ease;
 }
 
 .character-interactive:hover .ground-shadow,
@@ -314,7 +314,7 @@
   border: 1.5px dashed rgba(100, 120, 74, 0.6);
   background: radial-gradient(ellipse at center, rgba(163, 177, 138, 0.25) 0%, rgba(100, 120, 74, 0.08) 55%, transparent 75%);
   border-radius: 50%;
-  transition: all 0.22s ease;
+  transition: transform 0.22s ease, opacity 0.22s ease;
 }
 
 .companion-meta {
@@ -360,7 +360,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: clamp(12px, 1.6vw, 22px) clamp(8px, 1.3vw, 18px) 26px;
+  padding: clamp(7px, 1vw, 12px) clamp(8px, 1.3vw, 18px) 22px;
   animation: channelFadeIn 0.22s ease-out;
 }
 
@@ -369,41 +369,42 @@
 }
 
 .channel-header-block {
-  margin-bottom: 16px;
+  margin-bottom: 9px;
   border-bottom: 2px solid var(--forest);
-  padding-bottom: 10px;
+  padding-bottom: 6px;
 }
 
 .channel-eyebrow {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: clamp(9px, 0.88vw, 11px);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(9px, 0.86vw, 10.5px);
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   color: #243b29;
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .channel-main-title {
   font-family: var(--font-display);
-  font-size: clamp(24px, 3.4vw, 38px);
+  font-size: clamp(21px, 2.7vw, 31px);
   font-weight: 900;
   line-height: 1.02;
   letter-spacing: -0.015em;
   color: var(--dark-ink);
-  margin: 0 0 6px 0;
+  margin: 0 0 3px 0;
   text-transform: uppercase;
 }
 
 .channel-main-subtitle {
   font-family: var(--font-body);
-  font-size: clamp(12px, 1.05vw, 13.8px);
+  font-size: clamp(11.5px, 0.98vw, 13px);
   color: #354938;
-  line-height: 1.45;
+  line-height: 1.38;
   margin: 0;
   font-weight: 500;
-  max-width: 72ch;
+  max-width: 74ch;
 }
 
 .channel-footer-nav {
@@ -423,8 +424,8 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 6px;
+  margin-bottom: 8px;
 }
 
 .timeline-toolbar-hint {
@@ -509,6 +510,7 @@
 
 .timeline-period {
   font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
   font-size: 10.5px;
   font-weight: 700;
   color: var(--forest);
@@ -743,8 +745,8 @@
 .project-filter-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
-  margin-bottom: 14px;
+  gap: 6px;
+  margin-bottom: 8px;
 }
 
 .skill-Category-title,
@@ -838,6 +840,8 @@
   font-weight: 700;
   color: var(--forest);
   text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
 }
 
 .proof-pill-link:hover {

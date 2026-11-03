@@ -4,6 +4,7 @@ import { renderChannelHeader, renderChannelFooter } from '../components/channel-
 import { badgeClassForTone, renderTagCloud } from '../components/retro-card.js';
 import { renderEvidenceBadge } from '../components/evidence-link.js';
 import { renderVisionDock, pulseVisionDock } from '../components/vision-dock.js';
+import { renderIcon } from '../components/icons.js';
 
 const AWS_VALIDATION_ID = '4268afe835cd4e5c990d98399b7847a1';
 let activeHonorFilter = 'all';
@@ -68,7 +69,7 @@ function renderCertificationsBody() {
               class="btn-card-link secondary btn-compact ${validationCopied ? 'is-copied' : ''}"
               data-copy-validation="${AWS_VALIDATION_ID}"
             >
-              ${validationCopied ? '✓ COPIED VALIDATION ID' : '⧉ COPY VALIDATION ID'}
+              ${validationCopied ? `${renderIcon('check')} COPIED VALIDATION ID` : `${renderIcon('copy')} COPY VALIDATION ID`}
             </button>
             <a
               href="https://aws.amazon.com/verification"
@@ -180,7 +181,7 @@ function renderCertificationsBody() {
       <div class="retro-lightbox-dialog">
         <div class="retro-lightbox-bar">
           <span class="retro-lightbox-title">VERIFIED CREDENTIAL INSPECTION</span>
-          <button type="button" class="btn-back-home" id="cert-lightbox-close" data-cert-lightbox-close="true">✕ CLOSE (ESC)</button>
+          <button type="button" class="btn-back-home" id="cert-lightbox-close" data-cert-lightbox-close="true">${renderIcon('close')} CLOSE (ESC)</button>
         </div>
         <img src="" alt="" id="cert-lightbox-img" class="retro-lightbox-img">
       </div>
@@ -199,11 +200,11 @@ export function renderCertificationsChannel() {
       })}
 
       ${renderVisionDock({
-        message: CERT_TIPS[0],
+        message: 'Inspect official AWS badge or copy validation ID',
         actions: [
-          { id: 'cert-copy-id', label: '⧉ Copy AWS Validation ID' },
-          { id: 'cert-awards', label: '🏆 Awards & Erasmus+' },
-          { id: 'cert-all-courses', label: '📚 Show All 11 Courses' }
+          { id: 'cert-copy-id', icon: 'copy', label: 'Copy AWS ID' },
+          { id: 'cert-awards', icon: 'trophy', label: 'Awards & Erasmus+' },
+          { id: 'cert-all-courses', icon: 'layers', label: 'All 11 Courses' }
         ]
       })}
 

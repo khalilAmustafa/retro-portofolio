@@ -5,6 +5,7 @@ import { renderProjectGallery } from '../components/project-gallery.js';
 import { renderProjectDetail } from '../components/project-detail.js';
 import { renderArchitectureSchematic, renderProjectMediaSection } from '../components/image-gallery.js';
 import { renderVisionDock, pulseVisionDock } from '../components/vision-dock.js';
+import { renderIcon } from '../components/icons.js';
 
 let activeProjectFilter = 'All';
 let liveLinksOnly = false;
@@ -64,12 +65,12 @@ export function renderProjectsChannel(route = {}) {
       })}
 
       ${renderVisionDock({
-        message: PROJ_TIPS[0],
+        message: 'Scrub ◀ / ▶ on cards · open dossier for architecture',
         actions: [
-          { label: '🏆 Watch ROOMS Demo', route: '#projects/rooms' },
-          { id: 'proj-live-only', label: '🌐 Live Links Only' },
-          { id: 'proj-random', label: '🎲 Random Case Study' },
-          { id: 'proj-reset', label: '↺ Show All (10)' }
+          { icon: 'trophy', label: 'Watch ROOMS Demo', route: '#projects/rooms' },
+          { id: 'proj-live-only', icon: 'globe', label: 'Live Links Only' },
+          { id: 'proj-random', icon: 'shuffle', label: 'Random Case Study' },
+          { id: 'proj-reset', icon: 'reset', label: 'Show All (10)' }
         ]
       })}
 
@@ -100,7 +101,7 @@ function renderLightboxMarkup() {
       <div class="retro-lightbox-dialog">
         <div class="retro-lightbox-bar">
           <span class="retro-lightbox-title">ARTIFACT INSPECTION</span>
-          <button type="button" class="btn-back-home" id="retro-lightbox-close" data-lightbox-close="true">✕ CLOSE (ESC)</button>
+          <button type="button" class="btn-back-home" id="retro-lightbox-close" data-lightbox-close="true">${renderIcon('close')} CLOSE (ESC)</button>
         </div>
         <img src="" alt="" id="retro-lightbox-img" class="retro-lightbox-img">
         <p id="retro-lightbox-caption" class="retro-lightbox-caption"></p>

@@ -4,6 +4,7 @@ import { renderChannelHeader, renderChannelFooter } from '../components/channel-
 import { badgeClassForTone } from '../components/retro-card.js';
 import { renderEvidenceBadge } from '../components/evidence-link.js';
 import { renderVisionDock, pulseVisionDock } from '../components/vision-dock.js';
+import { renderIcon } from '../components/icons.js';
 
 let activeCampusMode = 'both';
 let bilingualSampleLang = 'en';
@@ -68,7 +69,7 @@ const COURSE_PROOF_MAP = {
 
 const EDU_TIPS = [
   'Tap any Coursework pill to see the exact project or repository where Khalil applied it!',
-  'Hit "💮 Stamp Passport" on ASU or UPV, or test the live English/Arabic RTL switcher below!',
+  'Hit Stamp Passport on ASU or UPV, or test the live English/Arabic RTL switcher below!',
   'Filter between Amman (ASU), Valencia (UPV), or Side-by-Side Dual Passport view.'
 ];
 let eduTipIdx = 0;
@@ -127,7 +128,7 @@ function renderEducationBody() {
 
       <div class="flight-telemetry" aria-hidden="true">
         <span class="flight-code">AMM</span>
-        <span class="flight-track"><i class="flight-plane">✈</i></span>
+        <span class="flight-track"><i class="flight-plane">${renderIcon('plane')}</i></span>
         <span class="flight-code">VLC · ERASMUS+</span>
       </div>
     </div>
@@ -151,7 +152,7 @@ function renderEducationBody() {
                 data-stamp-passport="${escapeHtml(inst.id)}"
                 aria-pressed="${isStamped ? 'true' : 'false'}"
               >
-                ${isStamped ? '✓ RECORD STAMPED' : '💮 STAMP PASSPORT'}
+                ${isStamped ? `${renderIcon('check')} RECORD STAMPED` : `${renderIcon('stamp')} STAMP PASSPORT`}
               </button>
             </div>
 
@@ -284,11 +285,11 @@ export function renderEducationChannel() {
       })}
 
       ${renderVisionDock({
-        message: EDU_TIPS[0],
+        message: 'Tap any course pill to inspect applied project proof',
         actions: [
-          { id: 'edu-stamp-all', label: '💮 Stamp Both Passports' },
-          { id: 'edu-upv-qco', label: '⚛ Highlight Quantum Lab' },
-          { id: 'edu-flip-rtl', label: '🌐 Flip EN / العربية RTL' }
+          { id: 'edu-stamp-all', icon: 'stamp', label: 'Stamp Passports' },
+          { id: 'edu-upv-qco', icon: 'cpu', label: 'Quantum Lab (UPV)' },
+          { id: 'edu-flip-rtl', icon: 'globe', label: 'Flip EN / العربية RTL' }
         ]
       })}
 

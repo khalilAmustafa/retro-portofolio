@@ -469,6 +469,37 @@ async function main() {
     const hbHash = await cdp.eval(`location.hash`);
     assert(hbHash === '#projects/happensbefore', `Skill proof should open #projects/happensbefore, got ${hbHash}`);
 
+    // Broadcast Frequency Search & Command Tuner walkthrough
+    await cdp.eval(`document.getElementById('cmd-tuner-trigger').click()`);
+    await delay(180);
+    await cdp.eval(`(() => {
+      const input = document.getElementById('cmd-tuner-input');
+      if (input) {
+        input.value = 'postgresql';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    })()`);
+    await delay(120);
+    await cdp.screenshot(path.join(screenshotsDir, 'ch00-command-tuner.png'));
+    const tunerSearchCheck = await cdp.eval(`(() => {
+      const modal = document.getElementById('cmd-tuner-modal');
+      const rows = Array.from(document.querySelectorAll('.cmd-result-row'));
+      const routes = rows.map((r) => r.getAttribute('data-cmd-route'));
+      const spaceDayBtn = rows.find((r) => r.getAttribute('data-cmd-route') === '#projects/space-day');
+      spaceDayBtn?.click();
+      return {
+        ok: Boolean(modal),
+        matchCount: rows.length,
+        routes,
+        closedAfterPick: modal?.hidden,
+        hashAfterPick: location.hash
+      };
+    })()`);
+    assert(tunerSearchCheck.ok, `Command tuner failed to open: ${tunerSearchCheck.reason || ''}`);
+    assert(tunerSearchCheck.matchCount >= 1, 'Expected >=1 match for postgresql in Command Tuner');
+    assert(tunerSearchCheck.closedAfterPick && tunerSearchCheck.hashAfterPick === '#projects/space-day', `Expected Command Tuner pick to navigate to #projects/space-day, got ${tunerSearchCheck.hashAfterPick}`);
+    console.log('✓ Broadcast Frequency Search & Command Tuner verified');
+
     const hwChecks = await cdp.eval(`(() => {
       document.getElementById('footer-sound-toggle').click();
       const sfxOn = document.getElementById('footer-sound-toggle').getAttribute('aria-pressed') === 'true';

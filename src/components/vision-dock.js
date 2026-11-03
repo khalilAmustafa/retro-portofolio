@@ -1,14 +1,15 @@
 import { escapeHtml, resolveAsset } from '../core/dom.js';
 import { profile } from '../data/profile.js';
+import { renderIcon } from './icons.js';
 
 export function renderVisionDock({ message, actions = [] }) {
   return `
-    <aside class="vision-dock" aria-label="Vision channel guide">
+    <div class="vision-dock" role="region" aria-label="Channel quick actions">
       <button
         type="button"
         class="vision-dock-avatar-btn"
         data-dock-avatar="true"
-        title="Tap Vision for another tip"
+        title="Tap Vision for channel tip"
         aria-label="Vision interactive guide avatar"
       >
         <span class="vision-dock-viewport">
@@ -16,32 +17,30 @@ export function renderVisionDock({ message, actions = [] }) {
             src="${escapeHtml(resolveAsset(profile.companion.spriteSrc))}"
             alt=""
             class="character-spritesheet vision-dock-sprite"
+            decoding="async"
             draggable="false"
           >
         </span>
       </button>
-      <div class="vision-dock-body">
-        <div class="vision-dock-topline">
-          <span class="vision-dock-tag"><i class="meta-dot"></i> VISION // CO-PILOT</span>
-          <span class="vision-dock-msg" id="vision-dock-msg">${escapeHtml(message)}</span>
+      <span class="vision-dock-tag"><i class="meta-dot"></i> VISION</span>
+      ${
+        actions.length
+          ? `
+        <div class="vision-dock-actions">
+          ${actions
+            .map((act) => {
+              const iconSvg = act.icon ? renderIcon(act.icon, 'dock-chip-icon') : '';
+              return act.route
+                ? `<a href="${escapeHtml(act.route)}" class="dock-chip" data-route="${escapeHtml(act.route)}">${iconSvg}<span>${escapeHtml(act.label)}</span></a>`
+                : `<button type="button" class="dock-chip" data-dock-action="${escapeHtml(act.id)}">${iconSvg}<span>${escapeHtml(act.label)}</span></button>`;
+            })
+            .join('')}
         </div>
-        ${
-          actions.length
-            ? `
-          <div class="vision-dock-actions">
-            ${actions
-              .map((act) =>
-                act.route
-                  ? `<a href="${escapeHtml(act.route)}" class="dock-chip" data-route="${escapeHtml(act.route)}">${escapeHtml(act.label)}</a>`
-                  : `<button type="button" class="dock-chip" data-dock-action="${escapeHtml(act.id)}">${escapeHtml(act.label)}</button>`
-              )
-              .join('')}
-          </div>
-        `
-            : ''
-        }
-      </div>
-    </aside>
+      `
+          : ''
+      }
+      <span class="vision-dock-msg" id="vision-dock-msg" aria-live="polite">${escapeHtml(message)}</span>
+    </div>
   `;
 }
 
@@ -52,6 +51,7 @@ export function pulseVisionDock(newMessage) {
     msgEl.textContent = newMessage;
   }
   if (dockEl) {
+    dockEl.classList.add('has-pulsed');
     dockEl.classList.remove('is-talking');
     void dockEl.offsetWidth;
     dockEl.classList.add('is-talking');

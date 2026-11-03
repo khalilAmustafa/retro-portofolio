@@ -15,9 +15,11 @@
   <meta name="twitter:image" content="assets/vision-preview.gif">
   <link rel="icon" type="image/gif" href="assets/vision-preview.gif">
   <title>Khalil Asad Mustafa — Personal Channel</title>
+  <link rel="preload" as="image" href="assets/bezel.png" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/vision-animated-spritesheet.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <a href="#screen-content" class="sr-only">Skip to channel content</a>
@@ -54,22 +56,30 @@
             <header class="screen-header">
               <span>KHALIL / PERSONAL CHANNEL</span>
               <span class="header-loc">AMMAN, JORDAN</span>
-              <span id="channel-tag">CH 01</span>
+              <div class="screen-header-right">
+                <button type="button" class="header-search-btn" id="cmd-tuner-trigger" aria-label="Search channels, projects, and skills (Shortcut /)" aria-controls="cmd-tuner-modal" aria-expanded="false">
+                  <svg class="ui-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="4.6"/><path d="M10.5 10.5L14 14"/></svg>
+                  <span>SEARCH</span>
+                  <kbd class="header-search-kbd">/</kbd>
+                </button>
+                <span id="channel-tag">CH 01</span>
+              </div>
             </header>
             <div class="screen-progress-track" aria-hidden="true">
               <div class="screen-progress-bar" id="screen-progress-bar"></div>
             </div>
-            <div class="screen-content" id="screen-content" tabindex="0" aria-label="Channel content"></div>
+            <div class="screen-content" id="screen-content" role="region" tabindex="0" aria-label="Channel content"></div>
             <footer class="screen-footer">
               <span class="footer-signal-status"><i class="signal-dot"></i> SIGNAL FOUND</span>
               <button type="button" class="footer-scroll-cue" id="scroll-cue-btn" hidden aria-label="Scroll down for more channel content">▼ SCROLL FOR MORE</button>
-              <span class="hint" id="footer-static-hint">TURN DIAL · TAP CARDS · KEYS 1–7</span>
+              <span class="hint" id="footer-static-hint">TURN DIAL · TAP CARDS · KEYS 1–7 · / SEARCH</span>
               <div class="screen-footer-actions">
                 <button type="button" id="footer-sound-toggle" class="crt-preset-btn footer-sfx-btn" aria-pressed="false" title="Toggle interactive retro UI sound effects">SFX: <span id="footer-sound-label">OFF</span></button>
                 <button type="button" id="crt-preset-toggle" class="crt-preset-btn" title="Toggle CRT rendering preset: Authentic / Performance / Off">CRT: <span id="crt-preset-label">AUTHENTIC</span></button>
                 <button type="button" id="blank-toggle" aria-pressed="false">BLANK SCREEN</button>
               </div>
             </footer>
+            <div class="cmd-tuner-modal" id="cmd-tuner-modal" role="dialog" aria-modal="true" aria-label="Broadcast frequency search" hidden></div>
           </div>
           <div class="channel-osd" id="channel-osd" aria-hidden="true">
             <span class="channel-osd-led"></span>
@@ -89,7 +99,7 @@
         <div class="tuning" id="tuning" aria-hidden="true"></div>
         <div class="standby" id="standby" aria-hidden="true"><span>STANDBY</span></div>
       </div>
-      <img class="bezel" src="assets/bezel.png" alt="" draggable="false">
+      <img class="bezel" src="assets/bezel.png" alt="" draggable="false" fetchpriority="high" decoding="async">
     </section>
 
     <aside class="controls" aria-label="TV controls">
