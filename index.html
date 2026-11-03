@@ -1,123 +1,126 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#424832"><meta name="description" content="Personal portfolio of Khalil Asad Mustafa — Computer Science, Applied AI, Software Development. Amman, Jordan."><title>Khalil Asad Mustafa — Personal Channel</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#424832">
+  <meta name="description" content="Khalil Asad Mustafa — Computer Science student and software engineer focused on backend systems, cloud infrastructure, and applied AI. Based in Amman, Jordan.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Khalil Asad Mustafa — Personal Channel">
+  <meta property="og:description" content="Backend systems, cloud infrastructure, and applied AI — interactive retro CRT engineering portfolio.">
+  <meta property="og:image" content="assets/vision-preview.gif">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Khalil Asad Mustafa — Personal Channel">
+  <meta name="twitter:description" content="Computer Science student and software engineer focused on backend systems, cloud infrastructure, and applied AI.">
+  <meta name="twitter:image" content="assets/vision-preview.gif">
+  <link rel="icon" type="image/gif" href="assets/vision-preview.gif">
+  <title>Khalil Asad Mustafa — Personal Channel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+</head>
 <body>
-<!-- Mathematical CRT Barrel Distortion & Signal Processing SVG Filter -->
-<svg width="0" height="0" style="position:absolute;left:-9999px;pointer-events:none;" aria-hidden="true">
- <defs>
-  <filter id="crt-barrel-filter" x="-8%" y="-8%" width="116%" height="116%" filterUnits="objectBoundingBox">
-   <feImage id="fe-crt-barrel-map" result="map" href="" preserveAspectRatio="none"/>
-   <feDisplacementMap id="fe-crt-disp" in="SourceGraphic" in2="map" scale="14" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
-   <feGaussianBlur in="displaced" stdDeviation="0.18 0.04" result="softened"/>
-   <feColorMatrix in="softened" type="matrix" values="
-    1 0 0 0 0
-    0 1 0 0 0
-    0 0 1 0 0
-    0.33 0.33 0.33 0 0" result="luma"/>
-   <feComponentTransfer in="luma" result="brightPass">
-    <feFuncA type="linear" slope="0.12" intercept="-0.02"/>
-   </feComponentTransfer>
-   <feGaussianBlur in="brightPass" stdDeviation="1.5" result="bloom"/>
-   <feMerge>
-    <feMergeNode in="softened"/>
-    <feMergeNode in="bloom"/>
-   </feMerge>
-  </filter>
- </defs>
-</svg>
+  <a href="#screen-content" class="sr-only">Skip to channel content</a>
 
-<main class="television tv-crt-authentic" id="tv" aria-label="Interactive television prototype">
- <section class="screen-assembly" aria-label="Television screen">
-  <div class="glass" id="glass">
-   <div class="phosphor" id="phosphor">
-    <div class="crt-screen-content-wrapper crt-warp">
-     <header class="screen-header"><span>KHALIL / PERSONAL CHANNEL</span><span class="header-loc">AMMAN, JORDAN</span><span id="channel-tag">CH 01</span></header>
-     <div class="screen-content" id="screen-content" tabindex="0" aria-label="Channel content">
-      <article class="home-view" aria-label="Home transmission">
-       <div class="comic-halftone-overlay" aria-hidden="true"></div>
-       <div class="home-grid">
-        <div class="home-left">
-         <div class="home-heading-group">
-          <h1 class="hero-name" aria-label="Khalil Asad Mustafa">
-           <span class="name-row name-khalil">KHALIL</span>
-           <span class="name-row name-asad">ASAD</span>
-           <span class="name-row name-mustafa">MUSTAFA</span>
-          </h1>
-          <p class="hero-subtitle">COMPUTER SCIENCE / APPLIED AI / SOFTWARE DEVELOPMENT</p>
-          <div class="hero-divider"></div>
-         </div>
-         <p class="hero-intro">Building useful software.<br>Exploring intelligent systems.<br>Turning ideas into real experiences.</p>
-         <div class="hero-actions">
-          <button type="button" class="btn-retro primary" id="btn-explore">
-           <span class="btn-icon play-icon">▶</span>
-           <span class="btn-label">EXPLORE MY WORK</span>
-           <span class="btn-arrow">→</span>
+  <!-- Mathematical CRT Barrel Distortion & Signal Processing SVG Filter -->
+  <svg width="0" height="0" style="position:absolute;left:-9999px;pointer-events:none;" aria-hidden="true">
+    <defs>
+      <filter id="crt-barrel-filter" x="-8%" y="-8%" width="116%" height="116%" filterUnits="objectBoundingBox">
+        <feImage id="fe-crt-barrel-map" result="map" href="" preserveAspectRatio="none"/>
+        <feDisplacementMap id="fe-crt-disp" in="SourceGraphic" in2="map" scale="14" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+        <feGaussianBlur in="displaced" stdDeviation="0.18 0.04" result="softened"/>
+        <feColorMatrix in="softened" type="matrix" values="
+          1 0 0 0 0
+          0 1 0 0 0
+          0 0 1 0 0
+          0.33 0.33 0.33 0 0" result="luma"/>
+        <feComponentTransfer in="luma" result="brightPass">
+          <feFuncA type="linear" slope="0.12" intercept="-0.02"/>
+        </feComponentTransfer>
+        <feGaussianBlur in="brightPass" stdDeviation="1.5" result="bloom"/>
+        <feMerge>
+          <feMergeNode in="softened"/>
+          <feMergeNode in="bloom"/>
+        </feMerge>
+      </filter>
+    </defs>
+  </svg>
+
+  <main class="television tv-crt-authentic" id="tv" aria-label="Interactive television portfolio">
+    <section class="screen-assembly" aria-label="Television screen">
+      <div class="glass" id="glass">
+        <div class="phosphor" id="phosphor">
+          <div class="crt-screen-content-wrapper crt-warp">
+            <header class="screen-header">
+              <span>KHALIL / PERSONAL CHANNEL</span>
+              <span class="header-loc">AMMAN, JORDAN</span>
+              <span id="channel-tag">CH 01</span>
+            </header>
+            <div class="screen-content" id="screen-content" tabindex="0" aria-label="Channel content"></div>
+            <footer class="screen-footer">
+              <span><i class="signal-dot"></i> SIGNAL FOUND</span>
+              <span class="hint">TURN THE DIAL. FIND YOUR CHANNEL.</span>
+              <button type="button" id="crt-preset-toggle" class="crt-preset-btn" title="Toggle CRT rendering preset: Authentic / Performance / Off">CRT: <span id="crt-preset-label">AUTHENTIC</span></button>
+              <button type="button" id="blank-toggle" aria-pressed="false">BLANK SCREEN</button>
+            </footer>
+          </div>
+          <div class="volume-osd" id="volume-osd" aria-hidden="true">
+            <span>SOUND</span>
+            <div class="volume-bars" id="volume-bars"></div>
+            <span id="volume-value">00</span>
+          </div>
+        </div>
+        <div class="crt-scanlines" aria-hidden="true"></div>
+        <div class="crt-phosphor-mask" aria-hidden="true"></div>
+        <div class="crt-glass-curvature" aria-hidden="true"></div>
+        <div class="tuning" id="tuning" aria-hidden="true"></div>
+        <div class="standby" id="standby" aria-hidden="true"><span>STANDBY</span></div>
+      </div>
+      <img class="bezel" src="assets/bezel.png" alt="" draggable="false">
+    </section>
+
+    <aside class="controls" aria-label="TV controls">
+      <div class="channel-control">
+        <span class="engraved">CHANNEL</span>
+        <div class="dial-face" id="dial-face">
+          <div class="dial-marks" id="dial-marks" aria-hidden="true"></div>
+          <div id="channel-dial" class="channel-dial" role="slider" tabindex="0" aria-label="Channel dial" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1" aria-valuetext="Home" aria-describedby="dial-tip">
+            <div class="dial-grip"></div>
+          </div>
+        </div>
+        <span class="dial-tip" id="dial-tip">DRAG · SCROLL · ← →</span>
+      </div>
+
+      <nav class="channel-buttons" id="channel-buttons" aria-label="Channels"></nav>
+
+      <div class="speaker" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="bottom-controls">
+        <div class="sound-control">
+          <label class="engraved" for="volume">SOUND <output id="volume-label">OFF</output></label>
+          <div class="sound-knob" id="sound-knob" role="slider" tabindex="0" aria-label="Sound volume knob" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="sound-pointer"></div>
+          </div>
+          <input id="volume" type="range" min="0" max="100" value="0" aria-label="Sound volume">
+        </div>
+        <div class="power-control">
+          <span class="engraved">POWER</span>
+          <button type="button" id="power" class="power" role="switch" aria-checked="true" aria-label="Television power">
+            <span class="power-on">I</span>
+            <span class="power-off">O</span>
           </button>
-          <a href="mailto:khalil.mustafa.work@gmail.com" class="btn-retro secondary" id="btn-contact">
-           <span class="btn-icon env-icon">✉</span>
-           <span class="btn-label">GET IN TOUCH</span>
-           <span class="btn-arrow">→</span>
-          </a>
-         </div>
+          <span class="power-led" aria-hidden="true"></span>
         </div>
-        <div class="home-right">
-         <div class="companion-stage">
-          <div class="character-interactive" id="character-vision" role="button" tabindex="0" aria-label="Vision, animated pixel companion. Click to talk." title="Click to chat with Vision">
-           <div class="speech-bubble" id="speech-bubble" role="status" aria-live="polite" aria-hidden="true">
-            <div class="bubble-text" id="bubble-text"><span>HEY!</span><span>I'M VISION.</span></div>
-            <span class="bubble-tail"></span>
-           </div>
-           <div class="comic-emphasis" aria-hidden="true">
-            <span class="em-mark mark-1"></span>
-            <span class="em-mark mark-2"></span>
-            <span class="em-mark mark-3"></span>
-           </div>
-           <div class="stage-frame" aria-hidden="true">
-            <span class="corner tl"></span>
-            <span class="corner tr"></span>
-            <span class="corner bl"></span>
-            <span class="corner br"></span>
-           </div>
-           <div class="character-viewport">
-            <img src="assets/vision-animated-spritesheet.png" class="character-spritesheet" alt="Vision pixel-art character" draggable="false">
-           </div>
-           <div class="character-ground" aria-hidden="true">
-            <div class="ground-shadow"></div>
-            <div class="ground-pedestal"></div>
-           </div>
-          </div>
-          <div class="companion-meta">
-           <span class="meta-dot" aria-hidden="true"></span>
-           <span class="meta-title">VISION // COMPANION</span>
-           <span class="meta-hint">CLICK TO CHAT</span>
-          </div>
-         </div>
-        </div>
-       </div>
-      </article>
-     </div>
-     <footer class="screen-footer">
-      <span><i class="signal-dot"></i> SIGNAL FOUND</span>
-      <span class="hint">TURN THE DIAL. FIND YOUR CHANNEL.</span>
-      <button type="button" id="crt-preset-toggle" class="crt-preset-btn" title="Toggle CRT rendering preset: Authentic / Performance / Off">CRT: <span id="crt-preset-label">AUTHENTIC</span></button>
-      <button id="blank-toggle" aria-pressed="false">BLANK SCREEN</button>
-     </footer>
-    </div>
-    <div class="volume-osd" id="volume-osd" aria-hidden="true"><span>SOUND</span><div class="volume-bars" id="volume-bars"></div><span id="volume-value">00</span></div>
-   </div>
-   <div class="crt-scanlines" aria-hidden="true"></div>
-   <div class="crt-phosphor-mask" aria-hidden="true"></div>
-   <div class="crt-glass-curvature" aria-hidden="true"></div>
-   <div class="tuning" id="tuning" aria-hidden="true"></div>
-   <div class="standby" id="standby" aria-hidden="true"><span>STANDBY</span></div>
-  </div>
-  <img class="bezel" src="assets/bezel.png" alt="" draggable="false">
- </section>
- <aside class="controls" aria-label="TV controls">
-  <div class="channel-control"><span class="engraved">CHANNEL</span><div class="dial-face" id="dial-face"><div class="dial-marks" id="dial-marks" aria-hidden="true"></div><div id="channel-dial" class="channel-dial" role="slider" tabindex="0" aria-label="Channel dial" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1" aria-valuetext="Home" aria-describedby="dial-tip"><div class="dial-grip"></div></div></div><span class="dial-tip" id="dial-tip">DRAG · SCROLL · ← →</span></div>
-  <nav class="channel-buttons" id="channel-buttons" aria-label="Channels"></nav>
-  <div class="speaker" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-  <div class="bottom-controls"><div class="sound-control"><label class="engraved" for="volume">SOUND <output id="volume-label">OFF</output></label><div class="sound-knob" id="sound-knob" role="slider" tabindex="0" aria-label="Sound volume knob" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="sound-pointer"></div></div><input id="volume" type="range" min="0" max="100" value="0" aria-label="Sound volume"></div><div class="power-control"><span class="engraved">POWER</span><button id="power" class="power" role="switch" aria-checked="true" aria-label="Television power"><span class="power-on">I</span><span class="power-off">O</span></button><span class="power-led" aria-hidden="true"></span></div></div>
-  <div class="brand"><span></span>KHALIL<span></span></div><span class="model">PERSONAL CHANNEL · 01</span>
- </aside>
-</main><p class="sr-only" id="status" role="status"></p><script src="app.js" defer></script>
-</body></html>
+      </div>
+
+      <div class="brand"><span></span>KHALIL<span></span></div>
+      <span class="model">PERSONAL CHANNEL · 01</span>
+    </aside>
+  </main>
+
+  <p class="sr-only" id="status" role="status"></p>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

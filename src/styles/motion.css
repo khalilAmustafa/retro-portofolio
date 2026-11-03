@@ -1,0 +1,76 @@
+.tuning.active {
+  animation: tune 0.23s steps(3) both;
+}
+
+@keyframes tune {
+  0% {
+    opacity: 0.22;
+    transform: translateY(-5%);
+  }
+  45% {
+    opacity: 0.4;
+    transform: translateY(3%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+/* 8-frame blinking idle animation with ~7 FPS blink and 2.6s natural open-eyed pause */
+@keyframes visionBlink {
+  0%, 70.0% { transform: translate3d(0%, 0, 0); }
+  73.75%    { transform: translate3d(-12.5%, 0, 0); }
+  77.50%    { transform: translate3d(-25.0%, 0, 0); }
+  81.25%    { transform: translate3d(-37.5%, 0, 0); }
+  85.00%    { transform: translate3d(-50.0%, 0, 0); }
+  88.75%    { transform: translate3d(-62.5%, 0, 0); }
+  92.50%    { transform: translate3d(-75.0%, 0, 0); }
+  96.25%    { transform: translate3d(-87.5%, 0, 0); }
+  100%      { transform: translate3d(0%, 0, 0); }
+}
+
+@keyframes visionReact {
+  0% { transform: scale(1) translateY(0); }
+  40% { transform: scale(1.08, 0.94) translateY(-9px); }
+  75% { transform: scale(0.96, 1.04) translateY(-2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+@keyframes pulseLed {
+  0%, 100% { opacity: 0.7; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 8px #A9EF65; }
+}
+
+@keyframes channelFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes subviewFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .is-off .phosphor {
+    transform: none;
+    visibility: hidden;
+  }
+
+  .tuning {
+    display: none;
+  }
+
+  .character-spritesheet {
+    animation: none !important;
+    transform: translate3d(0%, 0, 0) !important;
+  }
+}

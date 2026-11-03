@@ -1,0 +1,28 @@
+:root {
+  color-scheme: light;
+  --cream: #F5F1E6;
+  --cream-bg: #F5F1E6;
+  --paper-surface: rgba(255, 253, 248, 0.88);
+  --paper-elevated: #FAF7EE;
+  --ink: #141A15;
+  --dark-ink: #141A15;
+  --forest: #223A2B;
+  --forest-hover: #1B3023;
+  --olive: #64784A;
+  --sage: #A3B18A;
+  --led: #a9ef65;
+  --muted-forest: #354a38;
+
+  --font-display: 'Archivo Black', 'Arial Black', sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --border-ink: 2px solid var(--dark-ink);
+  --shadow-comic: 2.5px 2.5px 0 var(--dark-ink);
+  --shadow-comic-sm: 1.5px 1.5px 0 var(--dark-ink);
+  --shadow-comic-hover: 3.5px 3.5px 0 var(--dark-ink);
+
+  --radius-card: 4px;
+  --radius-pill: 3px;
+  --char-frame-size: clamp(195px, 19vw, 252px);
+}
