@@ -15,7 +15,6 @@ export const projectIds=Object.keys(editions);
 export const channelProjects=projectIds.map(id=>({...catalogProjectsById[id],...editions[id],edition:projectIds.indexOf(id)+1}));
 export const channelProjectsById=Object.fromEntries(channelProjects.map(p=>[p.id,p]));
 export const atlasPlaces=[
- {id:'amman',name:'Amman',country:'Jordan',lat:31.95,lon:35.93,kind:'Home & software work',copy:'Computer Science at ASU, regional event systems, and the place I build from.',projects:['space-day','nasa-space-apps','rooms']},
- {id:'valencia',name:'Valencia',country:'Spain',lat:39.47,lon:-.38,kind:'Academic exchange',copy:'Erasmus+ Informatics Engineering exchange at UPV / ETSINF, Spring 2026.',route:'#education'},
- {id:'oman',name:'Oman',country:'Oman',lat:23.59,lon:58.41,kind:'Regional context',copy:'A regional context for the learning and software work I care about.',route:'#profile'}
+ {id:'amman',name:'Amman',country:'Jordan',lat:31.95,lon:35.93,kind:'Home',copy:'Computer Science at ASU in Jordan.',projects:['space-day','nasa-space-apps','rooms']},
+ {id:'valencia',name:'Valencia',country:'Spain',lat:39.47,lon:-.38,kind:'Erasmus+ Exchange',copy:'Spring 2026 at UPV Valencia.',route:'#education'}
 ];
