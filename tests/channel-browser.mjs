@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import { launchBrowser } from '../scripts/browser-utils.mjs';
+const base=process.env.CHANNEL_URL||'http://127.0.0.1:5188/channel.html',out='docs/channel-review';await fs.mkdir(out,{recursive:true});const browser=await launchBrowser();
+const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[],failedAssets=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(new URL(base).origin)&&r.status()>=400)failedAssets.push(`${r.status()} ${r.url()}`);});
+const settle=async()=>{await page.waitForFunction(()=>!document.querySelector('#channel-screen').hasAttribute('data-transition'));};
+const select=async index=>{const m=page.locator(`[data-marker="${index}"]`);await m.scrollIntoViewIfNeeded();await m.click();await page.waitForFunction(i=>window.__personalChannel.selectedIndex===i,index);};
+async function open(hash='#work'){await page.goto(`${base}${hash}`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.__personalChannel?.ready);await page.waitForTimeout(180);}
+try{
+ await page.emulateMedia({reducedMotion:'reduce'});await open();assert.equal(await page.locator('.project-tape:not(.tape-ghost)').count(),11);assert.equal(await page.evaluate(()=>window.__personalChannel.selectedIndex),1);
+ // Reviewer regression: keyboard focus must not activate the previous tape.
+ await page.locator('.project-tape[aria-current=true]').focus();await page.keyboard.press('ArrowRight');await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>window.__personalChannel.projectId),'space-day');assert.equal(await page.locator('.case-heading h1').textContent(),'Space Day Digital Passport');
+ await page.locator('[data-return-collection]').click();await select(3);await page.locator('.collection-open').click();assert.equal(await page.evaluate(()=>window.__personalChannel.projectId),'bandup');await page.locator('[data-return-collection]').click();await select(5);await page.goBack();assert.equal(await page.evaluate(()=>window.__personalChannel.projectId),'bandup');await page.goForward();assert.equal(await page.evaluate(()=>window.__personalChannel.selectedIndex),5);
+ // All eleven real cases are mounted in the same screen, including those without captures.
+ const ids=['asad-math','rooms','space-day','bandup','vision-career','futureing','nasa-space-apps','makan','happensbefore','abyss-of-the-loss','vision-pulse'];
+ for(const id of ids){await page.evaluate(id=>location.hash=`projects/${id}`,id);await page.waitForFunction(id=>window.__personalChannel.projectId===id,id);assert.equal(await page.locator('.case-book').count(),1);assert.ok((await page.locator('.case-heading h1').textContent()).length>2);assert.equal(await page.locator('.case-scroll').evaluate(el=>el.scrollWidth>el.clientWidth+1),false,`${id} overflow`);}
+ await page.evaluate(()=>location.hash='projects/rooms');await page.waitForFunction(()=>window.__personalChannel.projectId==='rooms');const video=page.locator('.case-book video');assert.equal(await video.getAttribute('controls'),'');await video.scrollIntoViewIfNeeded();await video.evaluate(v=>v.muted=true);await video.click();await page.waitForFunction(()=>document.querySelector('video').paused===false);await page.locator('[data-nav=work]').click();assert.equal(await page.locator('video').count(),0);
+ await page.emulateMedia({reducedMotion:'no-preference'});await select(1);await page.waitForTimeout(500);await page.screenshot({path:`${out}/desktop-home.png`});
+ // Reviewer regression: resize settles both the visual transition and its destination focus.
+ await page.locator('.collection-open').click();await page.waitForTimeout(90);await page.setViewportSize({width:1400,height:950});await settle();assert.equal(await page.locator('.case-heading h1').evaluate(el=>document.activeElement===el),true);
+ await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:`${out}/desktop-case.png`});
+ await page.locator('.case-scroll').hover();await page.mouse.wheel(0,700);await page.waitForTimeout(650);assert.ok(await page.locator('.case-scroll').evaluate(el=>el.scrollTop>100));await page.screenshot({path:`${out}/desktop-case-scroll.png`});
+ await page.locator('[data-nav=atlas]').click();await settle();await page.waitForTimeout(350);await page.locator('[data-place=valencia]').click();assert.match(await page.locator('.atlas-place-copy h2').textContent(),/Valencia/);const globe=await page.locator('.journey-map canvas').boundingBox();await page.mouse.move(globe.x+globe.width*.5,globe.y+globe.height*.5);await page.mouse.down();await page.mouse.move(globe.x+globe.width*.7,globe.y+globe.height*.6,{steps:15});await page.mouse.up();await page.screenshot({path:`${out}/desktop-atlas.png`});
+ await page.locator('[data-nav=profile]').click();await settle();await page.screenshot({path:`${out}/desktop-profile.png`});
+ await page.locator('[data-nav=contact]').click();await settle();assert.equal(await page.locator('.profile-email').getAttribute('href'),'mailto:khalil.asad.2005@gmail.com');
+ for(const [width,height]of[[768,1024],[390,844]]){
+  await page.setViewportSize({width,height});await page.emulateMedia({reducedMotion:'reduce'});await page.locator('[data-nav=work]').click();await select(1);await page.screenshot({path:`${out}/${width}-home.png`});const target=await page.locator('[data-collection-next]').boundingBox();assert.ok(target.width>=44&&target.height>=44);
+  await page.locator('.collection-open').click();await page.screenshot({path:`${out}/${width}-case.png`});assert.equal(await page.locator('.case-scroll').evaluate(el=>el.scrollWidth>el.clientWidth+1),false);
+  await page.locator('.case-scroll').focus();await page.keyboard.press('End');await page.waitForTimeout(100);assert.ok(await page.locator('.case-scroll').evaluate(el=>el.scrollTop>100));
+  await page.locator('[data-nav=atlas]').click();await page.locator('[data-place=amman]').click();assert.match(await page.locator('.atlas-place-copy').textContent(),/Computer Science at ASU/);await page.screenshot({path:`${out}/${width}-atlas.png`});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ }
+ await open('?no-webgl=1#projects/space-day');assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('channel-fallback')),true);assert.equal(await page.locator('.case-heading h1').textContent(),'Space Day Digital Passport');await page.locator('[data-return-collection]').click();await page.locator('.collection-stage').focus();await page.keyboard.press('End');await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>window.__personalChannel.projectId),'vision-pulse');
+ assert.deepEqual(errors,[]);assert.deepEqual(failedAssets,[]);await fs.writeFile(`${out}/checks.json`,JSON.stringify({result:'PASS',cases:11,errors,failedAssets,regressions:['keyboard selection','history selection','resize focus'],viewports:[1440,768,390],webglFallback:true},null,2));console.log(JSON.stringify({result:'PASS',cases:11,errors,failedAssets}));
+}catch(error){await page.screenshot({path:`${out}/failure.png`}).catch(()=>{});console.log(JSON.stringify({errors,failedAssets}));throw error;}finally{await browser.close();}
+

@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "errors": [],
+  "missing": [],
+  "viewports": [
+    1440,
+    768,
+    390
+  ],
+  "oneRenderer": true,
+  "reversibleApproach": true,
+  "deepLinks": true
+}

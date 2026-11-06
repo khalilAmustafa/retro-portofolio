@@ -216,7 +216,7 @@ async function main() {
       '--no-default-browser-check',
       '--disable-gpu',
       '--window-size=1280,820',
-      `http://127.0.0.1:${serverPort}/#projects/rooms`
+      `http://127.0.0.1:${serverPort}/${process.env.SMOKE_ENTRY || 'legacy.html'}#projects/rooms`
     ],
     { stdio: 'ignore' }
   );

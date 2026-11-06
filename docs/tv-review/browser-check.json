@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "errors": [],
+  "metrics": {
+    "triangles": 96534,
+    "drawCalls": 132,
+    "meshes": 76
+  }
+}

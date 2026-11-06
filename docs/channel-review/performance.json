@@ -1,0 +1,23 @@
+{
+  "environment": "Local headless Chrome; 1440×1000; DPR 1; warm assets; no CPU throttle",
+  "gallery": {
+    "frames": {
+      "samples": 178,
+      "p50ms": 6.900000000000546,
+      "p95ms": 7.400000000000546
+    },
+    "wheelToFirstMotion": {
+      "samples": 4,
+      "p50ms": 6.299999994039354,
+      "p95ms": 6.9999999940396265
+    }
+  },
+  "atlas": {
+    "frames": {
+      "samples": 178,
+      "p50ms": 6.900000000000546,
+      "p95ms": 8.199999999999818
+    }
+  },
+  "note": "Frame and input timing on this machine, not a universal device guarantee."
+}

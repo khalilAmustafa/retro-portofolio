@@ -1,3 +1,18 @@
+# Personal Channel — current prototype
+
+The main entry now uses the approved 3D CRT with an Arc-inspired content system: a curved eleven-project collection, shared cover-to-case transitions, actual-media case studies, profile and interactive geographical atlas. The content is reconciled from the previous portfolio and khalils.codes. Contact uses the email selected by the user.
+
+Run `npm run dev -- --host 127.0.0.1 --port 5188`, then open `http://127.0.0.1:5188/#room`. Enter the television from the restored 3D desk. Direct links such as `#work` and `#atlas` open the screen immediately.
+
+- `/` or `/channel.html`: current content experience.
+- `/previous.html`: retained earlier room and sample-interaction prototype.
+- `/tv-review.html`: standalone model inspection.
+- `/legacy.html`: original portfolio presentation.
+
+Current checks: `npm test`, `npm run build`, and `node tests/channel-browser.mjs`. Use `CHANNEL_URL` to target another main-entry URL. Original prototype browser scripts now target `/previous.html`.
+
+The earlier V2 documentation follows for source/history context.
+
 # Retro Portfolio V2 — Khalil Asad Mustafa
 
 Interactive 1970s comic-book + curved CRT television engineering portfolio for **Khalil Asad Mustafa** (*Computer Science · Backend Systems · Cloud Infrastructure · Applied AI*, Amman, Jordan).
@@ -97,3 +112,4 @@ All portfolio copy lives in `src/data/*.js` — you never need to edit HTML temp
 ## Deployment
 
 `npm run build` outputs a pure static site into `dist/` with relative asset paths (`base: './'`), ready for **Vercel**, **Cloudflare Pages**, **Netlify**, or **GitHub Pages** without server-side rewrites.
+
