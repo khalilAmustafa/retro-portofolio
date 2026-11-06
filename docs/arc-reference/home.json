@@ -1,0 +1,91 @@
+{
+  "text": "YEAR\n2026\n00:00:07\nHOME\nPROFILE\nNEWS WATCH\nCONTACT\n\nUSE THE LEFT AND RIGHT ARROW KEYS TO MOVE BETWEEN PROJECTS, AND ENTER TO OPEN THE ONE IN THE CENTRE.\n\nREMYSHOOTS, 001, 2026\n\nREMYSHOOTS\nBUILT TO GET THE WORK SEEN, AND RECOGNISED WITH FOUR CSSDA AWARDS\nWEB DESIGN • DEVELOPMENT\n16:30 SAST\nB&W [OFF]\nSOURCE: PC\nEMAIL",
+  "links": [
+    {
+      "text": "YEAR\n2026",
+      "href": "https://www.arcmarumo.com/"
+    },
+    {
+      "text": "HOME",
+      "href": "https://www.arcmarumo.com/"
+    },
+    {
+      "text": "PROFILE",
+      "href": "https://www.arcmarumo.com/profile"
+    },
+    {
+      "text": "NEWS WATCH",
+      "href": "https://www.arcmarumo.com/news-watch"
+    },
+    {
+      "text": "CONTACT",
+      "href": "mailto:hello@arcmarumo.com"
+    },
+    {
+      "text": "",
+      "href": "https://www.arcmarumo.com/work/remyshoots"
+    },
+    {
+      "text": "REMYSHOOTS",
+      "href": "https://www.arcmarumo.com/work/remyshoots"
+    },
+    {
+      "text": "EMAIL",
+      "href": "mailto:hello@arcmarumo.com"
+    }
+  ],
+  "fonts": [
+    {
+      "family": "neueMontreal",
+      "status": "unloaded"
+    },
+    {
+      "family": "neueMontreal Fallback",
+      "status": "unloaded"
+    },
+    {
+      "family": "mono",
+      "status": "loaded"
+    },
+    {
+      "family": "mono Fallback",
+      "status": "loaded"
+    },
+    {
+      "family": "display",
+      "status": "unloaded"
+    },
+    {
+      "family": "display Fallback",
+      "status": "unloaded"
+    },
+    {
+      "family": "bit",
+      "status": "loaded"
+    },
+    {
+      "family": "bit Fallback",
+      "status": "unloaded"
+    }
+  ],
+  "colors": [
+    {
+      "tag": "BODY",
+      "color": "rgb(252, 248, 239)",
+      "background": "rgb(17, 17, 17)",
+      "font": "neueMontreal, \"neueMontreal Fallback\", system-ui, sans-serif"
+    },
+    {
+      "tag": "NAV",
+      "color": "rgb(228, 223, 217)",
+      "background": "rgba(0, 0, 0, 0)",
+      "font": "mono, \"mono Fallback\", ui-monospace, monospace"
+    },
+    {
+      "tag": "H1",
+      "color": "rgba(236, 233, 225, 0.5)",
+      "background": "rgba(0, 0, 0, 0)",
+      "font": "mono, \"mono Fallback\", ui-monospace, monospace"
+    }
+  ]
+}

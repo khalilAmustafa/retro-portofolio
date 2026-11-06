@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "cases": 11,
+  "errors": [],
+  "failedAssets": [],
+  "regressions": [
+    "keyboard selection",
+    "history selection",
+    "resize focus"
+  ],
+  "viewports": [
+    1440,
+    768,
+    390
+  ],
+  "webglFallback": true
+}

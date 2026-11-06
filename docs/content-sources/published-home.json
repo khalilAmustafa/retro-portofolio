@@ -1,0 +1,77 @@
+{
+  "url": "https://khalils.codes/",
+  "title": "Khalil Mustafa | Backend & Cloud-Focused Developer",
+  "text": "KHALIL.DEV\n\nKhalil Mustafa\n\nBackend & Cloud-Focused Developer | Full-Stack Systems | AWS Certified Cloud Practitioner\n\nAmman, Jordan\n\n01_Home\n02_Experience\n03_Education\n04_Skills\n05_Projects\n06_Certifications\n07_Contact\nPRIVACY\n\n01_HOME\n\n> initializing portfolio...\n\nACTIVE: HOME\nKhalil Mustafa\n\nBackend & Cloud-Focused Developer\n\nBuilding APIs, deployment workflows, full-stack systems, and AI-powered product features.\n\nI build practical software systems with a focus on backend architecture, cloud-ready deployment, authentication, database-backed workflows, and usable full-stack products.\n\nVIEW PROJECTS\nCONTACT ME\nGITHUB",
+  "links": [
+    {
+      "text": "PRIVACY",
+      "href": "https://khalils.codes/privacy"
+    },
+    {
+      "text": "GITHUB",
+      "href": "https://github.com/khalilAmustafa"
+    }
+  ],
+  "buttons": [
+    {
+      "text": "",
+      "label": "Open navigation"
+    },
+    {
+      "text": "KHALIL.DEV\n\nKhalil Mustafa",
+      "label": "Go to home tab"
+    },
+    {
+      "text": "",
+      "label": "Close navigation"
+    },
+    {
+      "text": "01_Home",
+      "label": null
+    },
+    {
+      "text": "02_Experience",
+      "label": null
+    },
+    {
+      "text": "03_Education",
+      "label": null
+    },
+    {
+      "text": "04_Skills",
+      "label": null
+    },
+    {
+      "text": "05_Projects",
+      "label": null
+    },
+    {
+      "text": "06_Certifications",
+      "label": null
+    },
+    {
+      "text": "07_Contact",
+      "label": null
+    },
+    {
+      "text": "VIEW PROJECTS",
+      "label": null
+    },
+    {
+      "text": "CONTACT ME",
+      "label": null
+    }
+  ],
+  "scripts": [
+    "https://khalils.codes/_next/static/chunks/15orcrkp-_9ct.js",
+    "https://khalils.codes/_next/static/chunks/2cya-h6pss2j9.js",
+    "https://khalils.codes/_next/static/chunks/07u_h6i539_wj.js",
+    "https://khalils.codes/_next/static/chunks/turbopack-3m2p1w-rnxz1e.js",
+    "https://khalils.codes/_next/static/chunks/05-c3ty_6dwfk.js",
+    "https://khalils.codes/_next/static/chunks/14mrh2-p_w84d.js",
+    "https://khalils.codes/_next/static/chunks/3xyt402c62511.js",
+    "https://khalils.codes/_next/static/chunks/3ofyiox01mhsu.js",
+    "https://khalils.codes/_next/static/chunks/0cz1d0mv5g_q7.js",
+    "https://khalils.codes/_next/static/chunks/0dhbjz-xsmu83.js"
+  ]
+}

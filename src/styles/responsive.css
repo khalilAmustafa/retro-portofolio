@@ -1,0 +1,676 @@
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS (1920, 1280, 960/768, 760, 480, 370, 320)
+   ========================================================================== */
+
+@media (min-width: 1800px) {
+  .television {
+    max-width: 2100px;
+    margin: auto;
+  }
+  .controls {
+    gap: 22px;
+  }
+}
+
+@media (max-height: 720px) and (min-width: 761px) {
+  .television {
+    min-height: 500px;
+  }
+  .dial-face {
+    width: 110px;
+  }
+  .dial-mark {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-51px) rotate(calc(var(--angle) * -1));
+  }
+  .controls {
+    gap: 10px;
+    padding: 12px 16px;
+  }
+  .channel-button {
+    height: 31px;
+  }
+  .speaker {
+    gap: 4px;
+  }
+  .speaker span {
+    height: 4px;
+  }
+  .brand {
+    font-size: 11px;
+  }
+  .model {
+    display: none;
+  }
+  :root {
+    --char-frame-size: clamp(155px, 16vw, 195px);
+  }
+}
+
+/* Tablet & Compact Desktop inside CRT */
+@media (max-width: 1024px) {
+  .evidence-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .architecture-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .passport-grid,
+  .project-gallery-grid,
+  .case-study-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile Layout (Preserves physical TV shell + stacked bottom control deck) */
+@media (max-width: 760px) {
+  :root {
+    --char-frame-size: clamp(92px, 23vw, 118px);
+  }
+
+  .television {
+    height: auto;
+    min-height: 100svh;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(430px, 1fr) auto;
+    gap: 7px;
+    padding: 6px;
+    border-radius: 20px;
+  }
+
+  .screen-assembly {
+    min-height: 61svh;
+    border-radius: 14px;
+  }
+
+  .glass {
+    inset: 8.5% 6.5%;
+    border-radius: 10% / 5%;
+  }
+
+  .phosphor {
+    padding: 5.5% 5.5%;
+  }
+
+  .screen-header {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    padding-bottom: 10px;
+  }
+
+  .header-loc {
+    font-size: 7.5px;
+  }
+
+  .screen-footer {
+    font-size: 7px;
+    padding-top: 9px;
+    gap: 8px;
+  }
+
+  .hint {
+    display: none;
+  }
+
+  /* Hardware Controls Mobile Grid */
+  .controls {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px 14px 12px;
+    border-radius: 8px 8px 14px 14px;
+  }
+
+  .channel-control {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .channel-control > .engraved {
+    font-size: 8px;
+  }
+
+  .dial-face {
+    width: 85px;
+    margin: 10px auto 5px;
+  }
+
+  .dial-mark {
+    font-size: 9px;
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-40px) rotate(calc(var(--angle) * -1));
+  }
+
+  .dial-tip {
+    font-size: 6px;
+    display: block;
+    line-height: 1.6;
+  }
+
+  .channel-buttons {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    align-content: start;
+  }
+
+  .channel-button {
+    min-height: 44px;
+    height: 44px;
+    font-size: 9px;
+    padding: 0 7px;
+    gap: 5px;
+  }
+
+  .channel-button:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .button-led {
+    width: 6px;
+    height: 6px;
+    flex-basis: 6px;
+  }
+
+  .channel-button .number {
+    font-size: 8px;
+  }
+
+  .bottom-controls {
+    grid-row: 2;
+    grid-column: 1;
+    gap: 7px;
+    padding: 0;
+  }
+
+  .sound-control,
+  .power-control {
+    gap: 6px;
+  }
+
+  .sound-control .engraved,
+  .power-control .engraved {
+    font-size: 7px;
+    letter-spacing: 0.02em;
+  }
+
+  .sound-control output {
+    font-size: 6px;
+  }
+
+  .sound-knob {
+    width: 34px;
+    height: 34px;
+  }
+
+  .sound-pointer {
+    left: 14px;
+    height: 9px;
+    top: 3px;
+  }
+
+  .sound-control input {
+    width: 44px;
+  }
+
+  .power {
+    min-height: 38px;
+    height: 38px;
+    width: 28px;
+    font-size: 9px;
+    border-width: 2px;
+  }
+
+  .speaker {
+    display: none;
+  }
+
+  .brand {
+    grid-column: 2;
+    grid-row: 3;
+    font-size: 11px;
+    align-self: center;
+  }
+
+  .model {
+    grid-column: 1;
+    grid-row: 3;
+    font-size: 5px;
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  .volume-osd {
+    padding: 10px;
+    gap: 8px;
+    font-size: 9px;
+  }
+
+  .volume-bars {
+    gap: 2px;
+  }
+
+  .volume-bars i {
+    width: 3px;
+    height: 12px;
+  }
+
+  /* Home Mobile Layout */
+  .home-grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    grid-template-areas:
+      'header companion'
+      'intro intro'
+      'action action';
+    gap: 8px 10px;
+    margin: 0;
+    padding: 2px 2px 10px;
+  }
+
+  .home-left {
+    display: contents;
+  }
+
+  .home-heading-group {
+    grid-area: header;
+    min-width: 0;
+  }
+
+  .home-right {
+    grid-area: companion;
+    min-width: 0;
+  }
+
+  .companion-stage {
+    transform: none;
+  }
+
+  .hero-name {
+    font-size: clamp(21px, 5.8vw, 30px);
+    margin-bottom: 4px;
+    line-height: 0.94;
+  }
+
+  .hero-subtitle {
+    font-size: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-divider {
+    display: none;
+  }
+
+  .hero-intro {
+    grid-area: intro;
+    margin: 2px 0 4px;
+    font-size: 11.5px;
+    line-height: 1.4;
+  }
+
+  .hero-actions {
+    grid-area: action;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 100%;
+    gap: 6px;
+  }
+
+  .hero-actions .btn-retro {
+    flex: none;
+    min-height: 40px;
+    padding: 7px 9px;
+    font-size: 10px;
+  }
+
+  .companion-meta {
+    margin-top: 2px;
+    font-size: 7.2px;
+    letter-spacing: 0.04em;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .companion-meta .meta-hint {
+    display: none;
+  }
+
+  .speech-bubble {
+    top: 10px;
+    left: 48%;
+    padding: 3px 7px;
+    font-size: 8.5px;
+  }
+
+  .comic-emphasis {
+    top: 24px;
+    left: 26%;
+    transform: scale(0.7);
+  }
+
+  .evidence-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    padding-top: 6px;
+  }
+
+  .evidence-cell {
+    padding: 5px 8px;
+  }
+
+  .evidence-value {
+    font-size: 11px;
+  }
+
+  .evidence-label {
+    font-size: 9.8px;
+  }
+
+  .evidence-scope {
+    font-size: 8px;
+  }
+
+  /* Secondary Channels Mobile */
+  .skill-filter-bar,
+  .project-filter-bar {
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .filter-chip {
+    min-height: 34px;
+    padding: 4px 8px;
+    font-size: 9.5px;
+  }
+
+  .arch-preview-nodes {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-spec-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .capability-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .capability-proof-btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 40px;
+  }
+
+  .architecture-flow,
+  .language-grid,
+  .contact-grid,
+  .featured-credential-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-credential-seal {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .btn-card-link,
+  .btn-back-home {
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 350px) {
+  .hero-actions,
+  .evidence-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 370px) {
+  .controls {
+    grid-template-columns: 78px minmax(0, 1fr);
+    padding: 14px 9px;
+    gap: 9px;
+  }
+
+  .channel-button {
+    font-size: 8px;
+    gap: 4px;
+    padding: 0 5px;
+  }
+
+  .channel-button .number {
+    display: none;
+  }
+
+  .dial-face {
+    width: 75px;
+  }
+
+  .dial-mark {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-35px) rotate(calc(var(--angle) * -1));
+  }
+
+  .screen-header {
+    font-size: 7px;
+  }
+
+  .header-loc {
+    display: none;
+  }
+}
+
+
+/* --- Interactive V2+ Mobile Overrides --- */
+@media (max-width: 760px) {
+  .home-view {
+    --char-frame-size: clamp(90px, 22vw, 114px);
+  }
+
+  .home-quick-channels {
+    grid-column: 1 / -1;
+    margin-top: 4px;
+  }
+
+  .vision-prompt-deck {
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  .vision-prompt-pill {
+    font-size: 8px;
+    padding: 3px 6px;
+  }
+
+  .vision-callout-card {
+    padding: 5px 7px;
+  }
+
+  .vision-callout-text {
+    font-size: 9.8px;
+  }
+
+  .vision-dock {
+    flex-wrap: wrap;
+    padding: 6px 9px;
+    gap: 6px 8px;
+    margin-bottom: 8px;
+  }
+
+  .vision-dock-actions {
+    flex-wrap: wrap;
+    flex-shrink: 1;
+  }
+
+  .vision-dock-viewport {
+    width: 26px;
+    height: 26px;
+  }
+
+  .vision-dock-msg {
+    flex-basis: 100%;
+    text-align: left;
+    font-size: 10.5px;
+    line-height: 1.25;
+  }
+
+  .dock-chip {
+    font-size: 8.5px;
+    padding: 3px 6px;
+  }
+
+  .cap-drawer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .media-filmstrip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .flight-telemetry {
+    display: none;
+  }
+
+  .screen-footer .footer-scroll-cue {
+    font-size: 7.5px;
+    padding: 1px 7px;
+  }
+
+  .channel-osd {
+    font-size: 9px;
+    padding: 4px 8px;
+    top: 10%;
+    right: 6%;
+  }
+}
+
+@media (max-width: 520px) {
+  .screen-footer .footer-scroll-cue {
+    display: none;
+  }
+
+  .vision-dock-msg,
+  .vision-dock-tag {
+    display: none;
+  }
+
+  .vision-dock {
+    flex-wrap: nowrap;
+    padding: 4px 7px;
+    margin-bottom: 7px;
+  }
+
+  .vision-dock-actions {
+    flex: 1;
+    min-width: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 1px;
+  }
+
+  .vision-dock-actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dock-chip {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .filter-bar,
+  .skill-filter-bar,
+  .project-filter-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-bottom: 7px;
+    padding-bottom: 2px;
+  }
+
+  .filter-bar::-webkit-scrollbar,
+  .skill-filter-bar::-webkit-scrollbar,
+  .project-filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-bar .filter-chip,
+  .skill-filter-bar .filter-chip,
+  .project-filter-bar .filter-chip {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 460px) {
+  #footer-sound-toggle {
+    display: none;
+  }
+
+  .hero-signal-pill {
+    font-size: 7.5px;
+    padding: 2px 5px;
+  }
+
+  .vision-prompt-deck {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .vision-prompt-pill {
+    font-size: 7.4px;
+    padding: 3px 3px;
+    gap: 2px;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .vision-prompt-pill .ui-icon {
+    display: none;
+  }
+
+  .media-filmstrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* --- Command Tuner & Search Trigger Mobile Polish --- */
+@media (max-width: 760px) {
+  .screen-header-right {
+    gap: 6px;
+  }
+
+  .header-search-btn {
+    padding: 2px 5px;
+    font-size: 8px;
+    gap: 3px;
+  }
+
+  .header-search-kbd {
+    display: none;
+  }
+
+  .cmd-tuner-modal {
+    padding: 8px;
+  }
+
+  .cmd-tuner-dialog {
+    max-height: 82vh;
+  }
+
+  .cmd-tuner-input {
+    font-size: 12px;
+  }
+
+  .cmd-tuner-footer span:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 395px) {
+  .header-search-btn span {
+    display: none;
+  }
+}

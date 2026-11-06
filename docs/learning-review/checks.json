@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "errors": [],
+  "failedAssets": [],
+  "performance": {
+    "browser": "Local headless Chrome",
+    "viewport": "1440x1000",
+    "samples": 98,
+    "p50ms": 16.600000000000364,
+    "p95ms": 17.200000000000728
+  }
+}

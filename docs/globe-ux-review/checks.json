@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "errors": [],
+  "glide": true,
+  "settles": true,
+  "heldRelease": true,
+  "indexSearch": true,
+  "reducedMotion": true,
+  "touchGlide": true,
+  "mobileIndex": true
+}
