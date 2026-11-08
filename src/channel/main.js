@@ -5,6 +5,7 @@ import { createTvFrame } from './frame.js';
 import { createGallery,tapeMarkup } from './gallery.js';
 import { renderCase } from './case.js';
 import { renderProfile } from './profile.js';
+import { resolveChannelRoute } from './routes.js';
 import { renderAtlas } from './atlas.js';
 import { createProjectIndex } from './project-index.js';
 
@@ -14,43 +15,43 @@ document.body.insertAdjacentHTML('beforeend',`<section id="desk-view" aria-label
 document.body.dataset.desk='wide';
 const screen=document.querySelector('#channel-screen'),collection=document.querySelector('#channel-collection'),pages=document.querySelector('#channel-pages'),canvas=document.querySelector('#physical-crt'),reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 const deskView=document.querySelector('#desk-view'),deskEnter=document.querySelector('#desk-enter'),deskAnchor=document.querySelector('#desk-enter-anchor'),deskReturn=document.querySelector('#desk-return');
-let frame,gallery,projectIndex,page=null,view='work',projectId=null,selectedIndex=0,transition=null,ghost=null,disposed=false,ready=false,routeVersion=0,appliedHash=null,deskMoving=false;
+let frame,gallery,projectIndex,page=null,view='work',projectId=null,selectedIndex=0,transition=null,ghost=null,disposed=false,ready=false,routeVersion=0,appliedHash=null,deskMoving=false,currentSection=null;
 function cancelTransition(){transition?.kill();transition=null;ghost?.remove();ghost=null;gsap.set(pages,{clearProps:'opacity'});gsap.set(collection,{clearProps:'opacity'});screen.removeAttribute('data-transition');}
-function focusPage(){if(frame&&frame.progress<.999)return;const target=view==='work'?collection.querySelector('.collection-stage'):page?.querySelector('h1')??page;if(target){if(view!=='work')target.setAttribute('tabindex','-1');target.focus({preventScroll:true});}}
+function focusPage(){if(frame&&frame.progress<.999)return;const target=view==='work'?collection.querySelector('.collection-stage'):page?.focusTarget??page?.querySelector('h1')??page;if(target){if(view!=='work')target.setAttribute('tabindex','-1');target.focus({preventScroll:true});}}
 function layout(rect,{cameraMoving=false,progress=1}={}){const interrupted=!cameraMoving&&Boolean(transition),version=routeVersion;if(!cameraMoving)cancelTransition();const placement={left:`${rect.x}px`,top:`${rect.y}px`,width:`${rect.width}px`,height:`${rect.height}px`};Object.assign(screen.style,placement,{opacity:String(Math.max(0,Math.min(1,(progress-.78)/.22))),visibility:progress>.78?'visible':'hidden'});Object.assign(deskAnchor.style,placement);deskView.style.opacity=String(1-Math.min(1,progress*3));screen.dataset.compact=String(innerWidth<900);if(interrupted)queueMicrotask(()=>{if(version===routeVersion&&!disposed)focusPage();});}
 function deskState(inside,moving){deskMoving=moving;document.body.dataset.desk=moving?(inside?'entering':'leaving'):(inside?'inside':'wide');deskView.inert=inside||moving;screen.inert=!inside||moving;deskReturn.hidden=!inside&&!moving;gallery?.setActive(inside&&!moving&&view==='work');if(ready&&!moving){if(inside)focusPage();else deskEnter.focus({preventScroll:true});}}
 function fallback(){document.body.classList.add('channel-fallback');canvas.hidden=true;deskState(true,false);const resize=()=>layout({x:12,y:18,width:innerWidth-24,height:innerHeight-36});resize();window.addEventListener('resize',resize);deskReturn.hidden=true;}
 function hardware(id){
  if(id==='enter'){navigate('#work');return;}
  const channels=['home','experience','education','skills','projects','credentials','contact'];
- if(id==='dial'){const next=(channels.indexOf(view==='work'?'projects':view==='profile'?'experience':view)+1)%channels.length;return hardware(`channel-${channels[next]}`);}
+ if(id==='dial'){const current=view==='work'||view==='case'?'projects':view==='atlas'?'home':currentSection==='certifications'?'credentials':currentSection??'experience';return hardware(`channel-${channels[(channels.indexOf(current)+1)%channels.length]}`);}
  if(id==='power'){navigate(frame?.isEntered?'#room':'#work');return;}
- const action=id.replace('channel-','');const hash=({home:'#work',projects:'#work',experience:'#profile',education:'#education',skills:'#skills',credentials:'#certifications',contact:'#contact'})[action];if(hash)navigate(hash);
+ const action=id.replace('channel-','');const hash=({home:'#work',projects:'#work',experience:'#experience',education:'#education',skills:'#skills',credentials:'#certifications',contact:'#contact'})[action];if(hash)navigate(hash);
 }
 frame=createTvFrame({canvas,onLayout:layout,onControl:hardware,onUnavailable:fallback,onState:deskState});
 gallery=createGallery({mount:collection,projects:channelProjects,reducedMotion,onSelect:index=>{selectedIndex=index;const p=channelProjects[index];document.querySelector('#channel-context').textContent=p.medium;if(ready&&view==='work'){window.history.replaceState({...window.history.state,selectedIndex:index},'',location.href);document.querySelector('#channel-announcement').textContent=`${p.title}, project ${index+1} of ${channelProjects.length}`;}},onOpen:(id,card)=>navigate(`#projects/${id}`,{origin:card}),onIndex:trigger=>{cancelTransition();projectIndex.open(trigger);}});
 gallery.select(1,{immediate:true});
 projectIndex=createProjectIndex({host:document.querySelector('#channel-main'),backgrounds:[document.querySelector('.channel-nav'),collection,pages,document.querySelector('.channel-footer'),canvas,deskReturn],projects:channelProjects,canOpen:()=>view==='work'&&(!frame||(frame.isEntered&&frame.progress===1)),onVisibility:open=>{if(open)gallery.select(gallery.getSelected(),{immediate:true});gallery.setActive(!open&&view==='work'&&(!frame||(frame.isEntered&&frame.progress===1)));},onOpen:id=>{const index=channelProjects.findIndex(p=>p.id===id);gallery.select(index,{immediate:true});navigate(`#projects/${id}`,{origin:gallery.getCard(index)});}});
 function makeGhost(project,rect){const bounds=screen.getBoundingClientRect(),element=document.createElement('div');element.className='project-tape tape-ghost';element.dataset.project=project.id;element.innerHTML=tapeMarkup(project);element.setAttribute('aria-hidden','true');element.style.setProperty('--tape-width',`${rect.width}px`);Object.assign(element.style,{left:`${rect.left-bounds.left}px`,top:`${rect.top-bounds.top}px`,width:`${rect.width}px`,height:`${rect.height}px`});screen.append(element);ghost=element;return element;}
-function resolve(hash){let path;try{path=decodeURIComponent(String(hash).replace(/^#\/?/,''));}catch{return {view:'work'};}if(path.startsWith('projects/')){const id=path.split('/')[1];return channelProjectsById[id]?{view:'case',projectId:id}:{view:'work'};}if(path==='atlas')return {view:'atlas'};if(['profile','about','experience','education','skills','certifications','credentials','contact'].includes(path))return {view:'profile',section:({about:'experience',credentials:'certifications'})[path]??(path==='profile'?null:path)};return {view:'work'};}
+const resolve=hash=>resolveChannelRoute(hash,channelProjectsById);
 function navigate(hash,{history=true,origin=null,immediate=false}={}){
  const route=resolve(hash),previous=view,previousProject=projectId,version=++routeVersion;appliedHash=hash;projectIndex?.close({restoreFocus:false});
  const closing=route.view==='work'&&previous==='case';
  const closeRect=closing?page?.querySelector('.case-hero-media')?.getBoundingClientRect():null;
- const originRect=origin?.getBoundingClientRect();cancelTransition();page?.dispose?.();page=null;view=route.view;projectId=route.projectId??null;
+ const originRect=origin?.getBoundingClientRect();cancelTransition();page?.dispose?.();page=null;view=route.view;currentSection=route.section??null;projectId=route.projectId??null;
  const wantsInside=Boolean(hash)&&!['#room','#home'].includes(hash);if(frame&&(frame.isEntered!==wantsInside||immediate))frame.setEntered(wantsInside,{immediate});
  if(history&&location.hash!==hash)window.history.pushState({selectedIndex},'',hash);
  collection.hidden=view!=='work';pages.hidden=view==='work';gallery.setActive(view==='work'&&(!frame||(frame.isEntered&&frame.progress===1)));pages.replaceChildren();
  if(view==='case'){
   const project=channelProjectsById[projectId],index=channelProjects.findIndex(p=>p.id===projectId);gallery.select(index,{immediate:true});page=renderCase(project,{reducedMotion});pages.append(page);document.title=`${project.title} — Khalil Mustafa`;document.querySelector('#channel-context').textContent=project.medium;
- }else if(view==='profile'){page=renderProfile({reducedMotion,section:route.section});pages.append(page);document.title='Profile — Khalil Mustafa';document.querySelector('#channel-context').textContent='Software / Amman ↔ Valencia';}
+ }else if(view==='profile'){page=renderProfile({reducedMotion,section:route.section,school:route.school});pages.append(page);const label=({experience:'Experience',education:'Education',skills:'Skills',certifications:'Certifications',contact:'Contact'})[route.section]??'Profile';document.title=`${label} — Khalil Mustafa`;document.querySelector('#channel-context').textContent='Software / Amman ↔ Valencia';}
  else if(view==='atlas'){page=renderAtlas({reducedMotion});pages.append(page);document.title='Amman to Valencia — Khalil Mustafa';document.querySelector('#channel-context').textContent='Amman → Valencia · Erasmus+ 2026';}
  else{gallery.select(selectedIndex,{immediate:true});document.title='Khalil Mustafa — Personal Channel';document.querySelector('#channel-context').textContent=channelProjects[selectedIndex].medium;}
  document.querySelectorAll('[data-nav]').forEach(a=>{const current=a.dataset.nav===(route.section==='contact'?'contact':view==='case'?'work':view);if(current)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
  const selection=view==='case'||view==='work'?4:view==='atlas'?0:route.section==='education'?2:route.section==='skills'?3:route.section==='certifications'?5:route.section==='contact'?6:1;frame?.setSelection(selection);
  const wordmark=document.querySelector('.channel-wordmark');wordmark.innerHTML=view==='case'?'← Collection':'<i aria-hidden="true"></i>K. MUSTAFA';wordmark.toggleAttribute('data-return-collection',view==='case');wordmark.setAttribute('aria-label',view==='case'?'Back to project collection':'Khalil Mustafa, collection');if(view==='case')document.querySelector('#channel-context').textContent='Scroll to explore ↓';
  document.querySelector('#channel-announcement').textContent=view==='case'?`${channelProjectsById[projectId].title} opened`:view==='work'?'Project collection':view==='atlas'?'Amman to Valencia journey':'Profile';
- const focus=()=>{if(version===routeVersion)focusPage();};
+ const focus=()=>{if(version!==routeVersion)return;if(page?.contains(document.activeElement)&&document.activeElement.matches('a,button,input,textarea,select,summary'))return;focusPage();};
  if(!immediate&&!reducedMotion.matches&&view==='case'&&originRect?.width){
   const project=channelProjectsById[projectId],element=makeGhost(project,originRect),bounds=screen.getBoundingClientRect(),destination=page.querySelector('.case-hero-media').getBoundingClientRect();screen.dataset.transition='opening';
   transition=gsap.timeline({onComplete:()=>{cancelTransition();focus();}}).set(pages,{opacity:0}).to(element,{left:destination.left-bounds.left,top:destination.top-bounds.top,width:destination.width,height:destination.height,duration:.7,ease:'power3.inOut'}).to(pages,{opacity:1,duration:.3},.38).to(element,{opacity:0,duration:.25},.48);
@@ -65,7 +66,7 @@ deskEnter.addEventListener('click',()=>navigate('#work'));document.querySelector
 window.addEventListener('keydown',event=>{if(event.key!=='Escape'||event.target.closest('video,input,textarea,select'))return;if(frame&&(deskMoving||view==='work')&&frame.progress>0){event.preventDefault();navigate('#room');}else if(view!=='work'){event.preventDefault();navigate('#work');}});
 function clock(){document.querySelector('#channel-clock').textContent=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Amman'}).format(new Date());}clock();const clockTimer=setInterval(clock,1000);
 const motionPreference=()=>{cancelTransition();gallery.select(gallery.getSelected(),{immediate:true});};reducedMotion.addEventListener('change',motionPreference);
-navigate(location.hash||'#room',{history:false,immediate:true});ready=true;window.history.replaceState({...window.history.state,selectedIndex},'',location.href);
+navigate(location.hash||'#room',{history:false,immediate:true});ready=true;if(!frame||frame.isEntered)focusPage();window.history.replaceState({...window.history.state,selectedIndex},'',location.href);
 window.__personalChannel={get ready(){return ready;},get view(){return view;},get projectId(){return projectId;},get selectedIndex(){return selectedIndex;},get motion(){return gallery.getMotion();},get desk(){return {progress:frame?.progress??1,inside:frame?.isEntered??true,moving:deskMoving};},get frame(){return frame?.metrics()??{fallback:true};}};
 window.addEventListener('pagehide',event=>{if(event.persisted||disposed)return;disposed=true;cancelTransition();projectIndex.dispose();page?.dispose?.();gallery.dispose();frame?.dispose();clearInterval(clockTimer);reducedMotion.removeEventListener('change',motionPreference);});
 

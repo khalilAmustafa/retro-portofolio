@@ -1,7 +1,18 @@
 import { describe,it,expect } from 'vitest';
 import { contentCatalog } from '../src/data/content-catalog.js';
 import { projects } from '../src/data/projects.js';
+import { channelProjectsById as cases } from '../src/channel/content.js';
 describe('Content reconciled from previous and published portfolios',()=>{
+ it('keeps visible achievements scoped to their actual evidence',()=>{
+  expect(cases['nasa-space-apps'].result).toMatch(/Event scale:.*85\+.*380\+/);
+  expect(cases.rooms.result).toMatch(/3rd place.*\(team\)/);
+  expect(cases.makan.result).toMatch(/318\/318.*0.88.*one sequence/);
+ });
+ it('does not present research or prototypes as shipped features',()=>{
+  expect(cases.happensbefore.intro).toMatch(/in-development.*execution core is being built/);
+  expect(cases.bandup.intro).toMatch(/Adaptive.*remains in research/);
+  expect(cases.futureing.result).toMatch(/private prototype/);
+ });
  it('keeps the active collection intentional and enriches the remaining published projects',()=>{
   const removed=['asad-math','vision-pulse'];
   expect(contentCatalog.projects.map(p=>p.id).sort()).toEqual(projects.map(p=>p.id).filter(id=>!removed.includes(id)).sort());
