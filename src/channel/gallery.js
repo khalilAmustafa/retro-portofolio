@@ -12,10 +12,13 @@ export function createGallery({mount,projects,onSelect,onOpen,onIndex,reducedMot
  const transforms=cards.map(card=>({card,set:properties=>Object.assign(card.style,properties)}));
  function draw(){
   const width=stage.clientWidth,height=stage.clientHeight,portrait=width<450;
-  const cardWidth=Math.min(portrait?width*.55:width*.31,height*.65,300),slot=cardWidth*(portrait?1.02:1.13);
+  const cardWidth=Math.min(portrait?width*.62:width*.40,height*.62,340),slot=cardWidth*.94;
   camera.style.perspective=`${width*1.25}px`;mount.style.setProperty('--tape-width',`${cardWidth}px`);
   cards.forEach((card,i)=>{
-   const d=i-motion.value,abs=Math.abs(d),visible=abs<3.25;
+   let d=i-motion.value;
+   if(d>projects.length/2)d-=projects.length;
+   if(d< -projects.length/2)d+=projects.length;
+   const abs=Math.abs(d),visible=abs<2.2;
    transforms[i].set({transform:`translate3d(${d*slot}px,${abs*cardWidth*.045}px,${-Math.pow(abs,1.25)*cardWidth*.45}px) rotateY(${-d*23}deg) rotateZ(${d*7}deg) scale(${1-Math.min(.22,abs*.07)})`,opacity:visible?String(Math.max(.15,1-abs*.19)):'0',visibility:visible?'visible':'hidden',zIndex:String(50-Math.round(abs*10)),pointerEvents:visible?'auto':'none'});
   });
   const index=Math.max(0,Math.min(projects.length-1,Math.round(motion.value)));

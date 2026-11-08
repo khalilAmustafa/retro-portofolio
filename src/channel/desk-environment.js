@@ -98,7 +98,8 @@ export function createDeskEnvironment({scene:parent,onChange}){
   box(.16,.04,.07,material('#252921'),-3.55,1.52,2.03,.015);
   const led=new THREE.Mesh(new THREE.SphereGeometry(.035,8,8),new THREE.MeshBasicMaterial({color:'#c4f68b'}));led.position.set(-3.52,1.33,2.29);scene.add(led);
   box(2.4,.15,1.6,black,4.75,1.24,.35,.06);
-  box(1.7,.06,1.3,material('#e5d7b8'),4.5,1.2,2.1,.015);
+  const notebook=box(1.7,.06,1.3,material('#e5d7b8'),4.5,1.2,2.1,.015);
+  notebook.userData.controlId='desk-profile';
   box(.025,.008,1.24,material('#b7a68a'),4.5,1.236,2.1);
   rod([4.95,1.29,1.64],[5.2,1.29,2.6],.018,material('#b87c35'));
   for(let i=0;i<3;i++) box(1.75,.17,1.18,[olive,cream,material('#aa5c40')][i],3.6,1.22+i*.18,-.22,.025);
@@ -138,6 +139,7 @@ export function createDeskEnvironment({scene:parent,onChange}){
   const sketchTex=new THREE.CanvasTexture(sketch);sketchTex.colorSpace=THREE.SRGBColorSpace;textures.push(sketchTex);
   const paper=new THREE.Mesh(new THREE.PlaneGeometry(1.7,1.28),new THREE.MeshStandardMaterial({map:sketchTex,roughness:1}));paper.position.set(4.8,4.6,-1.97);paper.rotation.z=.04;scene.add(paper);
 
-  return {root:scene,dispose(){disposed=true;parent.remove(scene);disposeObject(scene,textures);}};
+  paper.userData.controlId='desk-journey';
+  return {root:scene,notebook,paper,dispose(){disposed=true;parent.remove(scene);disposeObject(scene,textures);}};
 }
 

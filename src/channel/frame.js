@@ -15,7 +15,7 @@ export function createTvFrame({canvas,onLayout,onControl,onUnavailable,onState=(
  let renderer;
  try{if(new URLSearchParams(location.search).has('no-webgl'))throw new Error('Fallback');renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});}catch{onUnavailable();return null;}
  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
- renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+ renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
  const scene=new THREE.Scene();scene.background=new THREE.Color('#302c29');scene.fog=new THREE.Fog('#302c29',20,39);
  const camera=new THREE.PerspectiveCamera(42,1,.1,70),tv=createTvModel();tv.root.position.set(0,DESK_TV.y,DESK_TV.z);scene.add(tv.root);
  const key=new THREE.DirectionalLight('#ffe1ab',.45);key.position.set(-4,7,7);scene.add(key);
@@ -33,11 +33,16 @@ export function createTvFrame({canvas,onLayout,onControl,onUnavailable,onState=(
   if(disposed)return;const width=innerWidth,height=innerHeight,p=motion.progress,pose=deskCameraPose({width,height},p,tv.screenAnchor.position.x);
   camera.fov=pose.fov;camera.aspect=width/height;camera.position.set(pose.x,pose.y,pose.z);camera.lookAt(pose.x,pose.y,pose.targetZ);camera.updateProjectionMatrix();camera.updateMatrixWorld();
   renderer.toneMappingExposure=1.2-.15*p;const nextWelcome=p<.72;if(nextWelcome!==welcomeVisible){welcomeVisible=nextWelcome;tv.setScreenTexture(welcomeVisible?welcomeTexture:null);}
-  onLayout(screenRect(tv.screenAnchor,camera,width,height),{cameraMoving:p>0&&p<1,progress:p});render();
+  const deskPoints={};
+  for(const [id,object]of[['profile',desk.notebook],['journey',desk.paper]]){
+   const point=object.getWorldPosition(new THREE.Vector3()).project(camera);
+   deskPoints[id]={x:(point.x+1)*width/2,y:(1-point.y)*height/2};
+  }
+  onLayout(screenRect(tv.screenAnchor,camera,width,height),{cameraMoving:p>0&&p<1,progress:p,deskPoints});render();
  }
  function resize(){renderer.setSize(innerWidth,innerHeight,false);update();}
  function setEntered(value,{immediate=false}={}){inside=Boolean(value);tween?.kill();const end=inside?1:0;onState(inside,true);if(immediate||reducedMotion.matches){motion.progress=end;update();onState(inside,false);return;}tween=gsap.to(motion,{progress:end,duration:Math.max(.25,Math.abs(end-motion.progress)*1.35),ease:'power3.inOut',onUpdate:update,onComplete:()=>onState(inside,false)});}
- const raycaster=new THREE.Raycaster();function click(event){const bounds=canvas.getBoundingClientRect();raycaster.setFromCamera(new THREE.Vector2((event.clientX-bounds.left)/bounds.width*2-1,-(event.clientY-bounds.top)/bounds.height*2+1),camera);const hit=raycaster.intersectObject(tv.root,true)[0];if(!hit)return;const id=hit.object.userData.controlId??[...tv.controls].find(([,o])=>o===hit.object)?.[0];if(id)onControl(id);else if(!inside&&['curved-glass','phosphor-surface','screen-backing'].includes(hit.object.name))onControl('enter');}
+ const raycaster=new THREE.Raycaster();function click(event){const bounds=canvas.getBoundingClientRect();raycaster.setFromCamera(new THREE.Vector2((event.clientX-bounds.left)/bounds.width*2-1,-(event.clientY-bounds.top)/bounds.height*2+1),camera);const hit=raycaster.intersectObjects(inside?[tv.root]:[tv.root,desk.root],true)[0];if(!hit)return;const id=hit.object.userData.controlId??[...tv.controls].find(([,o])=>o===hit.object)?.[0];if(id)onControl(id);else if(!inside&&['curved-glass','phosphor-surface','screen-backing'].includes(hit.object.name))onControl('enter');}
  const preference=()=>setEntered(inside,{immediate:true});reducedMotion.addEventListener('change',preference);
  canvas.addEventListener('click',click);window.addEventListener('resize',resize);resize();
  return {setEntered,get progress(){return motion.progress;},get isEntered(){return inside;},setSelection(index){tv.setSelection(index);render();},resize,metrics:()=>({frames,triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls,desk:true,progress:motion.progress}),dispose(){disposed=true;tween?.kill();canvas.removeEventListener('click',click);window.removeEventListener('resize',resize);reducedMotion.removeEventListener('change',preference);desk.dispose();tv.dispose();welcomeTexture.dispose();target.dispose();renderer.dispose();}};
