@@ -15,7 +15,7 @@ export function createTvFrame({canvas,onLayout,onControl,onUnavailable,onState=(
  let renderer;
  try{if(new URLSearchParams(location.search).has('no-webgl'))throw new Error('Fallback');renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});}catch{onUnavailable();return null;}
  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
- renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+ renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
  const scene=new THREE.Scene();scene.background=new THREE.Color('#302c29');scene.fog=new THREE.Fog('#302c29',20,39);
  const camera=new THREE.PerspectiveCamera(42,1,.1,70),tv=createTvModel();tv.root.position.set(0,DESK_TV.y,DESK_TV.z);scene.add(tv.root);
  const key=new THREE.DirectionalLight('#ffe1ab',.45);key.position.set(-4,7,7);scene.add(key);

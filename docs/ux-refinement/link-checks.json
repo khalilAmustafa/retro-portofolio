@@ -1,0 +1,267 @@
+{
+  "checkedAt": "2026-11-08T13:32:33.970Z",
+  "assets": [
+    {
+      "path": "assets/projects/rooms/gameplay-lobby-01.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/rooms/rooms-demo.mp4",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/rooms/room-create-02.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/rooms/arena-question-03.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/rooms/invite-flow-04.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/space-day/station-passport-01.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/space-day/station-passport-ar-02.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/bandup/lesson-workspace-01.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/bandup/lesson-feedback-02.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/bandup/roadmap-preview-03.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/futureing/landing-overview-01.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/futureing/vision-runtime-02.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/futureing/syllabus-proposal-04.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/futureing/today-capture-03.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/nasa-space-apps/landing-registration-01.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/nasa-space-apps/event-tracks-02.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/nasa-space-apps/mena-platform-03.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/makan/colmap-splat-comparison-01.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/makan/slam-lingbot-study-02.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/makan/courthouse-sequence-03.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/abyss-of-the-loss/forest-gameplay-01.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/projects/abyss-of-the-loss/title-screen-02.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/education/asu.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/education/upv.webp",
+      "exists": true
+    },
+    {
+      "path": "assets/credentials/aws-cloud-practitioner.pdf",
+      "exists": true
+    }
+  ],
+  "external": [
+    {
+      "url": "https://rka14406.github.io/RKAs_portfolio/",
+      "status": 200,
+      "finalUrl": "https://rka14406.github.io/RKAs_portfolio/"
+    },
+    {
+      "url": "https://bandup.khalils.codes",
+      "status": 200,
+      "finalUrl": "https://bandup.khalils.codes/"
+    },
+    {
+      "url": "https://github.com/khalilAmustafa/Vision-Career",
+      "status": 200,
+      "finalUrl": "https://github.com/khalilAmustafa/Vision-Career"
+    },
+    {
+      "url": "https://www.linkedin.com/posts/khalil-mustafa-7722382b0_%D8%A7%D8%AE%D9%8A%D9%8A%D8%B1%D8%A7-%D9%86%D8%B4%D8%A7%D8%B1%D9%83%D9%83%D9%85-%D8%A7%D9%86%D8%A7-%D9%88%D8%B2%D9%85%D9%8A%D9%84%D9%8A-raed-khalil-%D9%85%D8%B4%D8%B1%D9%88%D8%B9-activity-7455331015943823362--aHw?utm_source=share&utm_medium=member_desktop&rcm=ACoAAErJBUYBptdJ2zsfH80p8W51YH3sf7Rjfag",
+      "status": 200,
+      "finalUrl": "https://www.linkedin.com/posts/khalil-mustafa-7722382b0_%D8%A7%D8%AE%D9%8A%D9%8A%D8%B1%D8%A7-%D9%86%D8%B4%D8%A7%D8%B1%D9%83%D9%83%D9%85-%D8%A7%D9%86%D8%A7-%D9%88%D8%B2%D9%85%D9%8A%D9%84%D9%8A-raed-khalil-%D9%85%D8%B4%D8%B1%D9%88%D8%B9-activity-7455331015943823362--aHw?utm_source=share&utm_medium=member_desktop&rcm=ACoAAErJBUYBptdJ2zsfH80p8W51YH3sf7Rjfag"
+    },
+    {
+      "url": "https://spaceapp-front.vercel.app/",
+      "status": 200,
+      "finalUrl": "https://spaceapp-front.vercel.app/"
+    },
+    {
+      "url": "https://mena-website.vercel.app/",
+      "status": 200,
+      "finalUrl": "https://mena-website.vercel.app/"
+    },
+    {
+      "url": "https://khalilamustafa.github.io/Classical-SLAM-vs.-LingBot-Map-under-operating-stress/",
+      "status": 200,
+      "finalUrl": "https://khalilamustafa.github.io/Classical-SLAM-vs.-LingBot-Map-under-operating-stress/"
+    },
+    {
+      "url": "https://github.com/khalilAmustafa/menaWebsite",
+      "status": 200,
+      "finalUrl": "https://github.com/khalilAmustafa/menaWebsite"
+    },
+    {
+      "url": "https://khalilamustafa.github.io/Abyss-of-the-Loss/",
+      "status": 200,
+      "finalUrl": "https://khalilamustafa.github.io/Abyss-of-the-Loss/"
+    },
+    {
+      "url": "https://github.com/khalilAmustafa/quantum-computing-UPV",
+      "status": 200,
+      "finalUrl": "https://github.com/khalilAmustafa/quantum-computing-UPV"
+    },
+    {
+      "url": "https://github.com/khalilAmustafa/Classical-SLAM-vs.-LingBot-Map-under-operating-stress",
+      "status": 200,
+      "finalUrl": "https://github.com/khalilAmustafa/Classical-SLAM-vs.-LingBot-Map-under-operating-stress"
+    },
+    {
+      "url": "https://github.com/khalilAmustafa/Abyss-of-the-Loss",
+      "status": 200,
+      "finalUrl": "https://github.com/khalilAmustafa/Abyss-of-the-Loss"
+    },
+    {
+      "url": "https://khalils.codes/certificates/AWS%20Cloud%20Practitioner%20Essentials.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/AWS%20Cloud%20Practitioner%20Essentials.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/AWS%20Certified%20Cloud%20Practitioner%20certificate.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/AWS%20Certified%20Cloud%20Practitioner%20certificate.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/ammancpc.jpg",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/ammancpc.jpg"
+    },
+    {
+      "url": "https://khalils.codes/certificates/IEEEXTREME.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/IEEEXTREME.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/hack-ramadan-jordan-2026.jpg",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/hack-ramadan-jordan-2026.jpg"
+    },
+    {
+      "url": "https://khalils.codes/certificates/UNI-agents-hackathon.jpg",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/UNI-agents-hackathon.jpg"
+    },
+    {
+      "url": "https://khalils.codes/certificates/AI-Week.jpg",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/AI-Week.jpg"
+    },
+    {
+      "url": "https://khalils.codes/certificates/Python%20for%20Data%20Science,%20AI%20&%20Development.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/Python%20for%20Data%20Science,%20AI%20&%20Development.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/Data%20Science%20Methodology.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/Data%20Science%20Methodology.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/Data%20Visualization%20with%20Python.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/Data%20Visualization%20with%20Python.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/Python%20Project%20for%20Data%20Science.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/Python%20Project%20for%20Data%20Science.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/Data%20Analysis%20with%20Python.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/Data%20Analysis%20with%20Python.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/Foundations%20Data,%20Data,%20Everywhere.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/Foundations%20Data,%20Data,%20Everywhere.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/Databases%20and%20SQL%20for%20Data%20Science%20with%20Python.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/Databases%20and%20SQL%20for%20Data%20Science%20with%20Python.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/What%20is%20Data%20Science.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/What%20is%20Data%20Science.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/Ask%20Questions%20to%20Make%20Data-Driven%20Decisions.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/Ask%20Questions%20to%20Make%20Data-Driven%20Decisions.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/Prepare%20Data%20for%20Exploration.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/Prepare%20Data%20for%20Exploration.png"
+    },
+    {
+      "url": "https://khalils.codes/certificates/Introduction%20to%20Front-End%20Development.png",
+      "status": 200,
+      "finalUrl": "https://khalils.codes/certificates/Introduction%20to%20Front-End%20Development.png"
+    },
+    {
+      "url": "https://linkedin.com/in/khalil-mustafa-7722382b0",
+      "status": 200,
+      "finalUrl": "https://linkedin.com/in/khalil-mustafa-7722382b0"
+    },
+    {
+      "url": "https://github.com/khalilAmustafa",
+      "status": 200,
+      "finalUrl": "https://github.com/khalilAmustafa"
+    }
+  ]
+}
