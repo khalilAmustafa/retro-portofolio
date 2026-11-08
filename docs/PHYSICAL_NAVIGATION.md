@@ -4,6 +4,7 @@ User decision: remove the top navigation and keep the existing right-side televi
 
 - Removed the whole top masthead/navigation, including the duplicated case-study return link. The physical Projects button returns to the collection. Existing project browsing, index, contextual links, and Back to desk remain.
 - Home opens the personal introduction; Experience opens the timeline; Education opens the existing globe (with academic-details links); Skills, Projects, Credentials, and Contact open their corresponding sections. The dial and active LEDs follow those destinations.
+- Each content channel mounts only its own section. Home, Experience, Skills, academic details, Credentials and Contact no longer share one long article. Each screen has its own primary heading and scroll area; switching uses the physical controls.
 - Transparent native buttons follow the projected 3D meshes, providing semantic names, keyboard activation, selected state and focus outlines directly on the hardware. No second visible menu is added.
 - Portrait/tablet camera framing includes the whole cabinet without stretching it. Content scrolls inside the CRT; the compact index, Contact and globe adapt to the smaller screen. Section alignment updates when screen dimensions change.
 - When WebGL is unavailable, the same right-side controls have a visible HTML fallback. Modal background controls remain inert even if reduced-motion preferences change.
@@ -13,3 +14,5 @@ Verification: all seven physical controls exercised on the 390×844 production p
 The complete-TV phone view necessarily makes the physical buttons and content area smaller. Controls retain the actual model geometry; this is not a claim that every physical touch target is 44px. No duplicate large mobile menu was introduced, per the chosen direction.
 
 The standalone browser regression script was updated to use the physical controls but was not run; the interactions above were performed through the connected browser. Full unit-suite and production-build results are reported in the PR. No deployment is performed by this change.
+
+Separation follow-up: 60 unit tests pass, including six channel-isolation regressions. Production build passes. Browser inspection confirmed only the selected channel's section is mounted, Home has only its introduction, and Valencia academic details contain only Education content. Visual type styling is retained with semantic h1 headings.
