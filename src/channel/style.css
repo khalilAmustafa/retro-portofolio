@@ -163,3 +163,66 @@ body.personal-channel{margin:0;width:100%;height:100svh;overflow:hidden;backgrou
  .journey-timeline>a{min-height:36px;display:flex;align-items:center;font-size:8px}
 }
 @media(max-width:900px){.collection-controls>button{min-width:44px;min-height:44px}.collection-controls{height:44px}}
+
+/* The existing hardware is the only primary navigation. Transparent semantic
+   buttons follow its projected meshes; only keyboard focus adds visible chrome. */
+#physical-controls{position:fixed;inset:0;z-index:12;pointer-events:none}
+#physical-controls button{position:absolute;padding:0;border:0;background:transparent;color:transparent;font-size:0;pointer-events:auto;cursor:pointer;min-width:0;min-height:0}
+#physical-controls button:focus-visible{outline:2px solid #dce5b8;outline-offset:3px;background:#dce5b818}
+#physical-controls[inert]{pointer-events:none}
+#physical-controls[inert] button{pointer-events:none}
+#channel-screen{container-type:size}
+.channel-fallback #physical-controls{inset:18px 12px 18px auto;width:108px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:#464e36;padding:7px;border:2px solid #b9ae8e}
+.channel-fallback #physical-controls button{position:static;width:100%!important;height:auto!important;min-height:36px;background:#222722;color:#e1ddc9;font:11px var(--channel-body);border:1px solid #65714c}
+.channel-fallback #physical-controls [aria-pressed=true]{box-shadow:inset 3px 0 #b4d77b}
+.channel-fallback #physical-controls [data-physical-control=power]{display:none}
+@media(max-width:900px){
+ #channel-collection{overflow-y:auto;scrollbar-width:thin;display:block;padding-bottom:5px}
+ .collection-stage{height:160px;min-height:160px}
+ .collection-caption{min-height:0;padding:5px 0}
+ .collection-caption h1{font-size:15px}
+ .collection-caption p{font-size:11px}
+ .collection-hint{height:32px}
+ .collection-hint [data-project-index]{min-height:32px;font-size:10px}
+ .channel-footer{height:23px;font-size:6px}
+ .channel-footer>span:nth-child(2){display:none}
+ .channel-footer>a{min-height:23px}
+}
+@container(max-height:300px){
+ .channel-footer{display:none}
+ .collection-stage{height:120px;min-height:120px}
+ .collection-caption h1{font-size:13px}
+ .profile-book .profile-contact{padding:5px 0 8px}
+ .profile-contact>h2{font-size:24px!important;margin:5px 0 8px!important}
+ .profile-contact>p{display:none}
+ .profile-contact>.profile-email{font-size:15px}
+ .profile-contact>div{margin-top:5px}
+ .profile-contact>div a{font-size:10px;min-height:28px}
+ .case-heading h1{font-size:28px}
+ .case-heading>p{font-size:15px}
+ .channel-project-index{padding:6px}
+ .channel-project-index>header{min-height:28px;margin-bottom:3px}
+ .channel-project-index>header span,.channel-project-index>footer{display:none}
+ .index-search-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);margin:0}
+ .channel-project-index h2{font-size:17px;margin:0}
+ .project-index-close{min-height:28px;padding:3px;font-size:10px}
+ #project-index-search{min-height:28px;padding:5px;font-size:12px}
+ .project-index-count{font-size:9px;margin:3px 0}
+ .project-index-item{min-height:38px;padding:5px;gap:6px}
+ .project-index-item strong{font-size:12px}
+ .project-index-item small{font-size:9px}
+ .journey-shell{padding:0;height:100%}
+ .journey-heading{padding:2px 0 5px}
+ .journey-heading>span,.journey-timeline,.journey-selected-city{display:none}
+ .journey-heading h1{font-size:22px;margin:0}
+ .journey-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5px;min-height:0}
+ .journey-map{height:100%;min-height:0;flex:initial}
+ .journey-stops{gap:3px;overflow-y:auto;scrollbar-width:thin;justify-content:flex-start}
+ .journey-stops nav{display:flex;flex-direction:column;gap:3px}
+ .journey-stops nav button{min-height:30px;padding:3px 5px}
+ .journey-stop-text strong{font-size:13px}
+ .journey-stop-text small{font-size:6px;margin-top:2px}
+ .journey-selection{min-height:0;padding:0}
+ .journey-selection>p{display:none}
+ .journey-selection>a{font-size:8px;min-height:26px}
+}

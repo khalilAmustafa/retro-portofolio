@@ -33,7 +33,15 @@ export function createTvFrame({canvas,onLayout,onControl,onUnavailable,onState=(
   if(disposed)return;const width=innerWidth,height=innerHeight,p=motion.progress,pose=deskCameraPose({width,height},p,tv.screenAnchor.position.x);
   camera.fov=pose.fov;camera.aspect=width/height;camera.position.set(pose.x,pose.y,pose.z);camera.lookAt(pose.x,pose.y,pose.targetZ);camera.updateProjectionMatrix();camera.updateMatrixWorld();
   renderer.toneMappingExposure=1.2-.15*p;const nextWelcome=p<.72;if(nextWelcome!==welcomeVisible){welcomeVisible=nextWelcome;tv.setScreenTexture(welcomeVisible?welcomeTexture:null);}
-  onLayout(screenRect(tv.screenAnchor,camera,width,height),{cameraMoving:p>0&&p<1,progress:p});render();
+  const controls=[];
+  for(const[id,object]of tv.controls){
+   if(id==='volume')continue;
+   const box=new THREE.Box3().setFromObject(object),points=[];
+   for(const x of[box.min.x,box.max.x])for(const y of[box.min.y,box.max.y])for(const z of[box.min.z,box.max.z])points.push(new THREE.Vector3(x,y,z).project(camera));
+   const xs=points.map(v=>(v.x+1)*width/2),ys=points.map(v=>(1-v.y)*height/2),x=Math.min(...xs),y=Math.min(...ys);
+   controls.push({id,x,y,width:Math.max(...xs)-x,height:Math.max(...ys)-y});
+  }
+  onLayout(screenRect(tv.screenAnchor,camera,width,height),{cameraMoving:p>0&&p<1,progress:p,controls});render();
  }
  function resize(){renderer.setSize(innerWidth,innerHeight,false);update();}
  function setEntered(value,{immediate=false}={}){inside=Boolean(value);tween?.kill();const end=inside?1:0;onState(inside,true);if(immediate||reducedMotion.matches){motion.progress=end;update();onState(inside,false);return;}tween=gsap.to(motion,{progress:end,duration:Math.max(.25,Math.abs(end-motion.progress)*1.35),ease:'power3.inOut',onUpdate:update,onComplete:()=>onState(inside,false)});}

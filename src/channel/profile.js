@@ -16,5 +16,6 @@ export function renderProfile({reducedMotion,section,school}){
  root.focusTarget=target?.querySelector('h2,h3')??root.querySelector('h1');
  const align=()=>{if(target)root.scrollTop=root.scrollTop+target.getBoundingClientRect().top-root.getBoundingClientRect().top-12;};
  const timer=setTimeout(align,60);
- root.goTo=key=>{const destination=root.querySelector(`#profile-${key}`);if(destination)scroll.to(root.scrollTop+destination.getBoundingClientRect().top-root.getBoundingClientRect().top-12);};root.dispose=()=>{clearTimeout(timer);scroll.dispose();};return root;
+ const resize=new ResizeObserver(align);resize.observe(root);
+ root.goTo=key=>{const destination=root.querySelector(`#profile-${key}`);if(destination)scroll.to(root.scrollTop+destination.getBoundingClientRect().top-root.getBoundingClientRect().top-12);};root.dispose=()=>{clearTimeout(timer);resize.disconnect();scroll.dispose();};return root;
 }
