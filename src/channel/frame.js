@@ -27,13 +27,32 @@ export function createTvFrame({canvas,onLayout,onControl,onUnavailable,onState=(
  const motion={progress:0},reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
  const welcome=document.createElement('canvas');welcome.width=1400;welcome.height=1000;const c=welcome.getContext('2d');c.fillStyle='#e8e6cf';c.fillRect(0,0,1400,1000);c.textAlign='center';c.fillStyle='#405034';c.font='24px monospace';c.fillText('KHALIL / PERSONAL CHANNEL',700,230);c.font='bold 118px Arial';c.fillText('KHALIL',700,430);c.fillText('MUSTAFA',700,555);c.font='26px Arial';c.fillText('Software, systems & a little play.',700,680);
  const welcomeTexture=new THREE.CanvasTexture(welcome);welcomeTexture.colorSpace=THREE.SRGBColorSpace;tv.setScreenTexture(welcomeTexture);
+ let welcomePortrait;
+ function paintWelcome(portrait){
+  welcome.width=portrait?1000:1400;welcome.height=portrait?2000:1000;
+  const w=welcome.width;c.fillStyle='#e8e6cf';c.fillRect(0,0,w,welcome.height);c.textAlign='center';c.fillStyle='#405034';
+  c.font=`${portrait?20:24}px monospace`;c.fillText('KHALIL / PERSONAL CHANNEL',w/2,portrait?490:230);
+  c.font=`700 ${portrait?100:118}px Oxanium, Arial`;c.fillText('KHALIL',w/2,portrait?790:430);c.fillText('MUSTAFA',w/2,portrait?930:555);
+  c.font=`${portrait?24:26}px Arial`;c.fillText('Software, systems & a little play.',w/2,portrait?1120:680);welcomeTexture.needsUpdate=true;
+ }
+ document.fonts.load('700 100px Oxanium').then(()=>{if(!disposed){paintWelcome(Boolean(welcomePortrait));render();}}).catch(()=>{});
+
  function render(){if(!disposed){renderer.render(scene,camera);frames++;}}
  const desk=createDeskEnvironment({scene,onChange:render});
  function update(){
   if(disposed)return;const width=innerWidth,height=innerHeight,p=motion.progress,pose=deskCameraPose({width,height},p,tv.screenAnchor.position.x);
+  const portrait=width<600&&height>width;if(portrait!==welcomePortrait){paintWelcome(portrait);welcomePortrait=portrait;}tv.setPortraitLayout(portrait?1:0);tv.root.position.y=pose.y;tv.root.updateMatrixWorld(true);
   camera.fov=pose.fov;camera.aspect=width/height;camera.position.set(pose.x,pose.y,pose.z);camera.lookAt(pose.x,pose.y,pose.targetZ);camera.updateProjectionMatrix();camera.updateMatrixWorld();
   renderer.toneMappingExposure=1.2-.15*p;const nextWelcome=p<.72;if(nextWelcome!==welcomeVisible){welcomeVisible=nextWelcome;tv.setScreenTexture(welcomeVisible?welcomeTexture:null);}
-  onLayout(screenRect(tv.screenAnchor,camera,width,height),{cameraMoving:p>0&&p<1,progress:p});render();
+  const controls=[];
+  for(const[id,object]of tv.controls){
+   if(id==='volume')continue;
+   const box=new THREE.Box3().setFromObject(object),points=[];
+   for(const x of[box.min.x,box.max.x])for(const y of[box.min.y,box.max.y])for(const z of[box.min.z,box.max.z])points.push(new THREE.Vector3(x,y,z).project(camera));
+   const xs=points.map(v=>(v.x+1)*width/2),ys=points.map(v=>(1-v.y)*height/2),x=Math.min(...xs),y=Math.min(...ys);
+   controls.push({id,x,y,width:Math.max(...xs)-x,height:Math.max(...ys)-y});
+  }
+  onLayout(screenRect(tv.screenAnchor,camera,width,height),{cameraMoving:p>0&&p<1,progress:p,controls});render();
  }
  function resize(){renderer.setSize(innerWidth,innerHeight,false);update();}
  function setEntered(value,{immediate=false}={}){inside=Boolean(value);tween?.kill();const end=inside?1:0;onState(inside,true);if(immediate||reducedMotion.matches){motion.progress=end;update();onState(inside,false);return;}tween=gsap.to(motion,{progress:end,duration:Math.max(.25,Math.abs(end-motion.progress)*1.35),ease:'power3.inOut',onUpdate:update,onComplete:()=>onState(inside,false)});}
