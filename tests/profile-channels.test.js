@@ -15,4 +15,16 @@ describe('Separate physical-channel content',()=>{
   expect(html).not.toMatch(/id="profile-(skills|experience|education|certifications|contact)"/);
   expect(html).not.toContain('profile-email');
  });
+ it('offers a keyboard-addressable skills explorer with linked project evidence',()=>{
+  const html=profileContent('skills');
+  expect(html).toContain('role="tablist"');
+  expect(html.match(/role="tab"/g)).toHaveLength(3);
+  expect(html.match(/role="tabpanel"/g)).toHaveLength(3);
+  expect(html).toContain('aria-controls="skill-panel-systems"');
+  expect(html).toContain('href="#projects/space-day"');
+ });
+ it('provides searchable supporting records and an email copy action',()=>{
+  expect(profileContent('certifications')).toContain('type="search"');
+  expect(profileContent('contact')).toContain('data-copy-email');
+ });
 });

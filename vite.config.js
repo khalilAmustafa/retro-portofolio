@@ -8,7 +8,7 @@ export default defineConfig({
     sourcemap: false,
     target: 'es2020'
     ,rollupOptions: {
-      input: { experience: 'index.html', previous:'previous.html', legacy: 'legacy.html', tvReview: 'tv-review.html', channel:'channel.html' },
+      input: { experience: 'index.html', previous:'previous.html', legacy: 'legacy.html', tvReview: 'tv-review.html', channel:'channel.html', profileSummary:'profile-summary.html' },
       output: { manualChunks: { three: ['three'], motion: ['gsap'] } }
     }
   },

@@ -147,7 +147,28 @@ export function createTvModel(spec=TV_SPEC){
   leds.forEach((led,i)=>{led.material.emissiveIntensity=i===n?1.3:0;led.material.color.set(i===n?'#b2e884':'#3c5031');});
  }
  setSelection(0);
- return{root,screenAnchor,screenSurface,controls,setSelection,setScreenTexture(texture){m.screen.map=texture;m.screen.color.set(texture?'white':'#e8e6cf');m.screen.needsUpdate=true;},dispose(){
+ // The portrait cabinet keeps the same materials and real controls. Independent
+ // control proportions keep labels and knobs from stretching with the glass.
+ const originals=new Map(root.children.map(o=>[o,{y:o.position.y,scale:o.scale.clone()}]));
+ const dialParts=['dial-seat','channel-dial','dial-ridges','channel-grip'];
+ const dialHousing=new THREE.Group();dialHousing.position.copy(dc);root.add(dialHousing);
+ for(const name of dialParts){const o=root.getObjectByName(name);o.position.sub(dc);dialHousing.add(o);}
+ const powerX=power.position.x;
+ function setPortraitLayout(amount){
+  const p=THREE.MathUtils.clamp(amount,0,1),stretch=1+1.8*p;root.scale.y=stretch;
+  dialHousing.scale.set(1+.6*p,(1+.6*p)/stretch,1);
+  for(const[o,base]of originals){
+   const control=o.userData.controlId??[...controls].find(([,v])=>v===o)?.[0];
+   if(control?.startsWith('channel-')||o.name.startsWith('led-')){
+    o.position.y=.1+(base.y-.1)*(1+.45*p);
+    if(o.name.startsWith('button-'))o.scale.y=base.scale.y*(1+.65*p);
+    if(o.userData.controlId?.startsWith('channel-'))o.visible=p<.5;
+   }
+   if(['volume-knob','volume-pointer','volume-track','volume-slider'].includes(o.name))o.visible=p<.5;
+  }
+  power.position.x=powerX+(dc.x-powerX)*p;power.scale.x=1+5.7*p;power.scale.y=1+.78*p;
+ }
+ return{root,screenAnchor,screenSurface,controls,setSelection,setPortraitLayout,setScreenTexture(texture){m.screen.map=texture;m.screen.color.set(texture?'white':'#e8e6cf');m.screen.needsUpdate=true;},dispose(){
   const geometries=new Set(),extraMaterials=new Set();root.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)for(const mat of [].concat(o.material))if(!Object.values(m).includes(mat))extraMaterials.add(mat);});
   geometries.forEach(g=>g.dispose());extraMaterials.forEach(mat=>mat.dispose());owned.dispose();
  }};

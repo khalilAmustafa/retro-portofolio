@@ -8,7 +8,7 @@ describe('One camera through the desk and screen',()=>{
  it('keeps the complete television and right controls visible on portrait',()=>{
   for(const [width,height]of[[390,844],[768,1024]]){
    const a=deskCameraPose({width,height},0),b=deskCameraPose({width,height},1),halfWidth=(b.z-b.targetZ)*Math.tan(b.fov*Math.PI/360)*width/height;
-   expect(a.x).toBeCloseTo(0);expect(b.x).toBe(0);expect(a.z).toBeGreaterThan(b.z);expect(halfWidth).toBeGreaterThan(3);
+   expect(a.x).toBeCloseTo(0);expect(b.x).toBe(0);expect(a.y).toBe(b.y);expect(a.z).toBeGreaterThan(b.z);expect(halfWidth).toBeGreaterThan(3);
   }
  });
 });
